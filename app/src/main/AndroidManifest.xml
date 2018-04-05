@@ -3,6 +3,8 @@
     package="com.example.suelliton.horus">
 
     <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -11,8 +13,28 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/verde_e_branco">
+        <meta-data
+            android:name="DOMAIN_PACKAGE_NAME"
+            android:value="com.example.suelliton.horus" />
+
         <activity
             android:name=".MainActivity"
+            android:theme="@style/verde_e_branco"></activity>
+        <activity android:name=".StorageActivity" />
+
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
+        <activity
+            android:name=".Principal"
+            android:label="Horus Green"
             android:theme="@style/verde_e_branco">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -20,7 +42,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".StorageActivity"></activity>
+        <activity android:name=".NewExperiment"
+            android:label="Horus Green"
+            android:theme="@style/NewExperiment">
+
+        </activity>
     </application>
 
 </manifest>

@@ -28,11 +28,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ImageButton btn = (ImageButton) findViewById(R.id.imageButton);
+        ImageButton btn = (ImageButton) findViewById(R.id.imageView);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 vibrar();
+                Intent intent = new Intent(v.getContext(),StorageActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -85,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void vibrar(){
         Vibrator vb = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-        long milliseconds = 30;//'30' é o tempo em milissegundos, é basicamente o tempo de duração da vibração. portanto, quanto maior este numero, mais tempo de vibração você irá ter
+        long milliseconds = 80;//'50' é o tempo em milissegundos, é basicamente o tempo de duração da vibração. portanto, quanto maior este numero, mais tempo de vibração você irá ter
         vb.vibrate(milliseconds);
     }
 }

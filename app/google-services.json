@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "291176829998",
+    "firebase_url": "https://horus110886.firebaseio.com",
+    "project_id": "horus110886",
+    "storage_bucket": "horus110886.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:291176829998:android:babc97c02f86c4df",
+        "android_client_info": {
+          "package_name": "com.example.suelliton.horus"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "291176829998-b9mrjqe122d8h5p978sscipf1sibc8q3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.suelliton.horus",
+            "certificate_hash": "1a13b26a1f46ca64b2901b962b3e7e757d8714e1"
+          }
+        },
+        {
+          "client_id": "291176829998-1vdh7s3gjpgigmirm25kd2sbika6kg84.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAZxRmUDeaN4qB-qDrxzReQWSj1xlLnBaI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "291176829998-1vdh7s3gjpgigmirm25kd2sbika6kg84.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
