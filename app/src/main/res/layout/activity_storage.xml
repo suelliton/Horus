@@ -1,105 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.widget.LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".StorageActivity"
     tools:layout_editor_absoluteY="25dp">
 
 
-        <ImageView
-            android:id="@+id/imgFoto"
-            android:layout_width="100dp"
-            android:layout_height="226dp"
-            android:layout_marginEnd="42dp"
-            android:layout_marginStart="42dp"
-            android:layout_marginTop="83dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/bg" />
+<android.support.v7.widget.LinearLayoutCompat
+    android:layout_weight="2"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/txtTitulo"
-            android:layout_width="0dp"
-            android:layout_height="38dp"
-            android:layout_marginBottom="13dp"
-            android:layout_marginEnd="38dp"
-            android:layout_marginStart="38dp"
-            android:layout_marginTop="32dp"
-            android:textSize="28sp"
-            app:layout_constraintBottom_toTopOf="@+id/imgFoto"
-            app:layout_constraintEnd_toEndOf="parent"
+    <android.support.design.widget.AppBarLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/verde_e_branco">
+
+
+        <android.support.v7.widget.Toolbar
+            app:titleTextColor="@color/primary_material_light_1"
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/verde"
+            app:popupTheme="@style/verde_e_branco" />
+
+    </android.support.design.widget.AppBarLayout>
+
+
+
+    <TextView
+        android:id="@+id/txtTitulo"
+        android:layout_weight="7"
+        android:textSize="20dp"
+        android:textColor="@color/black"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+    <ImageView
+        android:layout_weight="2"
+        android:id="@+id/exibeFoto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</android.support.v7.widget.LinearLayoutCompat>
+    <android.support.constraint.ConstraintLayout
+        android:layout_weight="7"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageButton
+
+            android:id="@+id/tiraFoto"
+            android:layout_width="128dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:layout_marginBottom="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:src="@drawable/ic_menu_camera"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
-            android:id="@+id/camera"
-            android:layout_width="0dp"
-            android:layout_height="90dp"
-            android:layout_marginBottom="28dp"
-            android:layout_marginEnd="76dp"
-            android:layout_marginStart="43dp"
-            android:layout_marginTop="27dp"
-            android:onClick="takePhotoAndSave"
-            app:layout_constraintBottom_toBottomOf="@+id/textView7"
-            app:layout_constraintEnd_toStartOf="@+id/verFoto"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imgFoto"
-            app:srcCompat="@drawable/cam" />
+        <ImageButton
 
-        <ImageView
-            android:id="@+id/verFoto"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginEnd="42dp"
-
-            app:layout_constraintBottom_toBottomOf="@+id/camera"
+            android:id="@+id/uploadFoto"
+            android:layout_width="114dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginTop="8dp"
+            android:src="@drawable/ic_menu_send"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/camera"
-            app:layout_constraintTop_toTopOf="@+id/camera"
-            app:srcCompat="@drawable/gallery" />
-
-        <TextView
-            android:id="@+id/textView6"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="11dp"
-            android:text="Câmera"
-            app:layout_constraintStart_toStartOf="@+id/camera"
-            app:layout_constraintTop_toBottomOf="@+id/camera" />
-
-        <TextView
-            android:id="@+id/textView7"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="33dp"
-            android:layout_marginStart="18dp"
-            android:text="Ver Foto"
-            app:layout_constraintBottom_toTopOf="@+id/btnEnviar"
-            app:layout_constraintStart_toStartOf="@+id/verFoto" />
-
-        <Button
-            android:id="@+id/btnEnviar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp"
-            android:layout_marginEnd="56dp"
-            android:text="stream"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/textView7" />
-
-        <Button
-            android:id="@+id/btnEnviar2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp"
-            android:layout_marginEnd="50dp"
-            android:text="bytes"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintTop_toTopOf="parent" />
 
 
-</android.support.constraint.ConstraintLayout>
+    </android.support.constraint.ConstraintLayout>
+
+
+</android.widget.LinearLayout>

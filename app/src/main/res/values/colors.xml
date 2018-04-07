@@ -5,6 +5,7 @@
     <color name="colorAccent">#FF4081</color>
     <color name="primary_material_light_1">#f5f5f5</color>
     <color name="black">#000000</color>
+    <color name="verde">#009688</color>
     <color name="primary_dark_material_light">#757575</color>
     <color name="accent_material_light">#009688</color>
     <color name="background_material_light">#fafafa</color>

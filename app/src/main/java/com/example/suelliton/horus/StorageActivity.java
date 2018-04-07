@@ -8,14 +8,19 @@ import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
+
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,7 +33,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.squareup.picasso.Picasso;
+
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -38,13 +43,15 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+import static android.app.PendingIntent.getActivity;
+
 /**
  * Created by André Gomes on 11/10/2017.
  */
 
 public class StorageActivity extends AppCompatActivity {
     private TextView titulo;
-    private ImageView imgFoto;
+    private ImageView exibeFoto;
     private String FILENAME = "photo_horus.jpg";
     private String pictureImagePath = "";
     private Intent cameraIntent;
@@ -52,12 +59,23 @@ public class StorageActivity extends AppCompatActivity {
     String nomeExperimento = "";
     private Integer count = 0;
     private FirebaseDatabase database ;
-    Button btnEnviar ;
+    ImageButton btnUpload ;
+    ImageButton btnTiraFoto;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_storage);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true); //Mostrar o botão
+        getSupportActionBar().setHomeButtonEnabled(true);      //Ativar o botão
+        getSupportActionBar().setTitle("Adicionar foto");
+
+
+
+
         storage = FirebaseStorage.getInstance();
         database =  FirebaseDatabase.getInstance();
         this.titulo = (TextView) findViewById(R.id.txtTitulo);
@@ -70,11 +88,14 @@ public class StorageActivity extends AppCompatActivity {
 
 
 
-        imgFoto = (ImageView) findViewById(R.id.imgFoto);
+        exibeFoto = (ImageView) findViewById(R.id.exibeFoto);
 
-        btnEnviar = (Button) findViewById(R.id.btnEnviar);
+        btnTiraFoto = (ImageButton) findViewById(R.id.tiraFoto);
 
-        btnEnviar.setOnClickListener(new View.OnClickListener() {
+        btnUpload = (ImageButton) findViewById(R.id.uploadFoto);
+        btnUpload.setClickable(false);
+
+        btnUpload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -97,27 +118,25 @@ public class StorageActivity extends AppCompatActivity {
         });
 
 
-        Button btnVerfoto = (Button) findViewById(R.id.btnEnviar2);
-        btnVerfoto.setOnClickListener(new View.OnClickListener() {
+        btnTiraFoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 try {
-                    Bitmap b = readPhoto();
+                    takePhotoAndSave();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
         });
 
-
-
+        /*try {
+            takePhotoAndSave();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }*/
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
 
-    }
 
 
 //UPLOAD FIREBASE STREAM
@@ -167,7 +186,7 @@ public class StorageActivity extends AppCompatActivity {
     }
 
 //TIRA A FOTO
-    public void takePhotoAndSave(View v) throws IOException {
+    public void takePhotoAndSave() throws IOException {
 
         if (checkStorage() == false) {
             return;
@@ -189,22 +208,19 @@ public class StorageActivity extends AppCompatActivity {
             Toast.makeText(this, "Storage is busy", Toast.LENGTH_SHORT).show();
             return null;
         } else {
-
-
-
             //File imgFile = createImageFile();
 
             //Log.i("Imagem", imgFile.getAbsolutePath());
             //if (imgFile.exists()) {
                 myBitmap = BitmapFactory.decodeFile(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM)+"/Camera/Horus/"+FILENAME);
               //  Log.i("Testes", "Arquivo:" + imgFile.getAbsolutePath());
-                Log.i("teste2",myBitmap.toString());
+               // Log.i("teste2",myBitmap.toString());
 
 
             Bitmap bMapScaled = Bitmap.createScaledBitmap(myBitmap, 3715, 2786, true);
 
 
-            imgFoto.setImageBitmap(bMapScaled);
+            exibeFoto.setImageBitmap(bMapScaled);
             //}
         }
         return myBitmap;
@@ -216,6 +232,13 @@ public class StorageActivity extends AppCompatActivity {
 
         if (resultCode == RESULT_OK) {
             Toast.makeText(this, "Imagem salva com sucesso no armazenamento externo", Toast.LENGTH_SHORT).show();
+            try {
+                readPhoto();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            btnUpload.setClickable(true);
+
         }
 
 }
@@ -273,27 +296,15 @@ File direct = new File(Environment.getExternalStoragePublicDirectory(Environment
         File image = new File(pictureImagePath);
         return image;
     }
-
-/*
-    public void CriarRelatorio(ClienteClass objCliente, EquipamentoClass objEquipamento, ServicoClass objServico, PecasClass objPecas){
-        try {
-            Document document = new Document();
-            File direct = new File(Environment.getExternalStorageDirectory()+"/Relatorios");
-
-            if(!direct.exists()) {
-                if(direct.mkdir()); //se não existir o diretorio e criado
-            }
-
-            File pdffile = new File(direct, "RelatorioTeste.pdf");
-            PdfWriter.getInstance(document, new FileOutputStream(pdffile));
-            document.open();
-            addMetaData(document);
-            addTituloRelatorio(document);
-            addConteudo(document);
-            document.close();
-            Toast.makeText(this, "Arquivo criado com sucesso", Toast.LENGTH_SHORT).show();
-        } catch (Exception e) {
-            // TODO: handle exception
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) { //Botão adicional na ToolBar
+        switch (item.getItemId()) {
+            case android.R.id.home:  //ID do seu botão (gerado automaticamente pelo android, usando como está, deve funcionar
+                startActivity(new Intent(this, Principal.class));  //O efeito ao ser pressionado do botão (no caso abre a activity)
+                finishAffinity();  //Método para matar a activity e não deixa-lá indexada na pilhagem
+                break;
+            default:break;
         }
-    }*/
+        return true;
+    }
 }

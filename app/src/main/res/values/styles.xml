@@ -16,12 +16,11 @@
     </style>
 
 
-
     <style name="verde_e_branco.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="verde_e_branco.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
-    <style name="NewExperiment" parent="Theme.AppCompat.Light.DarkActionBar" >
+    <style name="NewExperiment" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorPrimary">@color/accent_material_light</item>
         <item name="android:colorAccent">@color/accent_material_light</item>
         <item name="android:colorBackground">@color/background_material_light</item>

@@ -18,9 +18,8 @@
             android:value="com.example.suelliton.horus" />
 
         <activity
-            android:name=".MainActivity"
-            android:theme="@style/verde_e_branco"></activity>
-        <activity android:name=".StorageActivity" />
+            android:name=".StorageActivity"
+            android:theme="@style/verde_e_branco" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -42,11 +41,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".NewExperiment"
+        <activity
+            android:name=".NewExperiment"
             android:label="Horus Green"
-            android:theme="@style/NewExperiment">
+            android:theme="@style/NewExperiment" />
 
-        </activity>
     </application>
 
 </manifest>
