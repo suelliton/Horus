@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.os.Vibrator;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
@@ -55,7 +54,8 @@ public class Principal extends AppCompatActivity
     private ValueEventListener childValueExperimento;
     RecyclerView recyclerView;
     List<Experimento> listaExperimentos;
-
+    Context context = this;
+    static View ViewSnack;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,7 +85,10 @@ public class Principal extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        ViewSnack = drawer;//serve de parametro pro snack achar a rootview
     }
+
+
 
     public void setValuesRecycler(){
 
@@ -189,8 +192,8 @@ public class Principal extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_new_experiment) {
-            startActivity(new Intent(getApplicationContext(),NewExperiment.class));
+        if (id == R.id.nav_novo_experimento) {
+            startActivityForResult(new Intent(getApplicationContext(),NovoExperimento.class),1);
             // Handle the camera action
         } else if (id == R.id.nav_gallery) {
 
@@ -207,6 +210,21 @@ public class Principal extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 1){//se chamou tela de novo experimento
+            if(resultCode == 1){
+                Snackbar.make(ViewSnack, "Novo experimento adicionado", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }else if(resultCode == 2){
+                Snackbar.make(ViewSnack, "Operação cancelada", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+
+        }
     }
 
     @Override

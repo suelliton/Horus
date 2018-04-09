@@ -8,7 +8,7 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/icon_default"
+        android:icon="@mipmap/ic_launcher_round"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
@@ -42,9 +42,9 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".NewExperiment"
+            android:name=".NovoExperimento"
             android:label="Horus Green"
-            android:theme="@style/NewExperiment" />
+            android:theme="@style/verde_e_branco" />
 
     </application>
 

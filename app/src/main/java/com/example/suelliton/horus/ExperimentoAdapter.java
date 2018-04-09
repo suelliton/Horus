@@ -40,7 +40,9 @@ public class ExperimentoAdapter extends RecyclerView.Adapter {
 
         //objetos apenas para testes esses valores vao ser pegados diretamente pelo objeto registro quando tudo estiver no banco
         experimentoholder.text_nome.setText(experimentoEscolhido.getNome());
-        experimentoholder.text_descricao.setText(experimentoEscolhido.getDescricao());
+        //experimentoholder.text_descricao.setText(experimentoEscolhido.getDescricao());
+        experimentoholder.text_qtdFotos.setText(experimentoEscolhido.getCount()+" fotos");
+        experimentoholder.text_ultimaCaptura.setText("Ultima captura: "+experimentoEscolhido.getUltimaCaptura().toString());
 
         experimentoholder.btn_adicionar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,9 +76,11 @@ public class ExperimentoAdapter extends RecyclerView.Adapter {
     public class ExperimentoViewHolder extends RecyclerView.ViewHolder {
 
         final TextView text_nome;
-        final TextView text_descricao;
+       // final TextView text_descricao;
         final LinearLayout row;
         final FloatingActionButton btn_adicionar;
+        final TextView text_qtdFotos;
+        final TextView text_ultimaCaptura;
 
 
         //  final TextView label_infestacaoTratamento;
@@ -84,9 +88,12 @@ public class ExperimentoAdapter extends RecyclerView.Adapter {
         public ExperimentoViewHolder(View v) {
             super(v);
             text_nome = v.findViewById(R.id.label_nome);
-            text_descricao = v.findViewById(R.id.label_descricao);
+            //text_descricao = v.findViewById(R.id.label_descricao);
             btn_adicionar = v.findViewById(R.id.btnAdicionar);
+            text_qtdFotos = v.findViewById(R.id.label_qtdFotos);
+            text_ultimaCaptura = v.findViewById(R.id.label_ultimaCaptura);
             row = v.findViewById(R.id.reg_row);
+
 
 
 

@@ -1,11 +1,15 @@
 package com.example.suelliton.horus;
 
+import java.util.Calendar;
+import java.util.Date;
+
 public class Experimento {
     private Integer id;
     private String nome;
     private String descricao;
     private String variedade;
     private Integer count;
+    private String ultimaCaptura;
     public Experimento() {
 
     }
@@ -14,6 +18,15 @@ public class Experimento {
         this.descricao = descricao;
         this.variedade = variedade;
         this.count = 0;
+        this.ultimaCaptura = "";
+    }
+
+    public String getUltimaCaptura() {
+        return ultimaCaptura;
+    }
+
+    public void setUltimaCaptura(String ultimaCaptura) {
+        this.ultimaCaptura = ultimaCaptura;
     }
 
     public Integer getCount() {

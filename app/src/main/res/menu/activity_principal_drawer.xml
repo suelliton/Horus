@@ -5,21 +5,25 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_new_experiment"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="New experiment" />
+            android:id="@+id/nav_novo_experimento"
+            android:icon="@drawable/ic_add"
+            android:title="Novo Experimento" />
         <item
             android:id="@+id/nav_gallery"
             android:icon="@drawable/ic_menu_gallery"
-            android:title="Gallery" />
+            android:title="Galeria" />
         <item
             android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="Slideshow" />
+            android:icon="@drawable/ic_menu_manage"
+            android:title="Sensor temperatura" />
         <item
             android:id="@+id/nav_manage"
             android:icon="@drawable/ic_menu_manage"
-            android:title="Tools" />
+            android:title="Sensor umidade" />
+        <item
+            android:id="@+id/nav_manage2"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="Sensor Luminosidade" />
     </group>
 
     <item android:title="Communicate">
