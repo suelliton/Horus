@@ -30,11 +30,12 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.Map;
 
 
 public class Principal extends AppCompatActivity
@@ -63,19 +64,15 @@ public class Principal extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         listaExperimentos = new ArrayList<>();
+        try {
+            FirebaseDatabase.getInstance().setPersistenceEnabled(true);//persistencia em disco local
+        }catch (Exception e){
+            Log.i("teste","nao inicializou persistencia");
+        }
+
         database =  FirebaseDatabase.getInstance();
         experimentoReference = database.getReference();
 
-        /*FloatingActionButton btnAdd = (FloatingActionButton) findViewById(R.id.btnAdd);
-        btnAdd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent =  new Intent(view.getContext(),StorageActivity.class);
-                startActivity(intent);
-                //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                  //      .setAction("Action", null).show();
-            }
-        });*/
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -105,9 +102,13 @@ public class Principal extends AppCompatActivity
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 listaExperimentos.removeAll(listaExperimentos);
+
+
+
                 for (DataSnapshot snapshot:dataSnapshot.getChildren()) {
-                    Experimento experimento= snapshot.getValue(Experimento.class);//pega o objeto do firebase
-                    //experimento.setId(snapshot.getValue(Experimento.class).getKey());//seta a chave do objeto localmente
+
+                    Experimento experimento = snapshot.getValue(Experimento.class);//pega o objeto do firebase
+
                     listaExperimentos.add(experimento);//adiciona na lista que vai para o adapter
                     experimentoAdapter.notifyDataSetChanged();
                 }

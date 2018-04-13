@@ -121,7 +121,7 @@ public class StorageActivity extends AppCompatActivity {
                 dr.getRef().child("count").setValue(count + 1);//INCREMENTA A VARIAVEL DE CONTROLE
                 count++;//INCREMENTA VARIAVEL LOCAL
                 dr.getRef().child("ultimaCaptura").setValue(getDataAtual());//seta a hora da captura
-
+                dr.getRef().child("novaFoto").setValue(true);//seta que tem uma nova foto
                 finish();
 
             }

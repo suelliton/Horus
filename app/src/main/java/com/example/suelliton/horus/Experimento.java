@@ -1,15 +1,29 @@
 package com.example.suelliton.horus;
 
+import com.google.firebase.database.GenericTypeIndicator;
+
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class Experimento {
-    private Integer id;
+
     private String nome;
     private String descricao;
     private String variedade;
     private Integer count;
     private String ultimaCaptura;
+    private Crescimento crescimento;
+    private boolean novaFoto;
+    private Integer pixelsAnterior;
+
+
+
+
     public Experimento() {
 
     }
@@ -19,6 +33,40 @@ public class Experimento {
         this.variedade = variedade;
         this.count = 0;
         this.ultimaCaptura = "";
+        ArrayList<Double> lista = new ArrayList();
+        lista.add(123.0);
+        this.crescimento = new Crescimento(lista);
+
+        this.novaFoto = false;
+        this.pixelsAnterior = 0;
+
+    }
+
+    public Integer getPixelsAnterior() {
+        return pixelsAnterior;
+    }
+
+    public void setPixelsAnterior(Integer pixelsAnterior) {
+        this.pixelsAnterior = pixelsAnterior;
+    }
+
+
+
+
+    public boolean isNovaFoto() {
+        return novaFoto;
+    }
+
+    public void setNovaFoto(boolean novaFoto) {
+        this.novaFoto = novaFoto;
+    }
+
+    public Crescimento getCrescimento() {
+        return crescimento;
+    }
+
+    public void setCrescimento(Crescimento crescimento) {
+        this.crescimento = crescimento;
     }
 
     public String getUltimaCaptura() {
@@ -35,14 +83,6 @@ public class Experimento {
 
     public void setCount(Integer count) {
         this.count = count;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public String getNome() {
