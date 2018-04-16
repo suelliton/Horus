@@ -37,6 +37,9 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+
+
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -85,7 +88,7 @@
 
         </LinearLayout>
 
-
+<!--
         <LinearLayout
 
             android:layout_width="wrap_content"
@@ -106,7 +109,7 @@
                 app:srcCompat="@android:drawable/ic_menu_camera" />
             />
         </LinearLayout>
-
+-->
 
     </LinearLayout>
 

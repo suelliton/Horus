@@ -45,7 +45,7 @@
             android:name=".NovoExperimento"
             android:label="Horus Green"
             android:theme="@style/verde_e_branco" />
-
+        <activity android:name=".Detalhes"></activity>
     </application>
 
 </manifest>

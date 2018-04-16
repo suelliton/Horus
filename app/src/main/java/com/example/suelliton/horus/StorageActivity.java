@@ -48,6 +48,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 import static android.app.PendingIntent.getActivity;
+import static com.example.suelliton.horus.Detalhes.ViewSnackApoio;
 import static com.example.suelliton.horus.Principal.ViewSnack;
 
 /**
@@ -106,7 +107,7 @@ public class StorageActivity extends AppCompatActivity {
             public void onClick(View view) {
                 btnUpload.setClickable(false);
                 try {
-                    Snackbar.make(ViewSnack, "Fazendo upload para o firebase", Snackbar.LENGTH_LONG)
+                    Snackbar.make(ViewSnackApoio.getRootView(), "Fazendo upload para o firebase", Snackbar.LENGTH_LONG)
                             .setAction("Action", null).show();
                     StorageReference alfaceRef = storage.getReference(nomeExperimento + "/" + FILENAME);
 
@@ -114,7 +115,7 @@ public class StorageActivity extends AppCompatActivity {
 
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
-                    Snackbar.make(view, "Erro!", Snackbar.LENGTH_LONG)
+                    Snackbar.make(ViewSnackApoio, "Erro!", Snackbar.LENGTH_LONG)
                             .setAction("Action", null).show();
                 }
                 DatabaseReference dr = database.getReference(nomeExperimento);
