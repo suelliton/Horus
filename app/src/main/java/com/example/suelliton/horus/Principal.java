@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.os.Vibrator;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
@@ -83,6 +84,15 @@ public class Principal extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         ViewSnack = drawer;//serve de parametro pro snack achar a rootview
+
+
+        FloatingActionButton adicionarNovo = (FloatingActionButton) findViewById(R.id.floatAdicionar);
+        adicionarNovo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivityForResult(new Intent(getApplicationContext(),NovoExperimento.class),1);
+            }
+        });
     }
 
 

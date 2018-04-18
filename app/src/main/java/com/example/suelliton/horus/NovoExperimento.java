@@ -31,7 +31,7 @@ public class NovoExperimento extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true); //Mostrar o botão
         getSupportActionBar().setHomeButtonEnabled(true);      //Ativar o botão
-        getSupportActionBar().setTitle("Add Experimento");
+        getSupportActionBar().setTitle("Novo Experimento");
 
 
 
