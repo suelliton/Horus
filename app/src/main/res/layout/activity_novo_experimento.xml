@@ -28,7 +28,11 @@ tools:context=".NovoExperimento">
     </android.support.design.widget.AppBarLayout>
     </android.support.v7.widget.LinearLayoutCompat>
 
-
+<ScrollView
+    android:layout_marginTop="60dp"
+    android:layout_marginBottom="60dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
 <LinearLayout
     android:id="@+id/linearLayout"
@@ -46,8 +50,10 @@ tools:context=".NovoExperimento">
     app:layout_constraintTop_toTopOf="parent">
 
     <TextView
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="0dp"
         android:id="@+id/Nome"
+        android:textSize="16dp"
+        android:textColor="@color/black"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Nome" />
@@ -65,6 +71,8 @@ tools:context=".NovoExperimento">
         android:id="@+id/Descriçao"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textSize="16dp"
+        android:textColor="@color/black"
         android:text="Descriçao" />
 
     <EditText
@@ -79,6 +87,8 @@ tools:context=".NovoExperimento">
         android:id="@+id/Variedade"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textSize="16dp"
+        android:textColor="@color/black"
         android:text="Variedade do alface" />
 
     <EditText
@@ -89,8 +99,84 @@ tools:context=".NovoExperimento">
         android:layout_marginBottom="25dp"
         android:inputType="textPersonName"
         android:text="" />
-</LinearLayout>
+    <TextView
+        android:id="@+id/Nutrientes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="16dp"
+        android:textColor="@color/black"
+        android:text="Nutrientes" />
 
+    <EditText
+        android:id="@+id/ed_nutrientes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:layout_marginBottom="25dp"
+        android:inputType="textPersonName"
+        android:text="" />
+
+
+    <TextView
+        android:id="@+id/IdadePlantaTransplantio"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="16dp"
+        android:textColor="@color/black"
+        android:text="Idade da planta no inicio do experimento" />
+    <Spinner
+        android:id="@+id/sp_idadePlantaTransplantio"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        />
+
+    <TextView
+        android:id="@+id/TempoBombaLigado"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="16dp"
+        android:textColor="@color/black"
+        android:text="Tempo que a bomba fica ligada" />
+    <Spinner
+        android:id="@+id/sp_tempoBombaLigado"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        />
+
+    <TextView
+        android:id="@+id/TempoBombaDesligado"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="16dp"
+        android:textColor="@color/black"
+        android:text="Tempo que a bomba fica desligada" />
+    <Spinner
+        android:id="@+id/sp_tempoBombaDesligado"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        />
+
+    <TextView
+        android:id="@+id/DataTransplantio"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="16dp"
+        android:textColor="@color/black"
+        android:text="Data de inicio do experimento" />
+
+
+    <CalendarView
+        android:id="@+id/cv_dataTransplantio"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </CalendarView>
+
+</LinearLayout>
+</ScrollView>
 <android.support.design.widget.FloatingActionButton
     android:id="@+id/btnAdd"
     android:layout_width="70dp"

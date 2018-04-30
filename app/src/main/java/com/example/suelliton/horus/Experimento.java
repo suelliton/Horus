@@ -19,7 +19,13 @@ public class Experimento {
     private String ultimaCaptura;
     private Crescimento crescimento;
     private boolean novaFoto;
-    private Integer pixelsAnterior;
+    private String nutrientes;
+    private String dataTransplantio;
+    private Integer idadePlantaTransplantio;
+    private Integer idadePlantaAtual;
+    private Integer tempoBombaLigado;
+    private Integer tempoBombaDesLigado;
+
 
 
 
@@ -27,29 +33,77 @@ public class Experimento {
     public Experimento() {
 
     }
-    public Experimento(String nome, String descricao, String variedade) {
+    public Experimento(String nome, String descricao, String variedade,String nutrientes,
+                       String dataTransplantio,Integer idadePlantaTransplantio,
+                       Integer idadePlantaAtual, Integer tempoBombaLigado,
+                       Integer tempoBombaDesLigado) {
         this.nome = nome;
         this.descricao = descricao;
         this.variedade = variedade;
         this.count = 0;
         this.ultimaCaptura = "";
         ArrayList<Double> lista = new ArrayList();
-        lista.add(123.0);
+        lista.add(0.0);
         this.crescimento = new Crescimento(lista);
-
         this.novaFoto = false;
-        this.pixelsAnterior = 0;
+        this.nutrientes = nutrientes;
+        this.dataTransplantio = dataTransplantio;
+        this.idadePlantaTransplantio = idadePlantaTransplantio;
+        this.idadePlantaAtual = idadePlantaAtual;
+        this.tempoBombaLigado = tempoBombaLigado;
+        this.tempoBombaDesLigado = tempoBombaDesLigado;
+
+
 
     }
 
-    public Integer getPixelsAnterior() {
-        return pixelsAnterior;
+    public String getNutrientes() {
+        return nutrientes;
     }
 
-    public void setPixelsAnterior(Integer pixelsAnterior) {
-        this.pixelsAnterior = pixelsAnterior;
+    public void setNutrientes(String nutrientes) {
+        this.nutrientes = nutrientes;
     }
 
+    public String getDataTransplantio() {
+        return dataTransplantio;
+    }
+
+    public void setDataTransplantio(String dataTransplantio) {
+        this.dataTransplantio = dataTransplantio;
+    }
+
+    public Integer getIdadePlantaTransplantio() {
+        return idadePlantaTransplantio;
+    }
+
+    public void setIdadePlantaTransplantio(Integer idadePlantaTransplantio) {
+        this.idadePlantaTransplantio = idadePlantaTransplantio;
+    }
+
+    public Integer getIdadePlantaAtual() {
+        return idadePlantaAtual;
+    }
+
+    public void setIdadePlantaAtual(Integer idadePlantaAtual) {
+        this.idadePlantaAtual = idadePlantaAtual;
+    }
+
+    public Integer getTempoBombaLigado() {
+        return tempoBombaLigado;
+    }
+
+    public void setTempoBombaLigado(Integer tempoBombaLigado) {
+        this.tempoBombaLigado = tempoBombaLigado;
+    }
+
+    public Integer getTempoBombaDesLigado() {
+        return tempoBombaDesLigado;
+    }
+
+    public void setTempoBombaDesLigado(Integer tempoBombaDesLigado) {
+        this.tempoBombaDesLigado = tempoBombaDesLigado;
+    }
 
 
 
