@@ -15,6 +15,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.series.DataPoint;
+import com.jjoe64.graphview.series.LineGraphSeries;
 
 import org.w3c.dom.Text;
 
@@ -24,6 +27,7 @@ import java.util.List;
 import static com.example.suelliton.horus.Principal.ViewSnack;
 
 public class Detalhes extends AppCompatActivity {
+    ArrayList listaTaxas;
     String nomeExperimento = "";
     private Integer count = 0;
     private FirebaseDatabase database;
@@ -45,6 +49,7 @@ public class Detalhes extends AppCompatActivity {
         nomeExperimento = bundle.getString("nomeExp");
         count = bundle.getInt("count");
 
+
         experimentoReference = database.getReference().child(nomeExperimento);
 
         childValueExperimento = experimentoReference.addValueEventListener(new ValueEventListener() {
@@ -52,13 +57,35 @@ public class Detalhes extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
-                ArrayList listaTaxas = new ArrayList<Double>();
+                listaTaxas = new ArrayList<Double>();
                 experimento = dataSnapshot.getValue(Experimento.class);
                 Crescimento crescimento =  dataSnapshot.getValue(Experimento.class).getCrescimento();
                 listaTaxas = crescimento.getTaxaCrescimento();
                 Log.i("teste",listaTaxas.toString());
-                textTaxa.setText( listaTaxas.get(listaTaxas.size()-1).toString()+" %");
+                textTaxa.setText("Ultima taxa :" +listaTaxas.get(listaTaxas.size()-1).toString()+" %");
+                DataPoint[] dataPointTaxa =  new DataPoint[listaTaxas.size()];
 
+                for(int i=0; i < listaTaxas.size();i++){
+                    dataPointTaxa[i] = new DataPoint(i, (Double) listaTaxas.get(i));
+
+                }
+
+
+
+                GraphView graph = (GraphView) findViewById(R.id.graph);
+                LineGraphSeries<DataPoint> series = new LineGraphSeries<>(dataPointTaxa);
+
+                graph.getViewport().setYAxisBoundsManual(true);
+                graph.getViewport().setMinY(-200);
+                graph.getViewport().setMaxY(200);
+
+                graph.getViewport().setXAxisBoundsManual(true);
+                graph.getViewport().setMinX(0);
+                graph.getViewport().setMaxX(35);
+
+                graph.getViewport().setScalable(true);
+                //graph.getViewport().setScalableY(true);
+                graph.addSeries(series);
 
             }
 
@@ -83,6 +110,8 @@ public class Detalhes extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+
 
 
     }
