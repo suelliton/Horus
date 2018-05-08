@@ -12,39 +12,57 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CalendarView;
+import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
 
 public class NovoExperimento extends AppCompatActivity {
     EditText nome;
     EditText descricao;
-    EditText variedade;
     FloatingActionButton btnAdd;
     FirebaseDatabase database;
     DatabaseReference experimento ;
     Spinner spinner_idadePlantaTransplantio;
     Spinner spinner_tempoBombaLigado;
     Spinner spinner_tempoBombaDesligado;
+
+    Spinner spinner_nitrato_de_calcio;
+    Spinner spinner_nitrato_de_potassio;
+    Spinner spinner_sulfato_de_magnesio;
+    Spinner spinner_cloreto_de_potassio;
+    Spinner spinner_MAP_purificado;
+    Spinner spinner_MKP;
+    Spinner spinner_sulfato_de_potassio;
+
+
     CalendarView calendar;
     Experimento SAVE_EXPERIMENTO;
     String save_nome;
     String save_descricao;
     String save_variedade;
-    String save_nutrientes;
     String save_dataTransplantio;
     Integer save_idadePlantaTransplantio;
     Integer save_idadePlantaAtual;
     Integer save_tempoBombaLigado;
     Integer save_tempoBombaDesligado;
+    Nutriente save_nutrientes;
+
+    ArrayAdapter<String> adaptador;
+    ArrayAdapter<String> adaptadorMiligramas;
+
     private static final String[] NUMEROS = new String[]{
             "1", "2","3", "4", "5", "6", "7", "8", "9", "10",
             "11","12","13","14","15","16","17","18","19","20","21","22","23","24","25",
@@ -64,6 +82,14 @@ public class NovoExperimento extends AppCompatActivity {
             "26 min","27 min","28 min","29 min","30 min","31 min","32 min","33 min","34 min","35 min","36 min","37 v","38 min","39 min","40 min"
             ,"41 min","42 min","43 min","44 min","45 min","46 min","47 min","48 min","49 min","50 min"
             ,"51 min","52 min","53 min","54 min","55 min","56 min","57 min","58 min","59 min","60 min"};
+    private static final String[] MILIGRAMAS = new String[]{"1 mg", "2 mg","3 mg", "4 mg", "5 mg", "6 mg", "7 mg", "8 mg", "9 mg", "10 mg",
+            "11 mg","12 mg","13 mg","14 mg","15 mg","16 mg","17 mg","18 mg","19 mg","20 mg","21 mg","22 mg","23 mg","24 mg","25 mg",
+            "26 mg","27 mg","28 mg","29 mg","30 mg","31 mg","32 mg","33 mg","34 mg","35 mg","36 mg","37 mg","38 mg","39 mg","40 mg"
+            ,"41 mg","42 mg","43 mg","44 mg","45 mg","46 mg","47 mg","48 mg","49 mg","50 mg"
+            ,"51 mg","52 mg","53 mg","54 mg","55 mg","56 mg","57 mg","58 mg","59 mg","60 mg"};
+
+   private List<Macronutriente> macronutrientes;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,23 +103,93 @@ public class NovoExperimento extends AppCompatActivity {
         getSupportActionBar().setHomeButtonEnabled(true);      //Ativar o botão
         getSupportActionBar().setTitle("Adicionar experimento");
 
+        macronutrientes = new ArrayList<>();
 
         nome = (EditText)findViewById(R.id.ed_nome);
         descricao = (EditText)findViewById(R.id.ed_descricao);
-        variedade = (EditText)findViewById(R.id.ed_variedade);
         btnAdd = (FloatingActionButton) findViewById(R.id.btnAdd);
         spinner_idadePlantaTransplantio = (Spinner) findViewById(R.id.sp_idadePlantaTransplantio);
         spinner_tempoBombaLigado = (Spinner) findViewById(R.id.sp_tempoBombaLigado);
         spinner_tempoBombaDesligado = (Spinner) findViewById(R.id.sp_tempoBombaDesligado);
         calendar = (CalendarView) findViewById(R.id.cv_dataTransplantio);
 
-
+        setSpinnersMacro();
         setListeners();
     }
+
+    public void setSpinner(Spinner spinner, final String nome){
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                for (Macronutriente m : macronutrientes ) {
+                    if(m.getNome().equals(nome)){
+                        macronutrientes.remove(m);//remove o macronutriente da lista
+                        m.setQtd(Integer.parseInt(String.valueOf(adaptador.getItem(i)))); //atualiza qtd do macro
+                        macronutrientes.add(m);//adiciona novamente na lista
+                    }
+                }
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+            }
+        });
+
+
+
+    }
+
+
+    public void  setSpinnersMacro(){
+
+        spinner_nitrato_de_calcio = (Spinner) findViewById(R.id.spinner_nitrato_de_calcio);
+        spinner_nitrato_de_potassio = (Spinner) findViewById(R.id.spinner_nitrato_de_potassio);
+        spinner_sulfato_de_magnesio = (Spinner) findViewById(R.id.spinner_sulfato_de_magnesio);
+        spinner_cloreto_de_potassio =(Spinner) findViewById(R.id.spinner_cloreto_de_potassio);
+        spinner_MAP_purificado = (Spinner) findViewById(R.id.spinner_MAP_purificado);
+        spinner_MKP = (Spinner) findViewById(R.id.spinner_MKP);
+        spinner_sulfato_de_potassio =(Spinner) findViewById(R.id.spinner_sulfato_de_potassio);
+
+
+
+        spinner_nitrato_de_calcio.setEnabled(false);
+        spinner_nitrato_de_potassio.setEnabled(false);
+        spinner_sulfato_de_magnesio.setEnabled(false);
+        spinner_cloreto_de_potassio.setEnabled(false);
+        spinner_MAP_purificado.setEnabled(false);
+        spinner_MKP.setEnabled(false);
+        spinner_sulfato_de_potassio.setEnabled(false);
+
+        adaptadorMiligramas = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, MILIGRAMAS);
+
+        spinner_nitrato_de_calcio.setAdapter(adaptadorMiligramas);
+        spinner_nitrato_de_potassio.setAdapter(adaptadorMiligramas);
+        spinner_sulfato_de_magnesio.setAdapter(adaptadorMiligramas);
+        spinner_cloreto_de_potassio.setAdapter(adaptadorMiligramas);
+        spinner_MAP_purificado.setAdapter(adaptadorMiligramas);
+        spinner_MKP.setAdapter(adaptadorMiligramas);
+        spinner_sulfato_de_potassio.setAdapter(adaptadorMiligramas);
+
+        setSpinner(spinner_nitrato_de_calcio,"Nitrato de Cálcio");
+        setSpinner( spinner_nitrato_de_potassio,"Nitrato de Potássio");
+        setSpinner(spinner_sulfato_de_magnesio,"Sulfato de Magnésio");
+        setSpinner(spinner_cloreto_de_potassio,"Cloreto de Potássio");
+        setSpinner(spinner_MAP_purificado,"MAP purificado");
+        setSpinner(spinner_MKP,"MKP");
+        setSpinner(spinner_sulfato_de_potassio,"Sulfato de Potássio");
+
+
+
+
+    }
+
+
     public void setListeners(){
-        final ArrayAdapter<String> adaptador = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, NUMEROS);
+        adaptador = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, NUMEROS);
         ArrayAdapter<String> adaptadorDias = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, DIAS);
         ArrayAdapter<String> adaptadorMinutos = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, MINUTOS);
+
+
 
         spinner_idadePlantaTransplantio.setAdapter(adaptadorDias);
         spinner_tempoBombaLigado.setAdapter(adaptadorMinutos);
@@ -145,8 +241,9 @@ public class NovoExperimento extends AppCompatActivity {
             public void onClick(View view) {
                 save_nome = nome.getText().toString();
                 save_descricao = descricao.getText().toString();
-                save_variedade = variedade.getText().toString();
                 save_dataTransplantio = convertMillisToDate(calendar.getDate());
+
+                save_nutrientes =  new Nutriente(macronutrientes,null);
                 SAVE_EXPERIMENTO = new Experimento(save_nome,save_descricao,save_variedade,save_nutrientes,
                         save_dataTransplantio,save_idadePlantaTransplantio,save_idadePlantaAtual,
                         save_tempoBombaLigado,save_tempoBombaDesligado);
@@ -157,6 +254,79 @@ public class NovoExperimento extends AppCompatActivity {
 
             }
         });
+
+
+        RadioGroup radioGroupAlface = (RadioGroup) findViewById(R.id.radioGroupAlface);
+        radioGroupAlface.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                RadioButton button = (RadioButton) group.findViewById(checkedId);
+                save_variedade = button.getText().toString();
+            }
+        });
+
+
+    }
+
+
+    public void checkBox(int id,boolean checked, Spinner spinner){
+
+        CheckBox check = (CheckBox) findViewById(id);
+        Log.i("check",check.getText().toString());
+
+        if (checked) {
+            //adiciona macronutriente a lista
+            Macronutriente macro = new Macronutriente(check.getText().toString(),0);
+            spinner.setEnabled(true);
+            macronutrientes.add(macro);
+        }else {
+            //remove macronutriente da lista com o nome
+                for(int i=0;i<macronutrientes.size();i++) {
+                    if (macronutrientes.get(i).getNome().equals(check.getText().toString())) {
+                        macronutrientes.remove(macronutrientes.get(i));
+                    }
+                }
+
+            spinner.setEnabled(false);
+            }
+
+
+        Log.i("check", String.valueOf(macronutrientes.size()));
+        for (Macronutriente m:macronutrientes ) {
+            Log.i("check", m.getNome());
+        }
+
+        }
+
+
+
+
+
+    public void onCheckboxClicked(View view) {
+        boolean checked = ((CheckBox) view).isChecked();
+        switch(view.getId()) {
+            case R.id.checkbox_nitrato_de_calcio:
+                checkBox(R.id.checkbox_nitrato_de_calcio,checked,spinner_nitrato_de_calcio );
+                break;
+            case R.id.checkbox_nitrato_de_potassio:
+                checkBox(R.id.checkbox_nitrato_de_potassio,checked,spinner_nitrato_de_potassio );
+                break;
+            case R.id.checkbox_sulfato_de_magnesio:
+                checkBox(R.id.checkbox_sulfato_de_magnesio,checked,spinner_sulfato_de_magnesio );
+                break;
+            case R.id.checkbox_cloreto_de_potassio:
+                checkBox(R.id.checkbox_cloreto_de_potassio,checked,spinner_cloreto_de_potassio );
+                break;
+            case R.id.checkbox_MAP_purificado:
+                checkBox(R.id.checkbox_MAP_purificado,checked,spinner_MAP_purificado );
+                break;
+            case R.id.checkbox_MKP:
+                checkBox(R.id.checkbox_MKP,checked,spinner_MKP );
+                break;
+            case R.id.checkbox_sulfato_de_potassio:
+                checkBox(R.id.checkbox_sulfato_de_potassio,checked,spinner_sulfato_de_potassio );
+                break;
+       }
     }
 
     @Override

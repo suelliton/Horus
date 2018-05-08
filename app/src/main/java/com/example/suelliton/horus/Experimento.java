@@ -19,7 +19,7 @@ public class Experimento {
     private String ultimaCaptura;
     private Crescimento crescimento;
     private boolean novaFoto;
-    private String nutrientes;
+    private Nutriente nutrientes;
     private String dataTransplantio;
     private Integer idadePlantaTransplantio;
     private Integer idadePlantaAtual;
@@ -33,7 +33,7 @@ public class Experimento {
     public Experimento() {
 
     }
-    public Experimento(String nome, String descricao, String variedade,String nutrientes,
+    public Experimento(String nome, String descricao, String variedade,Nutriente nutrientes,
                        String dataTransplantio,Integer idadePlantaTransplantio,
                        Integer idadePlantaAtual, Integer tempoBombaLigado,
                        Integer tempoBombaDesLigado) {
@@ -57,11 +57,11 @@ public class Experimento {
 
     }
 
-    public String getNutrientes() {
+    public Nutriente getNutrientes() {
         return nutrientes;
     }
 
-    public void setNutrientes(String nutrientes) {
+    public void setNutrientes(Nutriente nutrientes) {
         this.nutrientes = nutrientes;
     }
 

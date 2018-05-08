@@ -4,6 +4,7 @@ xmlns:app="http://schemas.android.com/apk/res-auto"
 xmlns:tools="http://schemas.android.com/tools"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
+android:name=".NovoExperimento"
 tools:context=".NovoExperimento">
 
     <android.support.v7.widget.LinearLayoutCompat
@@ -91,21 +92,188 @@ tools:context=".NovoExperimento">
         android:textColor="@color/black"
         android:text="Variedade do alface" />
 
-    <EditText
-        android:id="@+id/ed_variedade"
+    <RadioGroup
+        android:id="@+id/radioGroupAlface"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:layout_marginBottom="25dp"
-        android:inputType="textPersonName"
-        android:text="" />
+        android:layout_height="131dp"
+        android:layout_gravity="start"
+        android:orientation="vertical">
+
+        <RadioButton
+            android:id="@+id/rd_americana"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Americana" />
+
+        <RadioButton
+            android:id="@+id/rd_lisa"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Lisa" />
+
+        <RadioButton
+            android:id="@+id/rd_crespa"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Crespa" />
+
+        <RadioButton
+            android:id="@+id/ed_romana"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Romana" />
+
+    </RadioGroup>
+
     <TextView
         android:id="@+id/Nutrientes"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="16dp"
+        android:textSize="18dp"
+        android:layout_marginTop="15dp"
         android:textColor="@color/black"
         android:text="Nutrientes" />
+    <TextView
+        android:id="@+id/Macronutrientes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="16dp"
+        android:textColor="@color/black"
+        android:text="Macronutrientes" />
+
+<android.support.v7.widget.LinearLayoutCompat
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+            <CheckBox android:id="@+id/checkbox_nitrato_de_calcio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nitrato de Cálcio"
+                android:layout_weight="10"
+                android:onClick="onCheckboxClicked"/>
+            <Spinner
+                android:id="@+id/spinner_nitrato_de_calcio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginBottom="20dp"
+                />
+</android.support.v7.widget.LinearLayoutCompat>
+
+    <android.support.v7.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+                <CheckBox android:id="@+id/checkbox_nitrato_de_potassio"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="10"
+                    android:text="Nitrato de Potássio"
+                    android:onClick="onCheckboxClicked"/>
+                <Spinner
+                    android:id="@+id/spinner_nitrato_de_potassio"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginBottom="20dp"
+                    />
+    </android.support.v7.widget.LinearLayoutCompat>
+
+    <android.support.v7.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+            <CheckBox android:id="@+id/checkbox_sulfato_de_magnesio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="10"
+                android:text="Sulfato de Magnésio"
+                android:onClick="onCheckboxClicked"/>
+        <Spinner
+            android:id="@+id/spinner_sulfato_de_magnesio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginBottom="20dp"
+            />
+    </android.support.v7.widget.LinearLayoutCompat>
+
+
+
+    <android.support.v7.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+            <CheckBox android:id="@+id/checkbox_cloreto_de_potassio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="10"
+                android:text="Cloreto de Potássio"
+                android:onClick="onCheckboxClicked"/>
+        <Spinner
+            android:id="@+id/spinner_cloreto_de_potassio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginBottom="20dp"
+            />
+    </android.support.v7.widget.LinearLayoutCompat>
+
+    <android.support.v7.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+            <CheckBox android:id="@+id/checkbox_MAP_purificado"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="10"
+                android:text="MAP purificado"
+                android:onClick="onCheckboxClicked"/>
+        <Spinner
+            android:id="@+id/spinner_MAP_purificado"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginBottom="20dp"
+            />
+    </android.support.v7.widget.LinearLayoutCompat>
+
+    <android.support.v7.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+            <CheckBox android:id="@+id/checkbox_MKP"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="18"
+                android:text="MKP"
+                android:onClick="onCheckboxClicked"/>
+        <Spinner
+            android:id="@+id/spinner_MKP"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginBottom="20dp"
+            />
+    </android.support.v7.widget.LinearLayoutCompat>
+
+    <android.support.v7.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+            <CheckBox android:id="@+id/checkbox_sulfato_de_potassio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="10"
+                android:text="Sulfato de Potássio"
+                android:onClick="onCheckboxClicked"/>
+        <Spinner
+            android:id="@+id/spinner_sulfato_de_potassio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginBottom="20dp"
+            />
+    </android.support.v7.widget.LinearLayoutCompat>
+
+
+
+
+
+
 
     <EditText
         android:id="@+id/ed_nutrientes"
