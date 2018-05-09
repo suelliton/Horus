@@ -38,7 +38,7 @@ public class NovoExperimento extends AppCompatActivity {
     Spinner spinner_idadePlantaTransplantio;
     Spinner spinner_tempoBombaLigado;
     Spinner spinner_tempoBombaDesligado;
-
+    //spinner macronutrientes
     Spinner spinner_nitrato_de_calcio;
     Spinner spinner_nitrato_de_potassio;
     Spinner spinner_sulfato_de_magnesio;
@@ -46,6 +46,18 @@ public class NovoExperimento extends AppCompatActivity {
     Spinner spinner_MAP_purificado;
     Spinner spinner_MKP;
     Spinner spinner_sulfato_de_potassio;
+    //spinner micronutrientes
+    Spinner spinner_sulfato_de_manganes;
+    Spinner spinner_sulfato_de_zinco;
+    Spinner spinner_sulfato_de_cobre;
+    Spinner spinner_acido_borico;
+    Spinner spinner_molibdato_de_sodio;
+    Spinner spinner_molibdato_de_amonio;
+    Spinner spinner_feedta_na2;
+    Spinner spinner_ferrilene;
+    Spinner spinner_tenso_fe;
+    Spinner spinner_dissolvine;
+    Spinner spinner_rexolin_m48;
 
 
     CalendarView calendar;
@@ -88,8 +100,8 @@ public class NovoExperimento extends AppCompatActivity {
             ,"41 mg","42 mg","43 mg","44 mg","45 mg","46 mg","47 mg","48 mg","49 mg","50 mg"
             ,"51 mg","52 mg","53 mg","54 mg","55 mg","56 mg","57 mg","58 mg","59 mg","60 mg"};
 
-   private List<Macronutriente> macronutrientes;
-
+    private List<Macronutriente> macronutrientes;
+    private List<Micronutriente> micronutrientes;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -104,6 +116,7 @@ public class NovoExperimento extends AppCompatActivity {
         getSupportActionBar().setTitle("Adicionar experimento");
 
         macronutrientes = new ArrayList<>();
+        micronutrientes = new ArrayList<>();
 
         nome = (EditText)findViewById(R.id.ed_nome);
         descricao = (EditText)findViewById(R.id.ed_descricao);
@@ -114,33 +127,58 @@ public class NovoExperimento extends AppCompatActivity {
         calendar = (CalendarView) findViewById(R.id.cv_dataTransplantio);
 
         setSpinnersMacro();
+        setSpinnersMicro();
         setListeners();
     }
 
-    public void setSpinner(Spinner spinner, final String nome){
+    public void setSpinner(Spinner spinner, final String nome,String tipo){
 
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                for (Macronutriente m : macronutrientes ) {
-                    if(m.getNome().equals(nome)){
-                        macronutrientes.remove(m);//remove o macronutriente da lista
-                        m.setQtd(Integer.parseInt(String.valueOf(adaptador.getItem(i)))); //atualiza qtd do macro
-                        macronutrientes.add(m);//adiciona novamente na lista
+        if(tipo.equals("macro")) {
+
+            spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                    for (Macronutriente m : macronutrientes) {
+                        if (m.getNome().equals(nome)) {
+                            //macronutrientes.remove(m);//remove o macronutriente da lista
+                            m.setQtd(Integer.parseInt(String.valueOf(adaptador.getItem(i)))); //atualiza qtd do macro
+                            //macronutrientes.add(m);//adiciona novamente na lista
+                        }
                     }
                 }
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-            }
-        });
+
+                @Override
+                public void onNothingSelected(AdapterView<?> adapterView) {
+                }
+            });
+
+        }else if(tipo.equals("micro")){
+
+            spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                    for (Micronutriente m : micronutrientes) {
+                        if (m.getNome().equals(nome)) {
+                            //macronutrientes.remove(m);//remove o macronutriente da lista
+                            m.setQtd(Integer.parseInt(String.valueOf(adaptador.getItem(i)))); //atualiza qtd do macro
+                            //macronutrientes.add(m);//adiciona novamente na lista
+                        }
+                    }
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> adapterView) {
+                }
+            });
 
 
+
+        }
 
     }
 
 
-    public void  setSpinnersMacro(){
+    public void setSpinnersMacro(){
 
         spinner_nitrato_de_calcio = (Spinner) findViewById(R.id.spinner_nitrato_de_calcio);
         spinner_nitrato_de_potassio = (Spinner) findViewById(R.id.spinner_nitrato_de_potassio);
@@ -170,18 +208,72 @@ public class NovoExperimento extends AppCompatActivity {
         spinner_MKP.setAdapter(adaptadorMiligramas);
         spinner_sulfato_de_potassio.setAdapter(adaptadorMiligramas);
 
-        setSpinner(spinner_nitrato_de_calcio,"Nitrato de Cálcio");
-        setSpinner( spinner_nitrato_de_potassio,"Nitrato de Potássio");
-        setSpinner(spinner_sulfato_de_magnesio,"Sulfato de Magnésio");
-        setSpinner(spinner_cloreto_de_potassio,"Cloreto de Potássio");
-        setSpinner(spinner_MAP_purificado,"MAP purificado");
-        setSpinner(spinner_MKP,"MKP");
-        setSpinner(spinner_sulfato_de_potassio,"Sulfato de Potássio");
+        setSpinner(spinner_nitrato_de_calcio,"Nitrato de Cálcio","macro");
+        setSpinner( spinner_nitrato_de_potassio,"Nitrato de Potássio","macro");
+        setSpinner(spinner_sulfato_de_magnesio,"Sulfato de Magnésio","macro");
+        setSpinner(spinner_cloreto_de_potassio,"Cloreto de Potássio","macro");
+        setSpinner(spinner_MAP_purificado,"MAP purificado","macro");
+        setSpinner(spinner_MKP,"MKP","macro");
+        setSpinner(spinner_sulfato_de_potassio,"Sulfato de Potássio","macro");
 
 
 
 
     }
+
+    public void setSpinnersMicro(){
+
+        spinner_sulfato_de_manganes = (Spinner) findViewById(R.id.spinner_sulfato_de_manganes);
+        spinner_sulfato_de_zinco = (Spinner) findViewById(R.id.spinner_sulfato_de_zinco);
+        spinner_sulfato_de_cobre = (Spinner) findViewById(R.id.spinner_sulfato_de_cobre);
+        spinner_acido_borico = (Spinner) findViewById(R.id.spinner_acido_borico);
+        spinner_molibdato_de_sodio = (Spinner) findViewById(R.id.spinner_molibdato_de_sodio);
+        spinner_molibdato_de_amonio = (Spinner) findViewById(R.id.spinner_molibdato_de_amonio);
+        spinner_feedta_na2 = (Spinner) findViewById(R.id.spinner_feedta_na2);
+        spinner_ferrilene = (Spinner) findViewById(R.id.spinner_ferrilene);
+        spinner_tenso_fe = (Spinner) findViewById(R.id.spinner_tenso_fe);
+        spinner_dissolvine = (Spinner) findViewById(R.id.spinner_dissolvine);
+        spinner_rexolin_m48 = (Spinner) findViewById(R.id.spinner_rexolin_m48);
+
+        spinner_sulfato_de_manganes.setEnabled(false);
+        spinner_sulfato_de_zinco.setEnabled(false);
+        spinner_sulfato_de_cobre.setEnabled(false);
+        spinner_acido_borico.setEnabled(false);
+        spinner_molibdato_de_sodio.setEnabled(false);
+        spinner_molibdato_de_amonio.setEnabled(false);
+        spinner_feedta_na2.setEnabled(false);
+        spinner_ferrilene.setEnabled(false);
+        spinner_tenso_fe.setEnabled(false);
+        spinner_dissolvine.setEnabled(false) ;
+        spinner_rexolin_m48.setEnabled(false);
+
+        adaptadorMiligramas = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, MILIGRAMAS);
+
+        spinner_sulfato_de_manganes.setAdapter(adaptadorMiligramas);
+        spinner_sulfato_de_zinco.setAdapter(adaptadorMiligramas);
+        spinner_sulfato_de_cobre.setAdapter(adaptadorMiligramas);
+        spinner_acido_borico.setAdapter(adaptadorMiligramas);
+        spinner_molibdato_de_sodio.setAdapter(adaptadorMiligramas);
+        spinner_molibdato_de_amonio.setAdapter(adaptadorMiligramas);
+        spinner_feedta_na2.setAdapter(adaptadorMiligramas);
+        spinner_ferrilene.setAdapter(adaptadorMiligramas);
+        spinner_tenso_fe.setAdapter(adaptadorMiligramas);
+        spinner_dissolvine.setAdapter(adaptadorMiligramas) ;
+        spinner_rexolin_m48.setAdapter(adaptadorMiligramas);
+
+        setSpinner(spinner_sulfato_de_manganes,"Sulfato de Manganês","micro");
+        setSpinner(spinner_sulfato_de_zinco,"Sulfato de Zinco","micro");
+        setSpinner(spinner_sulfato_de_cobre,"Sulfato de Cobre","micro");
+        setSpinner(spinner_acido_borico,"Ácido Bórico","micro");
+        setSpinner(spinner_molibdato_de_sodio,"Molibdato de Sódio","micro");
+        setSpinner(spinner_molibdato_de_amonio,"Molibdato de Amônio","micro");
+        setSpinner(spinner_feedta_na2,"FeEDTA Na2","micro");
+        setSpinner(spinner_ferrilene,"Ferrilene","micro");
+        setSpinner(spinner_tenso_fe,"Tenso-Fe","micro");
+        setSpinner(spinner_dissolvine,"Dissolvine","micro");
+        setSpinner(spinner_rexolin_m48,"Rexolin M48","micro");
+    }
+
 
 
     public void setListeners(){
@@ -243,7 +335,7 @@ public class NovoExperimento extends AppCompatActivity {
                 save_descricao = descricao.getText().toString();
                 save_dataTransplantio = convertMillisToDate(calendar.getDate());
 
-                save_nutrientes =  new Nutriente(macronutrientes,null);
+                save_nutrientes =  new Nutriente(macronutrientes,micronutrientes);
                 SAVE_EXPERIMENTO = new Experimento(save_nome,save_descricao,save_variedade,save_nutrientes,
                         save_dataTransplantio,save_idadePlantaTransplantio,save_idadePlantaAtual,
                         save_tempoBombaLigado,save_tempoBombaDesligado);
@@ -269,32 +361,62 @@ public class NovoExperimento extends AppCompatActivity {
     }
 
 
-    public void checkBox(int id,boolean checked, Spinner spinner){
+    public void checkBox(int id,boolean checked, Spinner spinner,String tipo){
 
-        CheckBox check = (CheckBox) findViewById(id);
-        Log.i("check",check.getText().toString());
+        if(tipo.equals("macro")) {
 
-        if (checked) {
-            //adiciona macronutriente a lista
-            Macronutriente macro = new Macronutriente(check.getText().toString(),0);
-            spinner.setEnabled(true);
-            macronutrientes.add(macro);
-        }else {
-            //remove macronutriente da lista com o nome
-                for(int i=0;i<macronutrientes.size();i++) {
-                    if (macronutrientes.get(i).getNome().equals(check.getText().toString())) {
-                        macronutrientes.remove(macronutrientes.get(i));
+                CheckBox check = (CheckBox) findViewById(id);
+                Log.i("check", check.getText().toString());
+
+                if (checked) {
+                    //adiciona macronutriente a lista
+                    Macronutriente macro = new Macronutriente(check.getText().toString(), 0);
+                    spinner.setEnabled(true);
+                    macronutrientes.add(macro);
+                } else {
+                    //remove macronutriente da lista com o nome
+                    for (int i = 0; i < macronutrientes.size(); i++) {
+                        if (macronutrientes.get(i).getNome().equals(check.getText().toString())) {
+                            macronutrientes.remove(macronutrientes.get(i));
+                        }
                     }
+
+                    spinner.setEnabled(false);
                 }
 
-            spinner.setEnabled(false);
+                Log.i("check", String.valueOf(macronutrientes.size()));
+                for (Macronutriente m : macronutrientes) {
+                    Log.i("check", m.getNome());
+
+                }
+        }else if(tipo.equals("micro")){
+
+                CheckBox check = (CheckBox) findViewById(id);
+                Log.i("check", check.getText().toString());
+
+                if (checked) {
+                    //adiciona macronutriente a lista
+                    Micronutriente micro = new Micronutriente(check.getText().toString(), 0);
+                    spinner.setEnabled(true);
+                    micronutrientes.add(micro);
+                } else {
+                    //remove macronutriente da lista com o nome
+                    for (int i = 0; i < micronutrientes.size(); i++) {
+                        if (micronutrientes.get(i).getNome().equals(check.getText().toString())) {
+                            micronutrientes.remove(micronutrientes.get(i));
+                        }
+                    }
+                    spinner.setEnabled(false);
+                }
+
+                Log.i("check", String.valueOf(micronutrientes.size()));
+                for (Micronutriente m : micronutrientes) {
+                    Log.i("check", m.getNome());
+                }
+
             }
 
 
-        Log.i("check", String.valueOf(macronutrientes.size()));
-        for (Macronutriente m:macronutrientes ) {
-            Log.i("check", m.getNome());
-        }
 
         }
 
@@ -304,31 +426,66 @@ public class NovoExperimento extends AppCompatActivity {
 
     public void onCheckboxClicked(View view) {
         boolean checked = ((CheckBox) view).isChecked();
-        switch(view.getId()) {
+        switch (view.getId()) {
             case R.id.checkbox_nitrato_de_calcio:
-                checkBox(R.id.checkbox_nitrato_de_calcio,checked,spinner_nitrato_de_calcio );
+                checkBox(R.id.checkbox_nitrato_de_calcio, checked, spinner_nitrato_de_calcio, "macro");
                 break;
             case R.id.checkbox_nitrato_de_potassio:
-                checkBox(R.id.checkbox_nitrato_de_potassio,checked,spinner_nitrato_de_potassio );
+                checkBox(R.id.checkbox_nitrato_de_potassio, checked, spinner_nitrato_de_potassio, "macro");
                 break;
             case R.id.checkbox_sulfato_de_magnesio:
-                checkBox(R.id.checkbox_sulfato_de_magnesio,checked,spinner_sulfato_de_magnesio );
+                checkBox(R.id.checkbox_sulfato_de_magnesio, checked, spinner_sulfato_de_magnesio, "macro");
                 break;
             case R.id.checkbox_cloreto_de_potassio:
-                checkBox(R.id.checkbox_cloreto_de_potassio,checked,spinner_cloreto_de_potassio );
+                checkBox(R.id.checkbox_cloreto_de_potassio, checked, spinner_cloreto_de_potassio, "macro");
                 break;
             case R.id.checkbox_MAP_purificado:
-                checkBox(R.id.checkbox_MAP_purificado,checked,spinner_MAP_purificado );
+                checkBox(R.id.checkbox_MAP_purificado, checked, spinner_MAP_purificado, "macro");
                 break;
             case R.id.checkbox_MKP:
-                checkBox(R.id.checkbox_MKP,checked,spinner_MKP );
+                checkBox(R.id.checkbox_MKP, checked, spinner_MKP, "macro");
                 break;
             case R.id.checkbox_sulfato_de_potassio:
-                checkBox(R.id.checkbox_sulfato_de_potassio,checked,spinner_sulfato_de_potassio );
+                checkBox(R.id.checkbox_sulfato_de_potassio, checked, spinner_sulfato_de_potassio, "macro");
                 break;
-       }
-    }
 
+
+            case R.id.checkbox_sulfato_de_manganes:
+                checkBox(R.id.checkbox_sulfato_de_manganes, checked, spinner_sulfato_de_manganes, "micro");
+                break;
+            case R.id.checkbox_sulfato_de_zinco:
+                checkBox(R.id.checkbox_sulfato_de_zinco, checked, spinner_sulfato_de_zinco, "micro");
+                break;
+            case R.id.checkbox_sulfato_de_cobre:
+                checkBox(R.id.checkbox_sulfato_de_cobre, checked, spinner_sulfato_de_cobre, "micro");
+                break;
+            case R.id.checkbox_acido_borico:
+                checkBox(R.id.checkbox_acido_borico, checked, spinner_acido_borico, "micro");
+                break;
+            case R.id.checkbox_molibdato_de_sodio:
+                checkBox(R.id.checkbox_molibdato_de_sodio, checked, spinner_molibdato_de_sodio, "micro");
+                break;
+            case R.id.checkbox_molibdato_de_amonio:
+                checkBox(R.id.checkbox_molibdato_de_amonio, checked, spinner_molibdato_de_amonio, "micro");
+                break;
+            case R.id.checkbox_feedta_na2:
+                checkBox(R.id.checkbox_feedta_na2, checked, spinner_feedta_na2, "micro");
+                break;
+            case R.id.checkbox_ferrilene:
+                checkBox(R.id.checkbox_ferrilene, checked, spinner_ferrilene, "micro");
+                break;
+            case R.id.checkbox_tenso_fe:
+                checkBox(R.id.checkbox_tenso_fe, checked, spinner_tenso_fe, "micro");
+                break;
+            case R.id.checkbox_dissolvine:
+                checkBox(R.id.checkbox_dissolvine, checked, spinner_dissolvine, "micro");
+                break;
+            case R.id.checkbox_rexolin_m48:
+                checkBox(R.id.checkbox_rexolin_m48, checked, spinner_rexolin_m48, "micro");
+                break;
+
+        }
+    }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) { //Botão adicional na ToolBar
         switch (item.getItemId()) {

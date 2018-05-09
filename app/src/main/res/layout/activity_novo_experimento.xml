@@ -268,21 +268,219 @@ tools:context=".NovoExperimento">
             android:layout_marginBottom="20dp"
             />
     </android.support.v7.widget.LinearLayoutCompat>
-
-
-
-
-
-
-
-    <EditText
-        android:id="@+id/ed_nutrientes"
+<!-- Micronutrientes -->
+    <TextView
+        android:id="@+id/Micronutrientes"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:layout_marginBottom="25dp"
-        android:inputType="textPersonName"
-        android:text="" />
+        android:textSize="16dp"
+        android:textColor="@color/black"
+        android:text="Micronutrientes" />
+
+    <android.support.v7.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <CheckBox android:id="@+id/checkbox_sulfato_de_manganes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sulfato de Manganês"
+            android:layout_weight="10"
+            android:onClick="onCheckboxClicked"/>
+        <Spinner
+            android:id="@+id/spinner_sulfato_de_manganes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginBottom="20dp"
+            />
+    </android.support.v7.widget.LinearLayoutCompat>
+
+    <android.support.v7.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <CheckBox android:id="@+id/checkbox_sulfato_de_zinco"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="10"
+            android:text="Sulfato de Zinco"
+            android:onClick="onCheckboxClicked"/>
+        <Spinner
+            android:id="@+id/spinner_sulfato_de_zinco"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginBottom="20dp"
+            />
+    </android.support.v7.widget.LinearLayoutCompat>
+
+    <android.support.v7.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <CheckBox android:id="@+id/checkbox_sulfato_de_cobre"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="10"
+            android:text="Sulfato de Cobre"
+            android:onClick="onCheckboxClicked"/>
+        <Spinner
+            android:id="@+id/spinner_sulfato_de_cobre"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginBottom="20dp"
+            />
+    </android.support.v7.widget.LinearLayoutCompat>
+
+
+
+    <android.support.v7.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <CheckBox android:id="@+id/checkbox_acido_borico"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="10"
+            android:text="Ácido Bórico"
+            android:onClick="onCheckboxClicked"/>
+        <Spinner
+            android:id="@+id/spinner_acido_borico"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginBottom="20dp"
+            />
+    </android.support.v7.widget.LinearLayoutCompat>
+
+    <android.support.v7.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <CheckBox android:id="@+id/checkbox_molibdato_de_sodio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="10"
+            android:text="Molibdato de Sódio"
+            android:onClick="onCheckboxClicked"/>
+        <Spinner
+            android:id="@+id/spinner_molibdato_de_sodio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginBottom="20dp"
+            />
+    </android.support.v7.widget.LinearLayoutCompat>
+
+    <android.support.v7.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <CheckBox android:id="@+id/checkbox_molibdato_de_amonio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="18"
+            android:text="Molibdato de Amônio"
+            android:onClick="onCheckboxClicked"/>
+        <Spinner
+            android:id="@+id/spinner_molibdato_de_amonio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginBottom="20dp"
+            />
+    </android.support.v7.widget.LinearLayoutCompat>
+
+    <android.support.v7.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <CheckBox android:id="@+id/checkbox_feedta_na2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="10"
+            android:text="FeEDTA Na2"
+            android:onClick="onCheckboxClicked"/>
+        <Spinner
+            android:id="@+id/spinner_feedta_na2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginBottom="20dp"
+            />
+    </android.support.v7.widget.LinearLayoutCompat>
+
+    <android.support.v7.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <CheckBox android:id="@+id/checkbox_ferrilene"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="18"
+            android:text="Ferrilene"
+            android:onClick="onCheckboxClicked"/>
+        <Spinner
+            android:id="@+id/spinner_ferrilene"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginBottom="20dp"
+            />
+    </android.support.v7.widget.LinearLayoutCompat>
+
+    <android.support.v7.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <CheckBox android:id="@+id/checkbox_tenso_fe"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="10"
+            android:text="Tenso-Fe"
+            android:onClick="onCheckboxClicked"/>
+        <Spinner
+            android:id="@+id/spinner_tenso_fe"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginBottom="20dp"
+            />
+    </android.support.v7.widget.LinearLayoutCompat>
+
+    <android.support.v7.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <CheckBox android:id="@+id/checkbox_dissolvine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="18"
+            android:text="Dissolvine"
+            android:onClick="onCheckboxClicked"/>
+        <Spinner
+            android:id="@+id/spinner_dissolvine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginBottom="20dp"
+            />
+    </android.support.v7.widget.LinearLayoutCompat>
+
+    <android.support.v7.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <CheckBox android:id="@+id/checkbox_rexolin_m48"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="10"
+            android:text="Rexolin M48"
+            android:onClick="onCheckboxClicked"/>
+        <Spinner
+            android:id="@+id/spinner_rexolin_m48"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginBottom="20dp"
+            />
+    </android.support.v7.widget.LinearLayoutCompat>
+
+
+
+
+
 
 
     <TextView
