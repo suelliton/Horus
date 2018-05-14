@@ -3,29 +3,30 @@ package com.example.suelliton.horus;
 import java.util.ArrayList;
 
 public class Crescimento {
-    private Integer pixelsAnterior;
-    private ArrayList<Double> taxaCrescimento;
+    private Integer pixelsFotoInicial;
+    private ArrayList<Captura> capturas;
     public Crescimento(){
 
     }
-    public Crescimento(ArrayList<Double> taxaCrescimento) {
-        this.taxaCrescimento = taxaCrescimento;
-        this.pixelsAnterior = 0;
+
+    public Crescimento(ArrayList<Captura> capturas) {
+        this.pixelsFotoInicial = 0;
+        this.capturas = capturas;
     }
 
-    public Integer getPixelsAnterior() {
-        return pixelsAnterior;
+    public Integer getPixelsFotoInicial() {
+        return pixelsFotoInicial;
     }
 
-    public void setPixelsAnterior(Integer pixelsAnterior) {
-        this.pixelsAnterior = pixelsAnterior;
+    public void setPixelsFotoInicial(Integer pixelsFotoInicial) {
+        this.pixelsFotoInicial = pixelsFotoInicial;
     }
 
-    public ArrayList<Double> getTaxaCrescimento() {
-        return taxaCrescimento;
+    public ArrayList<Captura> getCapturas() {
+        return capturas;
     }
 
-    public void setTaxaCrescimento(ArrayList<Double> taxaCrescimento) {
-        this.taxaCrescimento = taxaCrescimento;
+    public void setCapturas(ArrayList<Captura> capturas) {
+        this.capturas = capturas;
     }
 }

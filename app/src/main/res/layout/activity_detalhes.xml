@@ -1,19 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.widget.LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".Detalhes">
-
-
-
+<android.support.v7.widget.LinearLayoutCompat
+    android:layout_weight="5"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <com.jjoe64.graphview.GraphView
+        android:id="@+id/graph"
         android:layout_width="match_parent"
-        android:layout_height="300dip"
-        android:id="@+id/graph" />
+        android:layout_height="wrap_content"
+        android:layout_marginStart="-12dp"
+        app:layout_constraintBottom_toTopOf="@+id/horizontalScrollView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
+
+</android.support.v7.widget.LinearLayoutCompat>
+
+
+    <!--
     <TextView
         android:id="@+id/text_taxa"
         android:layout_width="wrap_content"
@@ -24,7 +36,24 @@
         android:textSize="26dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent" />-->
+
+
+
+    <android.support.v7.widget.LinearLayoutCompat
+        android:layout_weight="5"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_captura"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </android.support.v7.widget.RecyclerView>
+    </android.support.v7.widget.LinearLayoutCompat>>
+
+
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/btnAdicionar"
         android:layout_width="70dp"
@@ -38,4 +67,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@mipmap/ic_cam" />
     />
-</android.support.constraint.ConstraintLayout>
+
+
+</android.widget.LinearLayout>
