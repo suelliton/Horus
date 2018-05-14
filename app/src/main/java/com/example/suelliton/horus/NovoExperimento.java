@@ -1,6 +1,8 @@
 package com.example.suelliton.horus;
 
+import android.content.Context;
 import android.content.Intent;
+import android.renderscript.Sampler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -9,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CalendarView;
@@ -17,9 +20,13 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
+import android.widget.TextView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -29,36 +36,52 @@ import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
 
+import static java.lang.Integer.valueOf;
+
 public class NovoExperimento extends AppCompatActivity {
+    private FirebaseDatabase database ;
+    private DatabaseReference experimentoReference ;
+    private ValueEventListener childValueExperimento;
+    List<Experimento> listaExperimentos;
+
     EditText nome;
     EditText descricao;
     FloatingActionButton btnAdd;
-    FirebaseDatabase database;
-    DatabaseReference experimento ;
     Spinner spinner_idadePlantaTransplantio;
     Spinner spinner_tempoBombaLigado;
     Spinner spinner_tempoBombaDesligado;
     //spinner macronutrientes
-    Spinner spinner_nitrato_de_calcio;
-    Spinner spinner_nitrato_de_potassio;
-    Spinner spinner_sulfato_de_magnesio;
-    Spinner spinner_cloreto_de_potassio;
-    Spinner spinner_MAP_purificado;
-    Spinner spinner_MKP;
-    Spinner spinner_sulfato_de_potassio;
-    //spinner micronutrientes
-    Spinner spinner_sulfato_de_manganes;
-    Spinner spinner_sulfato_de_zinco;
-    Spinner spinner_sulfato_de_cobre;
-    Spinner spinner_acido_borico;
-    Spinner spinner_molibdato_de_sodio;
-    Spinner spinner_molibdato_de_amonio;
-    Spinner spinner_feedta_na2;
-    Spinner spinner_ferrilene;
-    Spinner spinner_tenso_fe;
-    Spinner spinner_dissolvine;
-    Spinner spinner_rexolin_m48;
+    EditText edittext_N;
+    EditText edittext_P;
+    EditText edittext_K;
+    EditText edittext_Ca;
+    EditText edittext_Mg;
+    EditText edittext_S;
 
+    //spinner micronutrientes
+    EditText edittext_Fe;
+    EditText edittext_Mn;
+    EditText edittext_Zn;
+    EditText edittext_Cu;
+    EditText edittext_B;
+    EditText edittext_CI;
+    EditText edittext_Mo;
+
+    TextView textview_N;
+    TextView textview_P;
+    TextView textview_K;
+    TextView textview_Ca;
+    TextView textview_Mg;
+    TextView textview_S;
+
+
+    TextView textview_Fe;
+    TextView textview_Mn;
+    TextView textview_Zn;
+    TextView textview_Cu;
+    TextView textview_B;
+    TextView textview_CI;
+    TextView textview_Mo;
 
     CalendarView calendar;
     Experimento SAVE_EXPERIMENTO;
@@ -108,12 +131,16 @@ public class NovoExperimento extends AppCompatActivity {
         setContentView(R.layout.activity_novo_experimento);
         database = FirebaseDatabase.getInstance();
 
+        experimentoReference = database.getReference();
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true); //Mostrar o botão
         getSupportActionBar().setHomeButtonEnabled(true);      //Ativar o botão
         getSupportActionBar().setTitle("Adicionar experimento");
+
+        listaExperimentos = new ArrayList<>();
 
         macronutrientes = new ArrayList<>();
         micronutrientes = new ArrayList<>();
@@ -126,11 +153,30 @@ public class NovoExperimento extends AppCompatActivity {
         spinner_tempoBombaDesligado = (Spinner) findViewById(R.id.sp_tempoBombaDesligado);
         calendar = (CalendarView) findViewById(R.id.cv_dataTransplantio);
 
-        setSpinnersMacro();
-        setSpinnersMicro();
+        setEditTextMacro();
+        setEditTextMicro();
         setListeners();
-    }
+        setTextViews();
 
+        childValueExperimento = experimentoReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                listaExperimentos.removeAll(listaExperimentos);
+
+                for (DataSnapshot snapshot:dataSnapshot.getChildren()) {
+                    Experimento experimento = snapshot.getValue(Experimento.class);//pega o objeto do firebase
+                    listaExperimentos.add(experimento);//adiciona na lista que vai para o adapter
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+    }
+/*
     public void setSpinner(Spinner spinner, final String nome,String tipo){
 
         if(tipo.equals("macro")) {
@@ -176,102 +222,78 @@ public class NovoExperimento extends AppCompatActivity {
         }
 
     }
+*/
+public void setTextViews(){
+    textview_N = (TextView) findViewById(R.id.textview_N);
+    textview_P = (TextView) findViewById(R.id.textview_P);
+    textview_K = (TextView) findViewById(R.id.textview_K);
+    textview_Ca = (TextView) findViewById(R.id.textview_Ca);
+    textview_Mg = (TextView) findViewById(R.id.textview_Mg);
+    textview_S = (TextView) findViewById(R.id.textview_S);
 
 
-    public void setSpinnersMacro(){
+    textview_Fe = (TextView) findViewById(R.id.textview_Fe);
+    textview_Mn = (TextView) findViewById(R.id.textview_Mn);
+    textview_Zn = (TextView) findViewById(R.id.textview_Zn);
+    textview_Cu = (TextView) findViewById(R.id.textview_Cu);
+    textview_B = (TextView) findViewById(R.id.textview_B);
+    textview_CI = (TextView) findViewById(R.id.textview_CI);
+    textview_Mo = (TextView) findViewById(R.id.textview_Mo);
 
-        spinner_nitrato_de_calcio = (Spinner) findViewById(R.id.spinner_nitrato_de_calcio);
-        spinner_nitrato_de_potassio = (Spinner) findViewById(R.id.spinner_nitrato_de_potassio);
-        spinner_sulfato_de_magnesio = (Spinner) findViewById(R.id.spinner_sulfato_de_magnesio);
-        spinner_cloreto_de_potassio =(Spinner) findViewById(R.id.spinner_cloreto_de_potassio);
-        spinner_MAP_purificado = (Spinner) findViewById(R.id.spinner_MAP_purificado);
-        spinner_MKP = (Spinner) findViewById(R.id.spinner_MKP);
-        spinner_sulfato_de_potassio =(Spinner) findViewById(R.id.spinner_sulfato_de_potassio);
+    textview_N.setEnabled(false);
+    textview_P.setEnabled(false);
+    textview_K.setEnabled(false);
+    textview_Ca.setEnabled(false);
+    textview_Mg.setEnabled(false);
+    textview_S.setEnabled(false);
 
-
-
-        spinner_nitrato_de_calcio.setEnabled(false);
-        spinner_nitrato_de_potassio.setEnabled(false);
-        spinner_sulfato_de_magnesio.setEnabled(false);
-        spinner_cloreto_de_potassio.setEnabled(false);
-        spinner_MAP_purificado.setEnabled(false);
-        spinner_MKP.setEnabled(false);
-        spinner_sulfato_de_potassio.setEnabled(false);
-
-        adaptadorMiligramas = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, MILIGRAMAS);
-
-        spinner_nitrato_de_calcio.setAdapter(adaptadorMiligramas);
-        spinner_nitrato_de_potassio.setAdapter(adaptadorMiligramas);
-        spinner_sulfato_de_magnesio.setAdapter(adaptadorMiligramas);
-        spinner_cloreto_de_potassio.setAdapter(adaptadorMiligramas);
-        spinner_MAP_purificado.setAdapter(adaptadorMiligramas);
-        spinner_MKP.setAdapter(adaptadorMiligramas);
-        spinner_sulfato_de_potassio.setAdapter(adaptadorMiligramas);
-
-        setSpinner(spinner_nitrato_de_calcio,"Nitrato de Cálcio","macro");
-        setSpinner( spinner_nitrato_de_potassio,"Nitrato de Potássio","macro");
-        setSpinner(spinner_sulfato_de_magnesio,"Sulfato de Magnésio","macro");
-        setSpinner(spinner_cloreto_de_potassio,"Cloreto de Potássio","macro");
-        setSpinner(spinner_MAP_purificado,"MAP purificado","macro");
-        setSpinner(spinner_MKP,"MKP","macro");
-        setSpinner(spinner_sulfato_de_potassio,"Sulfato de Potássio","macro");
+    textview_Fe.setEnabled(false);
+    textview_Mn.setEnabled(false);
+    textview_Zn.setEnabled(false);
+    textview_Cu.setEnabled(false);
+    textview_B.setEnabled(false);
+    textview_CI.setEnabled(false);
+    textview_Mo.setEnabled(false);
 
 
+}
 
+    public void setEditTextMacro(){
+
+        edittext_N = (EditText) findViewById(R.id.edittext_N);
+        edittext_P = (EditText) findViewById(R.id.edittext_P);
+        edittext_K = (EditText) findViewById(R.id.edittext_K);
+        edittext_Ca = (EditText) findViewById(R.id.edittext_Ca);
+        edittext_Mg = (EditText) findViewById(R.id.edittext_Mg);
+        edittext_S = (EditText) findViewById(R.id.edittext_S);
+
+        edittext_N.setEnabled(false);
+        edittext_P.setEnabled(false);
+        edittext_K.setEnabled(false);
+        edittext_Ca.setEnabled(false);
+        edittext_Mg.setEnabled(false);
+        edittext_S.setEnabled(false);
 
     }
 
-    public void setSpinnersMicro(){
+    public void setEditTextMicro(){
 
-        spinner_sulfato_de_manganes = (Spinner) findViewById(R.id.spinner_sulfato_de_manganes);
-        spinner_sulfato_de_zinco = (Spinner) findViewById(R.id.spinner_sulfato_de_zinco);
-        spinner_sulfato_de_cobre = (Spinner) findViewById(R.id.spinner_sulfato_de_cobre);
-        spinner_acido_borico = (Spinner) findViewById(R.id.spinner_acido_borico);
-        spinner_molibdato_de_sodio = (Spinner) findViewById(R.id.spinner_molibdato_de_sodio);
-        spinner_molibdato_de_amonio = (Spinner) findViewById(R.id.spinner_molibdato_de_amonio);
-        spinner_feedta_na2 = (Spinner) findViewById(R.id.spinner_feedta_na2);
-        spinner_ferrilene = (Spinner) findViewById(R.id.spinner_ferrilene);
-        spinner_tenso_fe = (Spinner) findViewById(R.id.spinner_tenso_fe);
-        spinner_dissolvine = (Spinner) findViewById(R.id.spinner_dissolvine);
-        spinner_rexolin_m48 = (Spinner) findViewById(R.id.spinner_rexolin_m48);
+        edittext_Fe = (EditText) findViewById(R.id.edittext_Fe);
+        edittext_Mn = (EditText) findViewById(R.id.edittext_Mn);
+        edittext_Zn = (EditText) findViewById(R.id.edittext_Zn);
+        edittext_Cu = (EditText) findViewById(R.id.edittext_Cu);
+        edittext_B = (EditText) findViewById(R.id.edittext_B);
+        edittext_CI = (EditText) findViewById(R.id.edittext_CI);
+        edittext_Mo = (EditText) findViewById(R.id.edittext_Mo);
 
-        spinner_sulfato_de_manganes.setEnabled(false);
-        spinner_sulfato_de_zinco.setEnabled(false);
-        spinner_sulfato_de_cobre.setEnabled(false);
-        spinner_acido_borico.setEnabled(false);
-        spinner_molibdato_de_sodio.setEnabled(false);
-        spinner_molibdato_de_amonio.setEnabled(false);
-        spinner_feedta_na2.setEnabled(false);
-        spinner_ferrilene.setEnabled(false);
-        spinner_tenso_fe.setEnabled(false);
-        spinner_dissolvine.setEnabled(false) ;
-        spinner_rexolin_m48.setEnabled(false);
+        edittext_Fe.setEnabled(false);
+        edittext_Mn.setEnabled(false);
+        edittext_Zn.setEnabled(false);
+        edittext_Cu.setEnabled(false);
+        edittext_B.setEnabled(false);
+        edittext_CI.setEnabled(false);
+        edittext_Mo.setEnabled(false);
 
-        adaptadorMiligramas = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, MILIGRAMAS);
-
-        spinner_sulfato_de_manganes.setAdapter(adaptadorMiligramas);
-        spinner_sulfato_de_zinco.setAdapter(adaptadorMiligramas);
-        spinner_sulfato_de_cobre.setAdapter(adaptadorMiligramas);
-        spinner_acido_borico.setAdapter(adaptadorMiligramas);
-        spinner_molibdato_de_sodio.setAdapter(adaptadorMiligramas);
-        spinner_molibdato_de_amonio.setAdapter(adaptadorMiligramas);
-        spinner_feedta_na2.setAdapter(adaptadorMiligramas);
-        spinner_ferrilene.setAdapter(adaptadorMiligramas);
-        spinner_tenso_fe.setAdapter(adaptadorMiligramas);
-        spinner_dissolvine.setAdapter(adaptadorMiligramas) ;
-        spinner_rexolin_m48.setAdapter(adaptadorMiligramas);
-
-        setSpinner(spinner_sulfato_de_manganes,"Sulfato de Manganês","micro");
-        setSpinner(spinner_sulfato_de_zinco,"Sulfato de Zinco","micro");
-        setSpinner(spinner_sulfato_de_cobre,"Sulfato de Cobre","micro");
-        setSpinner(spinner_acido_borico,"Ácido Bórico","micro");
-        setSpinner(spinner_molibdato_de_sodio,"Molibdato de Sódio","micro");
-        setSpinner(spinner_molibdato_de_amonio,"Molibdato de Amônio","micro");
-        setSpinner(spinner_feedta_na2,"FeEDTA Na2","micro");
-        setSpinner(spinner_ferrilene,"Ferrilene","micro");
-        setSpinner(spinner_tenso_fe,"Tenso-Fe","micro");
-        setSpinner(spinner_dissolvine,"Dissolvine","micro");
-        setSpinner(spinner_rexolin_m48,"Rexolin M48","micro");
     }
 
 
@@ -332,17 +354,27 @@ public class NovoExperimento extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 save_nome = nome.getText().toString();
+
+
                 save_descricao = descricao.getText().toString();
                 save_dataTransplantio = convertMillisToDate(calendar.getDate());
-
+                getValueEditText();
                 save_nutrientes =  new Nutriente(macronutrientes,micronutrientes);
-                SAVE_EXPERIMENTO = new Experimento(save_nome,save_descricao,save_variedade,save_nutrientes,
-                        save_dataTransplantio,save_idadePlantaTransplantio,save_idadePlantaAtual,
-                        save_tempoBombaLigado,save_tempoBombaDesligado);
-                experimento = database.getReference(nome.getText().toString());
-                experimento.setValue(SAVE_EXPERIMENTO);
-                setResult(1);
-                finish();
+                if(validaCadastro()) {
+
+                    SAVE_EXPERIMENTO = new Experimento(save_nome, save_descricao, save_variedade, save_nutrientes,
+                            save_dataTransplantio, save_idadePlantaTransplantio, save_idadePlantaAtual,
+                            save_tempoBombaLigado, save_tempoBombaDesligado);
+                    experimentoReference = database.getReference(nome.getText().toString());
+                    experimentoReference.setValue(SAVE_EXPERIMENTO);
+                    setResult(1);
+                    finish();
+                }else{
+
+                    Snackbar.make(textview_N, "O experimento não foi salvo!, escolha outro nome.", Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
+
+                }
 
             }
         });
@@ -359,9 +391,76 @@ public class NovoExperimento extends AppCompatActivity {
 
 
     }
+    public boolean validaCadastro(){
 
+        for (Experimento e: listaExperimentos) {
+            Log.i("repetido","ja existe experimento com esse nome");
+            if(e.getNome().equals(save_nome)){
 
-    public void checkBox(int id,boolean checked, Spinner spinner,String tipo){
+            return false;
+            }
+        }
+
+        return true;
+
+    }
+
+    public void getValueEditText(){
+
+        for (Macronutriente m:macronutrientes  ) {
+            switch (m.getNome()){
+                case "N":
+                    m.setQtd(Double.parseDouble(edittext_N.getText().toString()));
+                break;
+                case "P":
+                    m.setQtd(Double.parseDouble(edittext_P.getText().toString()));
+                    break;
+                case "K":
+                    m.setQtd(Double.parseDouble(edittext_K.getText().toString()));
+                    break;
+                case "Ca":
+                    m.setQtd(Double.parseDouble(edittext_Ca.getText().toString()));
+                    break;
+                case "Mg":
+                    m.setQtd(Double.parseDouble(edittext_Mg.getText().toString()));
+                    break;
+                case "S":
+                    m.setQtd(Double.parseDouble(edittext_S.getText().toString()));
+                    break;
+
+            }
+        }
+
+        for (Micronutriente m:micronutrientes  ) {
+            switch (m.getNome()){
+                case "Fe":
+                    m.setQtd(Double.parseDouble(edittext_Fe.getText().toString()));
+                    break;
+                case "Mn":
+                    m.setQtd(Double.parseDouble(edittext_Mn.getText().toString()));
+                    break;
+                case "Zn":
+                    m.setQtd(Double.parseDouble(edittext_Zn.getText().toString()));
+                    break;
+                case "Cu":
+                    m.setQtd(Double.parseDouble(edittext_Cu.getText().toString()));
+                    break;
+                case "B":
+                    m.setQtd(Double.parseDouble(edittext_B.getText().toString()));
+                    break;
+                case "CI":
+                    m.setQtd(Double.parseDouble(edittext_CI.getText().toString()));
+                    break;
+                case "Mo":
+                    m.setQtd(Double.parseDouble(edittext_Mo.getText().toString()));
+                    break;
+
+            }
+        }
+
+    }
+
+    public void checkBox(int id,boolean checked, EditText edittext, TextView textview ,String tipo){
 
         if(tipo.equals("macro")) {
 
@@ -371,7 +470,13 @@ public class NovoExperimento extends AppCompatActivity {
                 if (checked) {
                     //adiciona macronutriente a lista
                     Macronutriente macro = new Macronutriente(check.getText().toString(), 0);
-                    spinner.setEnabled(true);
+                    edittext.setEnabled(true);
+                    textview.setEnabled(true);//habilita edittext
+                    edittext.requestFocus();//dar foco no edittext
+                    //chama teclado automático
+                    InputMethodManager imm=(InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.showSoftInput(edittext, InputMethodManager.SHOW_IMPLICIT);
+
                     macronutrientes.add(macro);
                 } else {
                     //remove macronutriente da lista com o nome
@@ -381,7 +486,8 @@ public class NovoExperimento extends AppCompatActivity {
                         }
                     }
 
-                    spinner.setEnabled(false);
+                    edittext.setEnabled(false);
+                    textview.setEnabled(false);
                 }
 
                 Log.i("check", String.valueOf(macronutrientes.size()));
@@ -397,7 +503,12 @@ public class NovoExperimento extends AppCompatActivity {
                 if (checked) {
                     //adiciona macronutriente a lista
                     Micronutriente micro = new Micronutriente(check.getText().toString(), 0);
-                    spinner.setEnabled(true);
+                    edittext.setEnabled(true);
+                    textview.setEnabled(true);//habilita edittext
+                    edittext.requestFocus();//dar foco no edittext
+                    //chama teclado automático
+                    InputMethodManager imm=(InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.showSoftInput(edittext, InputMethodManager.SHOW_IMPLICIT);
                     micronutrientes.add(micro);
                 } else {
                     //remove macronutriente da lista com o nome
@@ -406,7 +517,8 @@ public class NovoExperimento extends AppCompatActivity {
                             micronutrientes.remove(micronutrientes.get(i));
                         }
                     }
-                    spinner.setEnabled(false);
+                    edittext.setEnabled(false);
+                    textview.setEnabled(false);
                 }
 
                 Log.i("check", String.valueOf(micronutrientes.size()));
@@ -427,62 +539,50 @@ public class NovoExperimento extends AppCompatActivity {
     public void onCheckboxClicked(View view) {
         boolean checked = ((CheckBox) view).isChecked();
         switch (view.getId()) {
-            case R.id.checkbox_nitrato_de_calcio:
-                checkBox(R.id.checkbox_nitrato_de_calcio, checked, spinner_nitrato_de_calcio, "macro");
+            //macronutriente
+            case R.id.checkbox_N:
+                checkBox(R.id.checkbox_N, checked, edittext_N, textview_N, "macro");
                 break;
-            case R.id.checkbox_nitrato_de_potassio:
-                checkBox(R.id.checkbox_nitrato_de_potassio, checked, spinner_nitrato_de_potassio, "macro");
+            case R.id.checkbox_P:
+                checkBox(R.id.checkbox_P, checked, edittext_P,textview_P , "macro");
                 break;
-            case R.id.checkbox_sulfato_de_magnesio:
-                checkBox(R.id.checkbox_sulfato_de_magnesio, checked, spinner_sulfato_de_magnesio, "macro");
+            case R.id.checkbox_K:
+                checkBox(R.id.checkbox_K, checked, edittext_K,textview_K, "macro");
                 break;
-            case R.id.checkbox_cloreto_de_potassio:
-                checkBox(R.id.checkbox_cloreto_de_potassio, checked, spinner_cloreto_de_potassio, "macro");
+            case R.id.checkbox_Ca:
+                checkBox(R.id.checkbox_Ca, checked, edittext_Ca,textview_Ca, "macro");
                 break;
-            case R.id.checkbox_MAP_purificado:
-                checkBox(R.id.checkbox_MAP_purificado, checked, spinner_MAP_purificado, "macro");
+            case R.id.checkbox_Mg:
+                checkBox(R.id.checkbox_Mg, checked, edittext_Mg, textview_Mg,"macro");
                 break;
-            case R.id.checkbox_MKP:
-                checkBox(R.id.checkbox_MKP, checked, spinner_MKP, "macro");
-                break;
-            case R.id.checkbox_sulfato_de_potassio:
-                checkBox(R.id.checkbox_sulfato_de_potassio, checked, spinner_sulfato_de_potassio, "macro");
+            case R.id.checkbox_S:
+                checkBox(R.id.checkbox_S, checked, edittext_S,textview_S ,"macro");
                 break;
 
 
-            case R.id.checkbox_sulfato_de_manganes:
-                checkBox(R.id.checkbox_sulfato_de_manganes, checked, spinner_sulfato_de_manganes, "micro");
+            //micronutrientes
+            case R.id.checkbox_Fe:
+                checkBox(R.id.checkbox_Fe, checked, edittext_Fe, textview_Fe,"micro");
                 break;
-            case R.id.checkbox_sulfato_de_zinco:
-                checkBox(R.id.checkbox_sulfato_de_zinco, checked, spinner_sulfato_de_zinco, "micro");
+            case R.id.checkbox_Mn:
+                checkBox(R.id.checkbox_Mn, checked, edittext_Mn, textview_Mn,"micro");
                 break;
-            case R.id.checkbox_sulfato_de_cobre:
-                checkBox(R.id.checkbox_sulfato_de_cobre, checked, spinner_sulfato_de_cobre, "micro");
+            case R.id.checkbox_Zn:
+                checkBox(R.id.checkbox_Zn, checked, edittext_Zn, textview_Zn,"micro");
                 break;
-            case R.id.checkbox_acido_borico:
-                checkBox(R.id.checkbox_acido_borico, checked, spinner_acido_borico, "micro");
+            case R.id.checkbox_Cu:
+                checkBox(R.id.checkbox_Cu, checked, edittext_Cu, textview_Cu,"micro");
                 break;
-            case R.id.checkbox_molibdato_de_sodio:
-                checkBox(R.id.checkbox_molibdato_de_sodio, checked, spinner_molibdato_de_sodio, "micro");
+            case R.id.checkbox_B:
+                checkBox(R.id.checkbox_B, checked, edittext_B,textview_B ,"micro");
                 break;
-            case R.id.checkbox_molibdato_de_amonio:
-                checkBox(R.id.checkbox_molibdato_de_amonio, checked, spinner_molibdato_de_amonio, "micro");
+            case R.id.checkbox_CI:
+                checkBox(R.id.checkbox_CI, checked, edittext_CI,textview_CI ,"micro");
                 break;
-            case R.id.checkbox_feedta_na2:
-                checkBox(R.id.checkbox_feedta_na2, checked, spinner_feedta_na2, "micro");
+            case R.id.checkbox_Mo:
+                checkBox(R.id.checkbox_Mo, checked, edittext_Mo, textview_Mo,"micro");
                 break;
-            case R.id.checkbox_ferrilene:
-                checkBox(R.id.checkbox_ferrilene, checked, spinner_ferrilene, "micro");
-                break;
-            case R.id.checkbox_tenso_fe:
-                checkBox(R.id.checkbox_tenso_fe, checked, spinner_tenso_fe, "micro");
-                break;
-            case R.id.checkbox_dissolvine:
-                checkBox(R.id.checkbox_dissolvine, checked, spinner_dissolvine, "micro");
-                break;
-            case R.id.checkbox_rexolin_m48:
-                checkBox(R.id.checkbox_rexolin_m48, checked, spinner_rexolin_m48, "micro");
-                break;
+
 
         }
     }

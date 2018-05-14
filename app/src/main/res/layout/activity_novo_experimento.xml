@@ -144,55 +144,70 @@ tools:context=".NovoExperimento">
 <android.support.v7.widget.LinearLayoutCompat
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
-            <CheckBox android:id="@+id/checkbox_nitrato_de_calcio"
+            <CheckBox android:id="@+id/checkbox_N"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Nitrato de Cálcio"
+                android:text="N"
                 android:layout_weight="10"
                 android:onClick="onCheckboxClicked"/>
-            <Spinner
-                android:id="@+id/spinner_nitrato_de_calcio"
+            <EditText
+                android:id="@+id/edittext_N"
+                android:layout_weight="2"
+                android:inputType="numberDecimal"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/textview_N"
+                android:text="g"
                 android:layout_weight="1"
-                android:layout_marginBottom="20dp"
-                />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
 </android.support.v7.widget.LinearLayoutCompat>
 
     <android.support.v7.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-                <CheckBox android:id="@+id/checkbox_nitrato_de_potassio"
+                <CheckBox android:id="@+id/checkbox_P"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="10"
-                    android:text="Nitrato de Potássio"
+                    android:text="P"
                     android:onClick="onCheckboxClicked"/>
-                <Spinner
-                    android:id="@+id/spinner_nitrato_de_potassio"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginBottom="20dp"
-                    />
+            <EditText
+            android:id="@+id/edittext_P"
+            android:layout_weight="2"
+            android:inputType="numberDecimal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/textview_P"
+            android:text="g"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
     </android.support.v7.widget.LinearLayoutCompat>
 
     <android.support.v7.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-            <CheckBox android:id="@+id/checkbox_sulfato_de_magnesio"
+            <CheckBox android:id="@+id/checkbox_K"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="10"
-                android:text="Sulfato de Magnésio"
+                android:text="K"
                 android:onClick="onCheckboxClicked"/>
-        <Spinner
-            android:id="@+id/spinner_sulfato_de_magnesio"
+        <EditText
+            android:id="@+id/edittext_K"
+            android:layout_weight="2"
+            android:inputType="numberDecimal"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/textview_K"
+            android:text="g"
             android:layout_weight="1"
-            android:layout_marginBottom="20dp"
-            />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
     </android.support.v7.widget.LinearLayoutCompat>
 
 
@@ -200,74 +215,73 @@ tools:context=".NovoExperimento">
     <android.support.v7.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-            <CheckBox android:id="@+id/checkbox_cloreto_de_potassio"
+            <CheckBox android:id="@+id/checkbox_Ca"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="10"
-                android:text="Cloreto de Potássio"
+                android:text="Ca"
                 android:onClick="onCheckboxClicked"/>
-        <Spinner
-            android:id="@+id/spinner_cloreto_de_potassio"
+        <EditText
+            android:id="@+id/edittext_Ca"
+            android:layout_weight="2"
+            android:inputType="numberDecimal"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/textview_Ca"
+            android:text="g"
             android:layout_weight="1"
-            android:layout_marginBottom="20dp"
-            />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
     </android.support.v7.widget.LinearLayoutCompat>
 
     <android.support.v7.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-            <CheckBox android:id="@+id/checkbox_MAP_purificado"
+            <CheckBox android:id="@+id/checkbox_Mg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="10"
-                android:text="MAP purificado"
+                android:text="Mg"
                 android:onClick="onCheckboxClicked"/>
-        <Spinner
-            android:id="@+id/spinner_MAP_purificado"
+        <EditText
+            android:id="@+id/edittext_Mg"
+            android:layout_weight="2"
+            android:inputType="numberDecimal"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/textview_Mg"
+            android:text="g"
             android:layout_weight="1"
-            android:layout_marginBottom="20dp"
-            />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
     </android.support.v7.widget.LinearLayoutCompat>
 
     <android.support.v7.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-            <CheckBox android:id="@+id/checkbox_MKP"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="18"
-                android:text="MKP"
-                android:onClick="onCheckboxClicked"/>
-        <Spinner
-            android:id="@+id/spinner_MKP"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginBottom="20dp"
-            />
-    </android.support.v7.widget.LinearLayoutCompat>
-
-    <android.support.v7.widget.LinearLayoutCompat
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-            <CheckBox android:id="@+id/checkbox_sulfato_de_potassio"
+            <CheckBox android:id="@+id/checkbox_S"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="10"
-                android:text="Sulfato de Potássio"
+                android:text="S"
                 android:onClick="onCheckboxClicked"/>
-        <Spinner
-            android:id="@+id/spinner_sulfato_de_potassio"
+        <EditText
+            android:id="@+id/edittext_S"
+            android:layout_weight="2"
+            android:inputType="numberDecimal"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/textview_S"
+            android:text="g"
             android:layout_weight="1"
-            android:layout_marginBottom="20dp"
-            />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
     </android.support.v7.widget.LinearLayoutCompat>
+
+
 <!-- Micronutrientes -->
     <TextView
         android:id="@+id/Micronutrientes"
@@ -280,201 +294,164 @@ tools:context=".NovoExperimento">
     <android.support.v7.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <CheckBox android:id="@+id/checkbox_sulfato_de_manganes"
+        <CheckBox android:id="@+id/checkbox_Fe"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Sulfato de Manganês"
+            android:text="Fe"
             android:layout_weight="10"
             android:onClick="onCheckboxClicked"/>
-        <Spinner
-            android:id="@+id/spinner_sulfato_de_manganes"
+        <EditText
+            android:id="@+id/edittext_Fe"
+            android:layout_weight="2"
+            android:inputType="numberDecimal"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/textview_Fe"
+            android:text="g"
             android:layout_weight="1"
-            android:layout_marginBottom="20dp"
-            />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
     </android.support.v7.widget.LinearLayoutCompat>
 
     <android.support.v7.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <CheckBox android:id="@+id/checkbox_sulfato_de_zinco"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="10"
-            android:text="Sulfato de Zinco"
-            android:onClick="onCheckboxClicked"/>
-        <Spinner
-            android:id="@+id/spinner_sulfato_de_zinco"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginBottom="20dp"
-            />
-    </android.support.v7.widget.LinearLayoutCompat>
-
-    <android.support.v7.widget.LinearLayoutCompat
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <CheckBox android:id="@+id/checkbox_sulfato_de_cobre"
+        <CheckBox android:id="@+id/checkbox_Mn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="10"
-            android:text="Sulfato de Cobre"
+            android:text="Mn"
             android:onClick="onCheckboxClicked"/>
-        <Spinner
-            android:id="@+id/spinner_sulfato_de_cobre"
+        <EditText
+            android:id="@+id/edittext_Mn"
+            android:layout_weight="2"
+            android:inputType="numberDecimal"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/textview_Mn"
+            android:text="g"
             android:layout_weight="1"
-            android:layout_marginBottom="20dp"
-            />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
     </android.support.v7.widget.LinearLayoutCompat>
-
-
 
     <android.support.v7.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <CheckBox android:id="@+id/checkbox_acido_borico"
+        <CheckBox android:id="@+id/checkbox_Zn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="10"
-            android:text="Ácido Bórico"
+            android:text="Zn"
             android:onClick="onCheckboxClicked"/>
-        <Spinner
-            android:id="@+id/spinner_acido_borico"
+        <EditText
+            android:id="@+id/edittext_Zn"
+            android:layout_weight="2"
+            android:inputType="numberDecimal"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/textview_Zn"
+            android:text="g"
             android:layout_weight="1"
-            android:layout_marginBottom="20dp"
-            />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
     </android.support.v7.widget.LinearLayoutCompat>
+
+
 
     <android.support.v7.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <CheckBox android:id="@+id/checkbox_molibdato_de_sodio"
+        <CheckBox android:id="@+id/checkbox_Cu"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="10"
-            android:text="Molibdato de Sódio"
+            android:text="Cu"
             android:onClick="onCheckboxClicked"/>
-        <Spinner
-            android:id="@+id/spinner_molibdato_de_sodio"
+        <EditText
+            android:id="@+id/edittext_Cu"
+            android:layout_weight="2"
+            android:inputType="numberDecimal"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/textview_Cu"
+            android:text="g"
             android:layout_weight="1"
-            android:layout_marginBottom="20dp"
-            />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
     </android.support.v7.widget.LinearLayoutCompat>
 
     <android.support.v7.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <CheckBox android:id="@+id/checkbox_molibdato_de_amonio"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="18"
-            android:text="Molibdato de Amônio"
-            android:onClick="onCheckboxClicked"/>
-        <Spinner
-            android:id="@+id/spinner_molibdato_de_amonio"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginBottom="20dp"
-            />
-    </android.support.v7.widget.LinearLayoutCompat>
-
-    <android.support.v7.widget.LinearLayoutCompat
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <CheckBox android:id="@+id/checkbox_feedta_na2"
+        <CheckBox android:id="@+id/checkbox_B"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="10"
-            android:text="FeEDTA Na2"
+            android:text="B"
             android:onClick="onCheckboxClicked"/>
-        <Spinner
-            android:id="@+id/spinner_feedta_na2"
+        <EditText
+            android:id="@+id/edittext_B"
+            android:layout_weight="2"
+            android:inputType="numberDecimal"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/textview_B"
+            android:text="g"
             android:layout_weight="1"
-            android:layout_marginBottom="20dp"
-            />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
     </android.support.v7.widget.LinearLayoutCompat>
 
     <android.support.v7.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <CheckBox android:id="@+id/checkbox_ferrilene"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="18"
-            android:text="Ferrilene"
-            android:onClick="onCheckboxClicked"/>
-        <Spinner
-            android:id="@+id/spinner_ferrilene"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginBottom="20dp"
-            />
-    </android.support.v7.widget.LinearLayoutCompat>
-
-    <android.support.v7.widget.LinearLayoutCompat
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <CheckBox android:id="@+id/checkbox_tenso_fe"
+        <CheckBox android:id="@+id/checkbox_CI"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="10"
-            android:text="Tenso-Fe"
+            android:text="CI"
             android:onClick="onCheckboxClicked"/>
-        <Spinner
-            android:id="@+id/spinner_tenso_fe"
+        <EditText
+            android:id="@+id/edittext_CI"
+            android:layout_weight="2"
+            android:inputType="numberDecimal"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/textview_CI"
+            android:text="g"
             android:layout_weight="1"
-            android:layout_marginBottom="20dp"
-            />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
     </android.support.v7.widget.LinearLayoutCompat>
 
     <android.support.v7.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <CheckBox android:id="@+id/checkbox_dissolvine"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="18"
-            android:text="Dissolvine"
-            android:onClick="onCheckboxClicked"/>
-        <Spinner
-            android:id="@+id/spinner_dissolvine"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginBottom="20dp"
-            />
-    </android.support.v7.widget.LinearLayoutCompat>
-
-    <android.support.v7.widget.LinearLayoutCompat
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <CheckBox android:id="@+id/checkbox_rexolin_m48"
+        <CheckBox android:id="@+id/checkbox_Mo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="10"
-            android:text="Rexolin M48"
+            android:text="Mo"
             android:onClick="onCheckboxClicked"/>
-        <Spinner
-            android:id="@+id/spinner_rexolin_m48"
+        <EditText
+            android:id="@+id/edittext_Mo"
+            android:layout_weight="2"
+            android:inputType="numberDecimal"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/textview_Mo"
+            android:text="g"
             android:layout_weight="1"
-            android:layout_marginBottom="20dp"
-            />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
     </android.support.v7.widget.LinearLayoutCompat>
 
 

@@ -3,12 +3,12 @@ package com.example.suelliton.horus;
 public class Micronutriente {
 
     private String nome;
-    private Integer qtd;
+    private double qtd;
 
     public Micronutriente() {
     }
 
-    public Micronutriente(String nome, Integer qtd) {
+    public Micronutriente(String nome, double qtd) {
         this.nome = nome;
         this.qtd = qtd;
     }
@@ -21,11 +21,11 @@ public class Micronutriente {
         this.nome = nome;
     }
 
-    public Integer getQtd() {
+    public double getQtd() {
         return qtd;
     }
 
-    public void setQtd(Integer qtd) {
+    public void setQtd(double qtd) {
         this.qtd = qtd;
     }
 }

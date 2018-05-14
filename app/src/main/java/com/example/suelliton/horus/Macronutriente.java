@@ -2,12 +2,12 @@ package com.example.suelliton.horus;
 
 public class Macronutriente {
     private String nome;
-    private Integer qtd;
+    private double qtd;
 
     public Macronutriente() {
     }
 
-    public Macronutriente(String nome, Integer qtd) {
+    public Macronutriente(String nome, double qtd) {
         this.nome = nome;
         this.qtd = qtd;
     }
@@ -20,11 +20,11 @@ public class Macronutriente {
         this.nome = nome;
     }
 
-    public Integer getQtd() {
+    public double getQtd() {
         return qtd;
     }
 
-    public void setQtd(Integer qtd) {
+    public void setQtd(double qtd) {
         this.qtd = qtd;
     }
 }
