@@ -48,7 +48,7 @@ public class Detalhes extends AppCompatActivity {
         setContentView(R.layout.activity_detalhes);
         database =  FirebaseDatabase.getInstance();
         //textTaxa = (TextView) findViewById(R.id.text_taxa);
-        ViewSnackApoio = textTaxa;
+
 
         Bundle bundle = getIntent().getExtras();
         nomeExperimento = bundle.getString("nomeExp");
@@ -64,6 +64,7 @@ public class Detalhes extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
 
                 listaTaxas = new ArrayList<Double>();
+                listaCapturas.removeAll(listaCapturas);
 
                 experimento = dataSnapshot.getValue(Experimento.class);
                 Crescimento crescimento =  dataSnapshot.getValue(Experimento.class).getCrescimento();
@@ -79,7 +80,7 @@ public class Detalhes extends AppCompatActivity {
                     dataPointTaxa[i] = new DataPoint(i, (Double) listaCapturas.get(i).getTaxaCrescimento());
 
                 }
-
+                capturaAdapter.notifyDataSetChanged();
 
 
                 GraphView graph = (GraphView) findViewById(R.id.graph);
@@ -112,6 +113,7 @@ public class Detalhes extends AppCompatActivity {
 
 
          btnAdicionar= (FloatingActionButton) findViewById(R.id.btnAdicionar);
+        ViewSnackApoio = btnAdicionar;
         btnAdicionar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

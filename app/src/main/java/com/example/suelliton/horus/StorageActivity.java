@@ -115,14 +115,13 @@ public class StorageActivity extends AppCompatActivity {
 
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
-                    Snackbar.make(ViewSnackApoio, "Erro!", Snackbar.LENGTH_LONG)
+                    Snackbar.make(ViewSnackApoio.getRootView(), "Erro!", Snackbar.LENGTH_LONG)
                             .setAction("Action", null).show();
                 }
                 DatabaseReference dr = database.getReference(nomeExperimento);
-                dr.getRef().child("count").setValue(count + 1);//INCREMENTA A VARIAVEL DE CONTROLE
-                count++;//INCREMENTA VARIAVEL LOCAL
+
                 dr.getRef().child("ultimaCaptura").setValue(getDataAtual());//seta a hora da captura
-                dr.getRef().child("novaFoto").setValue(true);//seta que tem uma nova foto
+
                 finish();
 
             }
@@ -164,6 +163,11 @@ public class StorageActivity extends AppCompatActivity {
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                 // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
                 Uri downloadUrl = taskSnapshot.getDownloadUrl();
+                Log.i("envio","conseguiu enviar a foto");
+                DatabaseReference dr = database.getReference(nomeExperimento);
+                dr.getRef().child("count").setValue(count + 1);//INCREMENTA A VARIAVEL DE CONTROLE
+                count++;//INCREMENTA VARIAVEL LOCAL
+                dr.getRef().child("novaFoto").setValue(true);//seta que tem uma nova foto
             }
         });
     }
@@ -256,7 +260,7 @@ public class StorageActivity extends AppCompatActivity {
     }
 
     public String getDataAtual() {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy-\n HH:mm:ss");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy\nHH:mm:ss");
         // OU
         SimpleDateFormat dateFormat_hora = new SimpleDateFormat("HH:mm:ss");
 
