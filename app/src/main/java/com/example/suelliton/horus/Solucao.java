@@ -2,15 +2,15 @@ package com.example.suelliton.horus;
 
 import java.util.List;
 
-public class Nutriente {
+public class Solucao {
     private List<Macronutriente> macronutrientes;
     private List<Micronutriente> micronutrientes;
 
-    public Nutriente() {
+    public Solucao() {
     }
 
 
-    public Nutriente(List<Macronutriente> macronutrientes, List<Micronutriente> micronutrientes) {
+    public Solucao(List<Macronutriente> macronutrientes, List<Micronutriente> micronutrientes) {
         this.macronutrientes = macronutrientes;
         this.micronutrientes = micronutrientes;
     }

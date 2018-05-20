@@ -118,8 +118,9 @@ public class Principal extends AppCompatActivity
                 for (DataSnapshot snapshot:dataSnapshot.getChildren()) {
 
                     Experimento experimento = snapshot.getValue(Experimento.class);//pega o objeto do firebase
-
-                    listaExperimentos.add(experimento);//adiciona na lista que vai para o adapter
+                    if(experimento.getStatus().equals("ativo")) {
+                        listaExperimentos.add(experimento);//adiciona na lista que vai para o adapter
+                    }
                     experimentoAdapter.notifyDataSetChanged();
                 }
             }

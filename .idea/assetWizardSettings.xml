@@ -18,8 +18,10 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="foregroundImage" value="C:\Users\suelliton\Downloads\horus_icon.png" />
+                                      <entry key="backgroundLayerName" value="ic_launcher_background" />
+                                      <entry key="foregroundImage" value="C:\Users\suelliton\AndroidStudioProjects\Horus\app\src\main\res\drawable\ic_add.png" />
                                       <entry key="foregroundLayerName" value="icon_default" />
+                                      <entry key="outputName" value="ic_add_mipmap" />
                                     </map>
                                   </option>
                                 </PersistentState>

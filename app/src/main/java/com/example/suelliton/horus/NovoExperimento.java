@@ -1,8 +1,6 @@
 package com.example.suelliton.horus;
 
 import android.content.Context;
-import android.content.Intent;
-import android.renderscript.Sampler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -30,7 +28,6 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
@@ -93,7 +90,7 @@ public class NovoExperimento extends AppCompatActivity {
     Integer save_idadePlantaAtual;
     Integer save_tempoBombaLigado;
     Integer save_tempoBombaDesligado;
-    Nutriente save_nutrientes;
+    Solucao save_solucao;
 
     ArrayAdapter<String> adaptador;
     ArrayAdapter<String> adaptadorMiligramas;
@@ -359,10 +356,10 @@ public void setTextViews(){
                 save_descricao = descricao.getText().toString();
                 save_dataTransplantio = convertMillisToDate(calendar.getDate());
                 getValueEditText();
-                save_nutrientes =  new Nutriente(macronutrientes,micronutrientes);
+                save_solucao =  new Solucao(macronutrientes,micronutrientes);
                 if(validaCadastro()) {
 
-                    SAVE_EXPERIMENTO = new Experimento(save_nome, save_descricao, save_variedade, save_nutrientes,
+                    SAVE_EXPERIMENTO = new Experimento(save_nome, save_descricao, save_variedade, save_solucao,
                             save_dataTransplantio, save_idadePlantaTransplantio, save_idadePlantaAtual,
                             save_tempoBombaLigado, save_tempoBombaDesligado);
                     experimentoReference = database.getReference(nome.getText().toString());

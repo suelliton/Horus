@@ -5,6 +5,12 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorListener;
+import android.hardware.SensorManager;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -55,7 +61,7 @@ import static com.example.suelliton.horus.Principal.ViewSnack;
  * Created by André Gomes on 11/10/2017.
  */
 
-public class StorageActivity extends AppCompatActivity {
+public class StorageActivity extends AppCompatActivity implements SensorEventListener{
     private TextView titulo;
     private ImageView exibeFoto;
     private String FILENAME = "";//nome da imagem que vai ser salva
@@ -68,6 +74,19 @@ public class StorageActivity extends AppCompatActivity {
     private FirebaseDatabase database;
     FloatingActionButton btnUpload;
     FloatingActionButton btnTiraFoto;
+    boolean capturou = false;
+
+
+    MediaPlayer mp_direita  ;
+    MediaPlayer mp_esquerda ;
+    MediaPlayer mp_frente  ;
+    MediaPlayer mp_tras ;
+    MediaPlayer mp_centralizado ;
+    boolean centralizado = false;
+    private SensorManager mSensorManager;
+    private Sensor mAcelerometro;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -131,7 +150,9 @@ public class StorageActivity extends AppCompatActivity {
         btnTiraFoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 try {
+
                     takePhotoAndSave();
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -144,7 +165,22 @@ public class StorageActivity extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        setMediaPlayerAndAcelerometro();
+
+
     }
+    public void setMediaPlayerAndAcelerometro(){
+        mp_direita  = MediaPlayer.create(this, R.raw.incline_para_direita);
+        mp_esquerda  = MediaPlayer.create(this, R.raw.incline_para_esquerda);
+        mp_frente = MediaPlayer.create(this, R.raw.incline_para_frente);
+        mp_tras = MediaPlayer.create(this, R.raw.incline_para_tras);
+        mp_centralizado =  MediaPlayer.create(this, R.raw.aparelho_centralizado);
+        mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+        mAcelerometro = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+
+    }
+
 
 
     //UPLOAD FIREBASE STREAM
@@ -246,6 +282,7 @@ public class StorageActivity extends AppCompatActivity {
 
         if (resultCode == RESULT_OK) {
             Toast.makeText(this, "Imagem salva com sucesso no armazenamento externo", Toast.LENGTH_SHORT).show();
+            mSensorManager.unregisterListener(this);
             try {
                 readPhoto();
             } catch (IOException e) {
@@ -349,5 +386,67 @@ public class StorageActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         finish();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mSensorManager.unregisterListener(this);
+       // mSensorManager.registerListener((SensorEventListener) this, mAcelerometro, SensorManager.SENSOR_DELAY_UI);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mSensorManager.registerListener((SensorEventListener) this, mAcelerometro, SensorManager.SENSOR_DELAY_UI);
+        //mSensorManager.unregisterListener(this); tem de deixar comentado para funcionar
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mSensorManager.unregisterListener(this);//destroy o listener so´quando a activity é encerrada
+    }
+
+    @Override
+    public void onSensorChanged(SensorEvent event) {
+        float x = event.values[0];
+        float y = event.values[1];
+        float z = event.values[2];
+
+        if(x > 0.5 ){
+            //vibrar();
+            centralizado = false;
+            if(!mp_direita.isPlaying()&&!mp_esquerda.isPlaying()&&!mp_frente.isPlaying()&&!mp_tras.isPlaying()&&!mp_centralizado.isPlaying()) {
+                mp_direita.start();
+            }
+        }else if(x < -0.5 ){
+            centralizado = false;
+            if(!mp_direita.isPlaying()&&!mp_esquerda.isPlaying()&&!mp_frente.isPlaying()&&!mp_tras.isPlaying()&&!mp_centralizado.isPlaying()) {
+                mp_esquerda.start();
+            }
+        }else if(y > 0.5 ){
+            centralizado = false;
+            if(!mp_direita.isPlaying()&&!mp_esquerda.isPlaying()&&!mp_frente.isPlaying()&&!mp_tras.isPlaying()&&!mp_centralizado.isPlaying()) {
+                mp_frente.start();
+            }
+        }else if(y < -0.5 ){
+            centralizado = false;
+            if(!mp_direita.isPlaying()&&!mp_esquerda.isPlaying()&&!mp_frente.isPlaying()&&!mp_tras.isPlaying()&&!mp_centralizado.isPlaying()) {
+                mp_tras.start();
+            }
+        }else{
+            if(!centralizado) {
+                if (!mp_direita.isPlaying() && !mp_esquerda.isPlaying() && !mp_frente.isPlaying() && !mp_tras.isPlaying() && !mp_centralizado.isPlaying()) {
+                    mp_centralizado.start();
+                    centralizado = true;
+                }
+            }
+        }
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int i) {
+
     }
 }

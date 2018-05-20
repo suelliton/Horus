@@ -1,14 +1,6 @@
 package com.example.suelliton.horus;
 
-import com.google.firebase.database.GenericTypeIndicator;
-
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class Experimento {
 
@@ -19,12 +11,13 @@ public class Experimento {
     private String ultimaCaptura;
     private Crescimento crescimento;
     private boolean novaFoto;
-    private Nutriente nutrientes;
+    private Solucao nutrientes;
     private String dataTransplantio;
     private Integer idadePlantaTransplantio;
     private Integer idadePlantaAtual;
     private Integer tempoBombaLigado;
     private Integer tempoBombaDesLigado;
+    private String status;
 
 
 
@@ -33,7 +26,7 @@ public class Experimento {
     public Experimento() {
 
     }
-    public Experimento(String nome, String descricao, String variedade,Nutriente nutrientes,
+    public Experimento(String nome, String descricao, String variedade,Solucao nutrientes,
                        String dataTransplantio,Integer idadePlantaTransplantio,
                        Integer idadePlantaAtual, Integer tempoBombaLigado,
                        Integer tempoBombaDesLigado) {
@@ -55,16 +48,16 @@ public class Experimento {
         this.idadePlantaAtual = idadePlantaAtual;
         this.tempoBombaLigado = tempoBombaLigado;
         this.tempoBombaDesLigado = tempoBombaDesLigado;
-
+        this.status = "ativo";
 
 
     }
 
-    public Nutriente getNutrientes() {
+    public Solucao getNutrientes() {
         return nutrientes;
     }
 
-    public void setNutrientes(Nutriente nutrientes) {
+    public void setNutrientes(Solucao nutrientes) {
         this.nutrientes = nutrientes;
     }
 
@@ -74,6 +67,14 @@ public class Experimento {
 
     public void setDataTransplantio(String dataTransplantio) {
         this.dataTransplantio = dataTransplantio;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public Integer getIdadePlantaTransplantio() {

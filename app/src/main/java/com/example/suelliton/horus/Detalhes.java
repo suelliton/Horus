@@ -33,6 +33,7 @@ public class Detalhes extends AppCompatActivity {
     ArrayList listaTaxas;
     List<Captura> listaCapturas;
 
+
     String nomeExperimento = "";
     private Integer count = 0;
     private FirebaseDatabase database;
@@ -40,7 +41,7 @@ public class Detalhes extends AppCompatActivity {
     private ValueEventListener childValueExperimento;
     private TextView textTaxa ;
     private Experimento experimento;
-    FloatingActionButton btnAdicionar;
+    FloatingActionButton btnAdicionar, btnExcluir;
     static View ViewSnackApoio;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,10 +114,11 @@ public class Detalhes extends AppCompatActivity {
 
 
          btnAdicionar= (FloatingActionButton) findViewById(R.id.btnAdicionar);
-        ViewSnackApoio = btnAdicionar;
+        ViewSnackApoio = btnAdicionar;//serve para disparar os snackbars
         btnAdicionar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 Bundle bundle = new Bundle();
                 bundle.putString("nomeExp",experimento.getNome());
                 bundle.putInt("count",experimento.getCount());
@@ -124,6 +126,15 @@ public class Detalhes extends AppCompatActivity {
                 Intent intent = new Intent(Detalhes.this,StorageActivity.class);
                 intent.putExtras(bundle);
                 startActivity(intent);
+            }
+        });
+
+
+        btnExcluir = (FloatingActionButton) findViewById(R.id.btnExcluir);
+        btnExcluir.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                experimentoReference.child("status").setValue("desativado");
             }
         });
 
@@ -136,6 +147,8 @@ public class Detalhes extends AppCompatActivity {
 
 
     }
+
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -151,4 +164,9 @@ public class Detalhes extends AppCompatActivity {
 
         }
     }
+
+
+
+
+
 }
