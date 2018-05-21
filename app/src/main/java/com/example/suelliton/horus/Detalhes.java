@@ -1,9 +1,11 @@
 package com.example.suelliton.horus;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,6 +14,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -134,7 +137,7 @@ public class Detalhes extends AppCompatActivity {
         btnExcluir.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                experimentoReference.child("status").setValue("desativado");
+                createDialog();
             }
         });
 
@@ -146,6 +149,27 @@ public class Detalhes extends AppCompatActivity {
         recyclerView.setLayoutManager(layout);
 
 
+    }
+    public void createDialog(){
+        AlertDialog.Builder dialogExcluir = new AlertDialog.Builder(this);
+        dialogExcluir.setIcon(R.mipmap.ic_launcher);
+        dialogExcluir.setTitle("Titulo");
+        dialogExcluir.setMessage("Deseja finalizar o experimento?");
+        dialogExcluir.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                experimentoReference.child("status").setValue("desativado");
+                Toast.makeText(Detalhes.this, "O experimento foi excluido com sucesso", Toast.LENGTH_LONG).show();
+            }
+        });
+        dialogExcluir.setNegativeButton("Não", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Toast.makeText(Detalhes.this, "Exclusão cancelada", Toast.LENGTH_LONG).show();
+            }
+        });
+        AlertDialog criaalerta = dialogExcluir.create();
+        criaalerta.show();
     }
 
 
