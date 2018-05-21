@@ -1,4 +1,4 @@
-package com.example.suelliton.horus.model;
+package com.example.suelliton.horus.models;
 
 import java.util.ArrayList;
 

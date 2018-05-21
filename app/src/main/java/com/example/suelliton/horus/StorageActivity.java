@@ -47,7 +47,8 @@ import java.util.Calendar;
 import java.util.Date;
 
 import static android.app.PendingIntent.getActivity;
-import static com.example.suelliton.horus.DetalhesActivity.ViewSnackApoio;
+import static com.example.suelliton.horus.fragments.FragmentCrescimento.ViewSnackApoio;
+
 
 /**
  * Created by André Gomes on 11/10/2017.

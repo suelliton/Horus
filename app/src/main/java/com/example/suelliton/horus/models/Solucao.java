@@ -1,7 +1,4 @@
-package com.example.suelliton.horus.model;
-
-import com.example.suelliton.horus.model.Macronutriente;
-import com.example.suelliton.horus.model.Micronutriente;
+package com.example.suelliton.horus.models;
 
 import java.util.List;
 

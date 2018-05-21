@@ -1,4 +1,4 @@
-package com.example.suelliton.horus.util;
+package com.example.suelliton.horus.utils;
 
 import android.app.Activity;
 import android.content.pm.PackageManager;

@@ -20,10 +20,10 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.example.suelliton.horus.model.Experimento;
-import com.example.suelliton.horus.model.Macronutriente;
-import com.example.suelliton.horus.model.Micronutriente;
-import com.example.suelliton.horus.model.Solucao;
+import com.example.suelliton.horus.models.Experimento;
+import com.example.suelliton.horus.models.Macronutriente;
+import com.example.suelliton.horus.models.Micronutriente;
+import com.example.suelliton.horus.models.Solucao;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;

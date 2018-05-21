@@ -26,10 +26,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.example.suelliton.horus.adapter.ExperimentoAdapter;
-import com.example.suelliton.horus.model.Experimento;
-import com.example.suelliton.horus.util.MeuRecyclerViewClickListener;
-import com.example.suelliton.horus.util.PermissionUtils;
+import com.example.suelliton.horus.adapters.ExperimentoAdapter;
+import com.example.suelliton.horus.models.Experimento;
+import com.example.suelliton.horus.utils.MeuRecyclerViewClickListener;
+import com.example.suelliton.horus.utils.PermissionUtils;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;

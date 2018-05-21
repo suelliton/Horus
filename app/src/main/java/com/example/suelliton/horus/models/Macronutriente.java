@@ -1,14 +1,13 @@
-package com.example.suelliton.horus.model;
+package com.example.suelliton.horus.models;
 
-public class Micronutriente {
-
+public class Macronutriente {
     private String nome;
     private double qtd;
 
-    public Micronutriente() {
+    public Macronutriente() {
     }
 
-    public Micronutriente(String nome, double qtd) {
+    public Macronutriente(String nome, double qtd) {
         this.nome = nome;
         this.qtd = qtd;
     }

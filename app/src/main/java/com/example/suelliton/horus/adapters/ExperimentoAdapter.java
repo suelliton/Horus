@@ -1,4 +1,4 @@
-package com.example.suelliton.horus.adapter;
+package com.example.suelliton.horus.adapters;
 
 import android.content.Context;
 import android.content.Intent;
@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 import com.example.suelliton.horus.DetalhesActivity;
 import com.example.suelliton.horus.R;
-import com.example.suelliton.horus.model.Experimento;
+import com.example.suelliton.horus.models.Experimento;
 
 import java.util.List;
 
