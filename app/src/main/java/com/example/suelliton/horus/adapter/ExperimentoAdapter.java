@@ -1,9 +1,8 @@
-package com.example.suelliton.horus;
+package com.example.suelliton.horus.adapter;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,6 +10,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.example.suelliton.horus.DetalhesActivity;
+import com.example.suelliton.horus.R;
+import com.example.suelliton.horus.model.Experimento;
 
 import java.util.List;
 
@@ -53,7 +56,7 @@ public class ExperimentoAdapter extends RecyclerView.Adapter {
                 bundle.putString("nomeExp",experimentoEscolhido.getNome());
                 bundle.putInt("count",experimentoEscolhido.getCount());
                 Log.i("teste",experimentoEscolhido.getNome());
-                Intent intent = new Intent(view.getContext(),Detalhes.class);
+                Intent intent = new Intent(view.getContext(),DetalhesActivity.class);
                 intent.putExtras(bundle);
                 context.startActivity(intent);
             }

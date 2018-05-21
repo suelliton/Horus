@@ -1,4 +1,4 @@
-package com.example.suelliton.horus;
+package com.example.suelliton.horus.model;
 
 public class Captura {
     private String dataCaptura;

@@ -26,17 +26,19 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.example.suelliton.horus.adapter.ExperimentoAdapter;
+import com.example.suelliton.horus.model.Experimento;
+import com.example.suelliton.horus.util.MeuRecyclerViewClickListener;
+import com.example.suelliton.horus.util.PermissionUtils;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 
 public class Principal extends AppCompatActivity
@@ -90,7 +92,7 @@ public class Principal extends AppCompatActivity
         adicionarNovo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivityForResult(new Intent(getApplicationContext(),NovoExperimento.class),1);
+                startActivityForResult(new Intent(getApplicationContext(),NovoExperimentoActivity.class),1);
             }
         });
     }
@@ -205,7 +207,7 @@ public class Principal extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_novo_experimento) {
-            startActivityForResult(new Intent(getApplicationContext(),NovoExperimento.class),1);
+            startActivityForResult(new Intent(getApplicationContext(),NovoExperimentoActivity.class),1);
             // Handle the camera action
         } else if (id == R.id.nav_gallery) {
 

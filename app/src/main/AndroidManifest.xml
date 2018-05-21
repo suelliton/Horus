@@ -42,10 +42,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".NovoExperimento"
+            android:name=".NovoExperimentoActivity"
             android:label="Horus Green"
             android:theme="@style/verde_e_branco" />
-        <activity android:name=".Detalhes"></activity>
+        <activity android:name=".DetalhesActivity"></activity>
     </application>
 
 </manifest>

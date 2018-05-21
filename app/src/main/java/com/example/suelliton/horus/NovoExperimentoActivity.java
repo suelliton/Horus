@@ -20,6 +20,10 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.example.suelliton.horus.model.Experimento;
+import com.example.suelliton.horus.model.Macronutriente;
+import com.example.suelliton.horus.model.Micronutriente;
+import com.example.suelliton.horus.model.Solucao;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -35,7 +39,7 @@ import java.util.TimeZone;
 
 import static java.lang.Integer.valueOf;
 
-public class NovoExperimento extends AppCompatActivity {
+public class NovoExperimentoActivity extends AppCompatActivity {
     private FirebaseDatabase database ;
     private DatabaseReference experimentoReference ;
     private ValueEventListener childValueExperimento;

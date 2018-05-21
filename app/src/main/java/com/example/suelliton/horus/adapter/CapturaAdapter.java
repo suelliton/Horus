@@ -1,4 +1,4 @@
-package com.example.suelliton.horus;
+package com.example.suelliton.horus.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -7,6 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.example.suelliton.horus.R;
+import com.example.suelliton.horus.model.Captura;
 
 import java.util.List;
 

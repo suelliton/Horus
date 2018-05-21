@@ -12,10 +12,13 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.suelliton.horus.adapter.CapturaAdapter;
+import com.example.suelliton.horus.model.Captura;
+import com.example.suelliton.horus.model.Crescimento;
+import com.example.suelliton.horus.model.Experimento;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -25,14 +28,10 @@ import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.suelliton.horus.Principal.ViewSnack;
-
-public class Detalhes extends AppCompatActivity {
+public class DetalhesActivity extends AppCompatActivity {
     ArrayList listaTaxas;
     List<Captura> listaCapturas;
 
@@ -94,16 +93,20 @@ public class Detalhes extends AppCompatActivity {
                 series.setColor(Color.argb(255,0,150,136));
                 series.setBackgroundColor(Color.argb(70,0,150,136 ));
 
+
                 graph.getViewport().setYAxisBoundsManual(true);
                 graph.getViewport().setMinY(0);
                 graph.getViewport().setMaxY(1000);
 
                 graph.getViewport().setXAxisBoundsManual(true);
-                graph.getViewport().setMinX(0);
-                graph.getViewport().setMaxX(35);
 
+                graph.getViewport().setMinX(0);
+                graph.getViewport().setMaxX(45);
+                graph.getGridLabelRenderer().setNumHorizontalLabels(6);
                 graph.getViewport().setScalable(true);
                 //graph.getViewport().setScalableY(true);
+                //graph.setRotationX(5);
+
                 graph.addSeries(series);
 
             }
@@ -126,7 +129,7 @@ public class Detalhes extends AppCompatActivity {
                 bundle.putString("nomeExp",experimento.getNome());
                 bundle.putInt("count",experimento.getCount());
                 Log.i("teste",experimento.getNome());
-                Intent intent = new Intent(Detalhes.this,StorageActivity.class);
+                Intent intent = new Intent(DetalhesActivity.this,StorageActivity.class);
                 intent.putExtras(bundle);
                 startActivity(intent);
             }
@@ -159,13 +162,13 @@ public class Detalhes extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 experimentoReference.child("status").setValue("desativado");
-                Toast.makeText(Detalhes.this, "O experimento foi excluido com sucesso", Toast.LENGTH_LONG).show();
+                Toast.makeText(DetalhesActivity.this, "O experimento foi excluido com sucesso", Toast.LENGTH_LONG).show();
             }
         });
         dialogExcluir.setNegativeButton("Não", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Toast.makeText(Detalhes.this, "Exclusão cancelada", Toast.LENGTH_LONG).show();
+                Toast.makeText(DetalhesActivity.this, "Exclusão cancelada", Toast.LENGTH_LONG).show();
             }
         });
         AlertDialog criaalerta = dialogExcluir.create();
