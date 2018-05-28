@@ -36,10 +36,10 @@ public class Experimento {
         this.count = 0;
         this.ultimaCaptura = "";
         ArrayList<Captura> lista = new ArrayList();
-        Captura captura = new Captura("14-05-2018",90.0);
+        Captura captura = new Captura("",0.0);
         lista.add(captura);
-        Captura captura2 = new Captura("15-05-2018",120.0);
-        lista.add(captura2);
+        //Captura captura2 = new Captura("15-05-2018",120.0);
+        //lista.add(captura2);
         this.crescimento = new Crescimento(lista);
         this.novaFoto = false;
         this.nutrientes = nutrientes;

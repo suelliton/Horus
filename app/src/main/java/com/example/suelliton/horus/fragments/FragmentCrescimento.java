@@ -174,7 +174,9 @@ public class FragmentCrescimento extends Fragment {
 
 
         recyclerView.setAdapter(capturaAdapter);
-        RecyclerView.LayoutManager layout = new LinearLayoutManager(v.getContext(),LinearLayoutManager.VERTICAL,false);
+
+        RecyclerView.LayoutManager layout = new LinearLayoutManager(v.getContext(),LinearLayoutManager.VERTICAL,true);
+
         recyclerView.setLayoutManager(layout);
 
 
