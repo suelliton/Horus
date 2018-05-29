@@ -259,8 +259,8 @@ public class StorageActivity extends AppCompatActivity implements SensorEventLis
             //  Log.i("Testes", "Arquivo:" + imgFile.getAbsolutePath());
             // Log.i("teste2",myBitmap.toString());
 
-
-            Bitmap bMapScaled = Bitmap.createScaledBitmap(myBitmap, 3715, 2786, true);
+            //3715 x 2786
+            Bitmap bMapScaled = Bitmap.createScaledBitmap(myBitmap, 743, 557, true);
 
 
             exibeFoto.setImageBitmap(bMapScaled);
