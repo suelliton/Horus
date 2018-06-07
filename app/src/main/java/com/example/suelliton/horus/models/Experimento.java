@@ -18,6 +18,7 @@ public class Experimento {
     private Integer tempoBombaLigado;
     private Integer tempoBombaDesLigado;
     private String status;
+    private boolean sincronizado;
 
 
 
@@ -49,8 +50,16 @@ public class Experimento {
         this.tempoBombaLigado = tempoBombaLigado;
         this.tempoBombaDesLigado = tempoBombaDesLigado;
         this.status = "ativo";
+        this.sincronizado = true;
 
+    }
 
+    public boolean isSincronizado() {
+        return sincronizado;
+    }
+
+    public void setSincronizado(boolean sincronizado) {
+        this.sincronizado = sincronizado;
     }
 
     public Solucao getNutrientes() {

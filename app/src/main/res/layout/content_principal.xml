@@ -38,6 +38,30 @@
 
         </LinearLayout>
 
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="25dp"
+            android:layout_marginStart="25dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/floatSincronizar"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_gravity="bottom|left"
+            android:layout_marginBottom="16dp"
+            android:layout_marginStart="16dp"
+            android:src="@mipmap/ic_save"
+
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/floatAdicionar"
             android:layout_width="70dp"

@@ -1,5 +1,6 @@
 package com.example.suelliton.horus;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -8,6 +9,8 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.media.MediaPlayer;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -117,25 +120,36 @@ public class StorageActivity extends AppCompatActivity implements SensorEventLis
         btnUpload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                btnUpload.setClickable(false);
-                try {
-                    Snackbar.make(ViewSnackApoio.getRootView(), "Fazendo upload para o firebase", Snackbar.LENGTH_LONG)
-                            .setAction("Action", null).show();
-                    StorageReference alfaceRef = storage.getReference(nomeExperimento + "/" + FILENAME);
 
-                    uploadFirebaseStream(alfaceRef);
+                if(isOnline(view.getContext())) {
 
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                    Snackbar.make(ViewSnackApoio.getRootView(), "Erro!", Snackbar.LENGTH_LONG)
+                    btnUpload.setClickable(false);
+                    try {
+                        Snackbar.make(ViewSnackApoio.getRootView(), "Fazendo upload para o firebase", Snackbar.LENGTH_LONG)
+                                .setAction("Action", null).show();
+                        StorageReference alfaceRef = storage.getReference(nomeExperimento + "/" + FILENAME);
+
+                        uploadFirebaseStream(alfaceRef);
+
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                        Snackbar.make(ViewSnackApoio.getRootView(), "Erro!", Snackbar.LENGTH_LONG)
+                                .setAction("Action", null).show();
+                    }
+                    DatabaseReference dr = database.getReference(nomeExperimento);
+
+                    dr.getRef().child("ultimaCaptura").setValue(getDataAtual());//seta a hora da captura
+
+
+                }else{
+                    DatabaseReference dr = database.getReference(nomeExperimento);
+                    dr.getRef().child("ultimaCaptura").setValue(getDataAtual());//seta a hora da captura
+                    dr.getRef().child("sincronizado").setValue(false);//seta como não sincronizado
+                    Snackbar.make(ViewSnackApoio.getRootView(), "Sem conexão com a internet!", Snackbar.LENGTH_LONG)
                             .setAction("Action", null).show();
+
                 }
-                DatabaseReference dr = database.getReference(nomeExperimento);
-
-                dr.getRef().child("ultimaCaptura").setValue(getDataAtual());//seta a hora da captura
-
                 finish();
-
             }
         });
 
@@ -174,7 +188,15 @@ public class StorageActivity extends AppCompatActivity implements SensorEventLis
 
     }
 
-
+//VERIFICA SE EXISTE WIFI
+    public static boolean isOnline(Context context) {
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        if (netInfo != null && netInfo.isConnected())
+            return true;
+        else
+            return false;
+    }
 
     //UPLOAD FIREBASE STREAM
     public void uploadFirebaseStream(StorageReference Ref) throws FileNotFoundException {

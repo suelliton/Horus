@@ -1,12 +1,20 @@
 package com.example.suelliton.horus;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.graphics.drawable.DrawableContainer;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.os.Handler;
 import android.os.Vibrator;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
@@ -25,20 +33,33 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.example.suelliton.horus.adapters.ExperimentoAdapter;
 import com.example.suelliton.horus.models.Experimento;
 import com.example.suelliton.horus.utils.MeuRecyclerViewClickListener;
 import com.example.suelliton.horus.utils.PermissionUtils;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.example.suelliton.horus.fragments.FragmentCrescimento.ViewSnackApoio;
 
 
 public class Principal extends AppCompatActivity
@@ -50,9 +71,11 @@ public class Principal extends AppCompatActivity
             android.Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE
     };
-
-
+    ProgressBar progressBar;
+    boolean sincronizando = false;
+    FloatingActionButton sincronizar;
     private FirebaseDatabase database ;
+    private FirebaseStorage storage;
     private DatabaseReference experimentoReference ;
     private ChildEventListener childEventExperimento;
     private ValueEventListener childValueExperimento;
@@ -72,7 +95,7 @@ public class Principal extends AppCompatActivity
         }catch (Exception e){
             Log.i("teste","nao inicializou persistencia");
         }
-
+        storage = FirebaseStorage.getInstance();
         database =  FirebaseDatabase.getInstance();
         experimentoReference = database.getReference();
 
@@ -87,6 +110,7 @@ public class Principal extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
         ViewSnack = drawer;//serve de parametro pro snack achar a rootview
 
+        progressBar = (ProgressBar) findViewById(R.id.progressBar);
 
         FloatingActionButton adicionarNovo = (FloatingActionButton) findViewById(R.id.floatAdicionar);
         adicionarNovo.setOnClickListener(new View.OnClickListener() {
@@ -95,9 +119,105 @@ public class Principal extends AppCompatActivity
                 startActivityForResult(new Intent(getApplicationContext(),NovoExperimentoActivity.class),1);
             }
         });
+
+        sincronizar = (FloatingActionButton) findViewById(R.id.floatSincronizar);
+        sincronizar.setClickable(false);
+
+        status();
+
+
     }
 
+    public void status(){
+        Handler handle = new Handler();
+        handle.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                setFloatSync();
+                status();
+            }
+        }, 2000);
 
+
+    }
+    //VERIFICA SE EXISTE WIFI
+    public static boolean isOnline(Context context) {
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        if (netInfo != null && netInfo.isConnected())
+            return true;
+        else
+            return false;
+    }
+
+    //UPLOAD FIREBASE STREAM
+    public void uploadFirebaseStream(StorageReference Ref,final Experimento e) throws FileNotFoundException {
+        String DIRECTORYNAME = "/Camera/Horus/" + e.getNome() + "/";
+        String FILENAME = e.getNome()+e.getCount().toString()+".jpg";
+        File storageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM), DIRECTORYNAME);
+        InputStream stream = new FileInputStream(new File(storageDir.getAbsolutePath() + "/" + FILENAME));
+
+        UploadTask uploadTask = Ref.putStream(stream);
+        uploadTask.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Handle unsuccessful uploads
+            }
+        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
+                Uri downloadUrl = taskSnapshot.getDownloadUrl();
+                Log.i("envio","conseguiu enviar a foto");
+                DatabaseReference dr = database.getReference(e.getNome());
+                dr.getRef().child("count").setValue(e.getCount() + 1);//INCREMENTA A VARIAVEL DE CONTROLE
+                dr.getRef().child("novaFoto").setValue(true);//seta que tem uma nova foto
+                dr.getRef().child("sincronizado").setValue(true);
+                sincronizando = false;
+            }
+        });
+    }
+
+   @SuppressLint("ResourceType")
+   public void setFloatSync(){
+
+       Log.i("tuc",""+listaExperimentos.size());
+       for (Experimento e:listaExperimentos) {
+           Log.i("tuc",""+listaExperimentos.size());
+
+           if(!e.isSincronizado()){
+
+               if (isOnline(Principal.this)) {
+                       if(!sincronizando){
+                           progressBar.setVisibility(View.GONE);
+                           sincronizar.setImageResource(R.mipmap.ic_no_sync);
+                           sincronizar.setVisibility(View.VISIBLE);
+                           if(!sincronizar.isClickable()){
+                                sincronizar.setClickable(true);
+                           }
+                       }else{
+                           progressBar.setVisibility(View.VISIBLE);
+
+                       }
+               }else{
+                   sincronizar.setImageResource(R.mipmap.ic_no_sync_red);
+
+                   sincronizar.setClickable(false);
+               }
+               break;
+
+           }else{
+               if (isOnline(Principal.this)) {
+                   sincronizar.setImageResource(R.mipmap.ic_sync);
+               }else{
+                   sincronizar.setImageResource(R.mipmap.ic_sync_red);
+               }
+               sincronizar.setClickable(false);
+
+           }
+       }
+
+   }
 
     public void setValuesRecycler(){
 
@@ -120,11 +240,16 @@ public class Principal extends AppCompatActivity
                 for (DataSnapshot snapshot:dataSnapshot.getChildren()) {
 
                     Experimento experimento = snapshot.getValue(Experimento.class);//pega o objeto do firebase
+
                     if(experimento.getStatus().equals("ativo")) {
                         listaExperimentos.add(experimento);//adiciona na lista que vai para o adapter
                     }
+                    setFloatSync();
+
+
                     experimentoAdapter.notifyDataSetChanged();
                 }
+
             }
 
             @Override
@@ -247,6 +372,48 @@ public class Principal extends AppCompatActivity
         PermissionUtils.validate(Principal.this,0, PERMISSIONS_STORAGE);
         setValuesRecycler();
         setOnclickRecycler();
+
+
+
+        sincronizar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                for (Experimento e:listaExperimentos) {
+                    sincronizar.setVisibility(View.INVISIBLE);
+                    sincronizando =  true;
+                    if(!e.isSincronizado()){
+                        if(isOnline(view.getContext())) {
+
+                            try {
+
+                                StorageReference alfaceRef = storage.getReference(e.getNome() + "/" + e.getNome()+e.getCount().toString()+".jpg");
+
+                                uploadFirebaseStream(alfaceRef,e);
+
+                            } catch (FileNotFoundException ex) {
+                                ex.printStackTrace();
+                                Snackbar.make(ViewSnackApoio.getRootView(), "Erro!", Snackbar.LENGTH_LONG)
+                                        .setAction("Action", null).show();
+                            }
+                            DatabaseReference dr = database.getReference(e.getNome());
+
+                        }else{
+                            Snackbar.make(view.getRootView(), "Conecte se a internet", Snackbar.LENGTH_LONG)
+                                    .setAction("Action", null).show();
+
+                        }
+
+                    }
+                }
+                Snackbar.make(view.getRootView(), "Sincronizando experimentos", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        });
+
+
+
+
+
     }
 
     @Override
