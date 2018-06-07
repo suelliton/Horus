@@ -181,7 +181,7 @@ public class Principal extends AppCompatActivity
 
    @SuppressLint("ResourceType")
    public void setFloatSync(){
-       experimentoAdapter.notifyDataSetChanged();
+
        Log.i("tuc",""+listaExperimentos.size());
        for (Experimento e:listaExperimentos) {
            Log.i("tuc",""+listaExperimentos.size());
