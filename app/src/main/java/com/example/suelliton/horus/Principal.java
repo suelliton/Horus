@@ -72,13 +72,14 @@ public class Principal extends AppCompatActivity
             Manifest.permission.WRITE_EXTERNAL_STORAGE
     };
     ProgressBar progressBar;
-    boolean sincronizando = false;
+    public static boolean sincronizando = false;
     FloatingActionButton sincronizar;
     private FirebaseDatabase database ;
     private FirebaseStorage storage;
     private DatabaseReference experimentoReference ;
     private ChildEventListener childEventExperimento;
     private ValueEventListener childValueExperimento;
+    ExperimentoAdapter experimentoAdapter;
     RecyclerView recyclerView;
     List<Experimento> listaExperimentos;
     Context context = this;
@@ -180,7 +181,7 @@ public class Principal extends AppCompatActivity
 
    @SuppressLint("ResourceType")
    public void setFloatSync(){
-
+       experimentoAdapter.notifyDataSetChanged();
        Log.i("tuc",""+listaExperimentos.size());
        for (Experimento e:listaExperimentos) {
            Log.i("tuc",""+listaExperimentos.size());
@@ -197,7 +198,7 @@ public class Principal extends AppCompatActivity
                            }
                        }else{
                            progressBar.setVisibility(View.VISIBLE);
-
+                           sincronizar.setVisibility(View.INVISIBLE);
                        }
                }else{
                    sincronizar.setImageResource(R.mipmap.ic_no_sync_red);
@@ -221,7 +222,7 @@ public class Principal extends AppCompatActivity
 
     public void setValuesRecycler(){
 
-        final ExperimentoAdapter experimentoAdapter = new ExperimentoAdapter(this,listaExperimentos);
+        experimentoAdapter = new ExperimentoAdapter(this,listaExperimentos);
 
 
 
@@ -369,6 +370,7 @@ public class Principal extends AppCompatActivity
     @Override
     protected void onStart() {
         super.onStart();
+
         PermissionUtils.validate(Principal.this,0, PERMISSIONS_STORAGE);
         setValuesRecycler();
         setOnclickRecycler();

@@ -51,7 +51,7 @@ import java.util.Date;
 
 import static android.app.PendingIntent.getActivity;
 import static com.example.suelliton.horus.fragments.FragmentCrescimento.ViewSnackApoio;
-
+import static com.example.suelliton.horus.Principal.sincronizando;
 
 /**
  * Created by André Gomes on 11/10/2017.
@@ -137,9 +137,9 @@ public class StorageActivity extends AppCompatActivity implements SensorEventLis
                                 .setAction("Action", null).show();
                     }
                     DatabaseReference dr = database.getReference(nomeExperimento);
-
+                    dr.getRef().child("sincronizado").setValue(false);
                     dr.getRef().child("ultimaCaptura").setValue(getDataAtual());//seta a hora da captura
-
+                    sincronizando = true;
 
                 }else{
                     DatabaseReference dr = database.getReference(nomeExperimento);
@@ -219,6 +219,8 @@ public class StorageActivity extends AppCompatActivity implements SensorEventLis
                 dr.getRef().child("count").setValue(count + 1);//INCREMENTA A VARIAVEL DE CONTROLE
                 count++;//INCREMENTA VARIAVEL LOCAL
                 dr.getRef().child("novaFoto").setValue(true);//seta que tem uma nova foto
+                dr.getRef().child("sincronizado").setValue(true);
+                sincronizando = false;
             }
         });
     }
