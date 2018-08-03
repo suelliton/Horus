@@ -43,10 +43,9 @@ import java.util.List;
 import static com.example.suelliton.horus.DetalhesActivity.nomeExperimento;
 
 
-public class FragmentCrescimento extends Fragment {
+public class FragmentArea extends Fragment {
 
 
-    static ArrayList listaTaxas;
     List<Captura> listaCapturas;
 
 
@@ -54,7 +53,7 @@ public class FragmentCrescimento extends Fragment {
     DatabaseReference experimentoReference ;
     ValueEventListener childValueExperimento;
     Experimento experimento;
-    static TextView textTaxa;
+    static TextView textArea;
     static FloatingActionButton btnAdicionar, btnExcluir;
     public static View ViewSnackApoio;
     CapturaAdapter capturaAdapter;
@@ -66,11 +65,11 @@ public class FragmentCrescimento extends Fragment {
          v = inflater.inflate(R.layout.fragment_crescimento, container, false);
 
         database =  FirebaseDatabase.getInstance();
-        //textTaxa = (TextView) findViewById(R.id.text_taxa);
+        //textArea = (TextView) findViewById(R.id.text_taxa);
 
 
         listaCapturas = new ArrayList<>();
-        capturaAdapter = new CapturaAdapter(v.getContext(), listaCapturas);
+        capturaAdapter = new CapturaAdapter(v.getContext(), listaCapturas,"area");
         recyclerView = v.findViewById(R.id.recycler_captura_fragment);
         recyclerView.setAdapter(capturaAdapter);
 
@@ -89,24 +88,27 @@ public class FragmentCrescimento extends Fragment {
 
                 experimento = dataSnapshot.getValue(Experimento.class);
                 Crescimento crescimento =  dataSnapshot.getValue(Experimento.class).getCrescimento();
-                for (Captura c:crescimento.getCapturas()) {
-                    listaCapturas.add(c);
+
+                if(crescimento.getCapturas() != null) {
+                    for (Captura c : crescimento.getCapturas()) {
+                        listaCapturas.add(c);
+                    }
                 }
 
                 Log.i("teste",listaCapturas.toString());
-                // textTaxa.setText("Ultima taxa :" +listaCapturas.get(listaCapturas.size()-1).toString()+" %");
-                DataPoint[] dataPointTaxa =  new DataPoint[listaCapturas.size()];
+                // textArea.setText("Ultima Area :" +listaCapturas.get(listaCapturas.size()-1).toString()+" %");
+                DataPoint[] dataPointArea =  new DataPoint[listaCapturas.size()];
 
                 for(int i=0; i < listaCapturas.size();i++){
-                    dataPointTaxa[i] = new DataPoint(i, (Double) listaCapturas.get(i).getTaxaCrescimento());
+                    dataPointArea[i] = new DataPoint(i, (Double) listaCapturas.get(i).getAreaVerde());
 
                 }
                 capturaAdapter.notifyDataSetChanged();
 
 
                 graph = (GraphView) v.findViewById(R.id.graph);
-                LineGraphSeries<DataPoint> series = new LineGraphSeries<>(dataPointTaxa);
-                series.setTitle("Crescimento");
+                LineGraphSeries<DataPoint> series = new LineGraphSeries<>(dataPointArea);
+                series.setTitle("Área");
                 series.setDrawBackground(true);
                 series.setColor(Color.argb(255,0,150,136));
                 series.setBackgroundColor(Color.argb(70,0,150,136 ));
@@ -170,7 +172,7 @@ public class FragmentCrescimento extends Fragment {
 
         Log.i("rec", String.valueOf(listaCapturas.size()));
 
-        capturaAdapter = new CapturaAdapter(v.getContext(),listaCapturas);
+        //capturaAdapter = new CapturaAdapter(v.getContext(),listaCapturas);
 
 
         recyclerView.setAdapter(capturaAdapter);
@@ -220,10 +222,10 @@ public class FragmentCrescimento extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == 1){//se chamou tela de novo experimento
             if(resultCode == 1){
-                Snackbar.make(textTaxa.getRootView(), "Novo experimento adicionado", Snackbar.LENGTH_LONG)
+                Snackbar.make(textArea.getRootView(), "Novo experimento adicionado", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }else if(resultCode == 2){
-                Snackbar.make(textTaxa.getRootView(), "Operação cancelada", Snackbar.LENGTH_LONG)
+                Snackbar.make(textArea.getRootView(), "Operação cancelada", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
 

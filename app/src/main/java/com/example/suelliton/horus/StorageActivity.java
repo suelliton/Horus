@@ -50,7 +50,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 import static android.app.PendingIntent.getActivity;
-import static com.example.suelliton.horus.fragments.FragmentCrescimento.ViewSnackApoio;
+import static com.example.suelliton.horus.fragments.FragmentArea.ViewSnackApoio;
 import static com.example.suelliton.horus.Principal.sincronizando;
 
 /**

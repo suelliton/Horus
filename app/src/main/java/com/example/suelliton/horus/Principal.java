@@ -6,12 +6,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
-import android.graphics.drawable.DrawableContainer;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -34,7 +31,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.example.suelliton.horus.adapters.ExperimentoAdapter;
 import com.example.suelliton.horus.models.Experimento;
@@ -59,7 +55,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.suelliton.horus.fragments.FragmentCrescimento.ViewSnackApoio;
+import static com.example.suelliton.horus.fragments.FragmentArea.ViewSnackApoio;
 
 
 public class Principal extends AppCompatActivity

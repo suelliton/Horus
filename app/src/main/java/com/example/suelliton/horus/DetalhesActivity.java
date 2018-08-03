@@ -1,41 +1,10 @@
 package com.example.suelliton.horus;
 
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.graphics.Color;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.view.MotionEvent;
-import android.view.View;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import com.example.suelliton.horus.adapters.CapturaAdapter;
-import com.example.suelliton.horus.models.Captura;
-import com.example.suelliton.horus.models.Crescimento;
-import com.example.suelliton.horus.models.Experimento;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-import com.jjoe64.graphview.GraphView;
-import com.jjoe64.graphview.series.DataPoint;
-import com.jjoe64.graphview.series.LineGraphSeries;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import static com.example.suelliton.horus.fragments.FragmentCrescimento.graph;
 
 public class DetalhesActivity extends AppCompatActivity {
 
@@ -63,9 +32,9 @@ public class DetalhesActivity extends AppCompatActivity {
         tabLayout = (TabLayout) findViewById(R.id.tab);
         tabLayout.setupWithViewPager(vp);
 
-        tabLayout.getTabAt(0).setIcon(R.mipmap.ic_barras);
-        tabLayout.getTabAt(1).setIcon(R.mipmap.ic_sol);
-        tabLayout.getTabAt(2).setIcon(R.mipmap.ic_paper);
+        //tabLayout.getTabAt(0).setIcon(R.mipmap.ic_barras);
+        //tabLayout.getTabAt(1).setIcon(R.mipmap.ic_sol);
+        //tabLayout.getTabAt(2).setIcon(R.mipmap.ic_paper);
 
     }
 

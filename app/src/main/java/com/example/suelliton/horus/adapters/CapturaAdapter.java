@@ -18,10 +18,12 @@ public class CapturaAdapter extends RecyclerView.Adapter{
 
     Context context;
     List<Captura> listaCapturas;
+    String fragment ;
 
-    public CapturaAdapter(Context c, List<Captura> listaCapturas){
+    public CapturaAdapter(Context c, List<Captura> listaCapturas, String fragment){
         this.context = c;
         this.listaCapturas = listaCapturas;
+        this.fragment = fragment;
     }
 
 
@@ -40,7 +42,12 @@ public class CapturaAdapter extends RecyclerView.Adapter{
         Captura capturaEscolhida = listaCapturas.get(position);
 
         capturaholder.textview_dataCaptura.setText(""+capturaEscolhida.getDataCaptura());
-        capturaholder.textview_taxaCrescimento.setText(""+capturaEscolhida.getTaxaCrescimento()+" %");
+        if(fragment.equals("area")){
+            capturaholder.textview_taxaCrescimento.setText(""+capturaEscolhida.getAreaVerde()+" cm^2");
+        }else if(fragment.equals("percentual")){
+            capturaholder.textview_taxaCrescimento.setText(""+capturaEscolhida.getPercentualCrescimento()+" %");
+        }
+
 
 
         capturaholder.row.setOnClickListener(new View.OnClickListener() {

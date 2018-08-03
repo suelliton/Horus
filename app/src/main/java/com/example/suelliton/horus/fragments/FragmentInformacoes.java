@@ -9,13 +9,13 @@ import android.view.ViewGroup;
 
 import com.example.suelliton.horus.R;
 
-public class FragmentSensoriamento extends Fragment {
+public class FragmentInformacoes extends Fragment {
 
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_sensoriamento, container, false);
+        View v = inflater.inflate(R.layout.fragment_detalhes, container, false);
 
         return v;
     }

@@ -4,9 +4,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.example.suelliton.horus.fragments.FragmentCrescimento;
-import com.example.suelliton.horus.fragments.FragmentDetalhes;
-import com.example.suelliton.horus.fragments.FragmentSensoriamento;
+import com.example.suelliton.horus.fragments.FragmentArea;
+import com.example.suelliton.horus.fragments.FragmentInformacoes;
+import com.example.suelliton.horus.fragments.FragmentPercentual;
 
 public class FixedTabsPageAdapter extends FragmentPagerAdapter {
     public FixedTabsPageAdapter(FragmentManager fm) {
@@ -16,11 +16,11 @@ public class FixedTabsPageAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position){
             case 0:
-                return new FragmentCrescimento();
+                return new FragmentArea();
             case 1:
-                return new FragmentSensoriamento();
+                return new FragmentPercentual();
             case 2:
-                return new FragmentDetalhes();
+                return new FragmentInformacoes();
             default:
                 return null;
         }
@@ -34,11 +34,11 @@ public class FixedTabsPageAdapter extends FragmentPagerAdapter {
     public CharSequence getPageTitle(int position) {
         switch (position){
             case 0:
-                return "Crescimento";
+                return "Área";
             case 1:
-                return "Sensoriamento";
+                return "Percentual";
             case 2:
-                return "Detalhes";
+                return "Informações";
             default:
                 return null;
         }

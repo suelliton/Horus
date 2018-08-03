@@ -36,12 +36,12 @@ public class Experimento {
         this.variedade = variedade;
         this.count = 0;
         this.ultimaCaptura = "";
-        ArrayList<Captura> lista = new ArrayList();
-        Captura captura = new Captura("",0.0);
-        lista.add(captura);
+        //ArrayList<Captura> lista = new ArrayList();
+        //Captura captura = new Captura("",0.0,0.0);
+        //lista.add(captura);
         //Captura captura2 = new Captura("15-05-2018",120.0);
         //lista.add(captura2);
-        this.crescimento = new Crescimento(lista);
+        this.crescimento = new Crescimento(null);
         this.novaFoto = false;
         this.nutrientes = nutrientes;
         this.dataTransplantio = dataTransplantio;
