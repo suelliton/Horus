@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/navigation_songs"
+        android:icon="@mipmap/ic_sync"
+        android:title="Songs"/>
+
+    <item
+        android:enabled="true"
+        android:id="@+id/navigation_albums"
+        android:icon="@mipmap/ic_launcher"
+        android:title="Albums"
+         />
+
+    <item
+        android:enabled="true"
+        android:id="@+id/navigation_artists"
+        android:icon="@drawable/ic_menu_gallery"
+        android:title="Artists"/>
+
+</menu>

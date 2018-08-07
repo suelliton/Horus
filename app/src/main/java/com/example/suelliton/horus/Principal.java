@@ -15,6 +15,7 @@ import android.os.Handler;
 import android.os.Vibrator;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
@@ -47,7 +48,6 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -80,6 +80,7 @@ public class Principal extends AppCompatActivity
     List<Experimento> listaExperimentos;
     Context context = this;
     static View ViewSnack;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -95,6 +96,8 @@ public class Principal extends AppCompatActivity
         storage = FirebaseStorage.getInstance();
         database =  FirebaseDatabase.getInstance();
         experimentoReference = database.getReference();
+
+
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
