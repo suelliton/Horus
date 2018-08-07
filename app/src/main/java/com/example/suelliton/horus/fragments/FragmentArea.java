@@ -2,6 +2,7 @@ package com.example.suelliton.horus.fragments;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -10,6 +11,7 @@ import android.support.v4.app.Fragment;
 import android.os.Bundle;
 
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -63,7 +65,17 @@ public class FragmentArea extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
          v = inflater.inflate(R.layout.fragment_crescimento, container, false);
+        Configuration configuration = getResources().getConfiguration();
+/*
+        if (configuration.orientation == Configuration.ORIENTATION_LANDSCAPE){
 
+            GraphView grafico =  v.findViewById(R.id.graph);
+            grafico.setMinimumWidth(1000);
+        }else{
+            LinearLayoutCompat grafico =  v.findViewById(R.id.layoutGrafico);
+            grafico.setMinimumHeight(500);
+        }
+*/
         database =  FirebaseDatabase.getInstance();
         //textArea = (TextView) findViewById(R.id.text_taxa);
 
@@ -99,8 +111,16 @@ public class FragmentArea extends Fragment {
                 // textArea.setText("Ultima Area :" +listaCapturas.get(listaCapturas.size()-1).toString()+" %");
                 DataPoint[] dataPointArea =  new DataPoint[listaCapturas.size()];
 
+                int[] vetorAreas ;
+                if(listaCapturas.size() > 0){
+                    vetorAreas = new int[listaCapturas.size()];//vetor responsável por definir os tamanhos do grafico
+                }else{
+                    vetorAreas = new int[5];//vetor responsável por definir os tamanhos do grafico
+                }
+
                 for(int i=0; i < listaCapturas.size();i++){
-                    dataPointArea[i] = new DataPoint(i, (Double) listaCapturas.get(i).getAreaVerde());
+                    dataPointArea[i] = new DataPoint(i+1, (Double) listaCapturas.get(i).getAreaVerde());
+                    vetorAreas[i] = (int) listaCapturas.get(i).getAreaVerde();//esse vetor guarda os valores para saber o maximo para ajustar o grafico
 
                 }
                 capturaAdapter.notifyDataSetChanged();
@@ -114,15 +134,28 @@ public class FragmentArea extends Fragment {
                 series.setBackgroundColor(Color.argb(70,0,150,136 ));
 
 
+
+
+                int maxTopGrafico = maxValueArray(vetorAreas);//calcula o maximo do vetor
+
                 graph.getViewport().setYAxisBoundsManual(true);
                 graph.getViewport().setMinY(0);
-                graph.getViewport().setMaxY(1000);
+                graph.getViewport().setMaxY(maxTopGrafico+(maxTopGrafico/2));//seto a altura maxima do grafico com uma sobra de espaço
+
 
                 graph.getViewport().setXAxisBoundsManual(true);
 
-                graph.getViewport().setMinX(0);
-                graph.getViewport().setMaxX(45);
-                graph.getGridLabelRenderer().setNumHorizontalLabels(6);
+                int maxRightGrafico = 0;
+                if(vetorAreas.length == 0){
+                    maxRightGrafico =  45;
+                }else{
+                    maxRightGrafico = vetorAreas.length;
+                }
+
+                graph.getViewport().setMinX(1);
+                graph.getViewport().setMaxX(maxRightGrafico);
+
+                graph.getGridLabelRenderer().setNumHorizontalLabels(maxRightGrafico);
                 graph.getViewport().setScalable(true);
                 //graph.getViewport().setScalableY(true);
                 //graph.setRotationX(5);
@@ -214,7 +247,22 @@ public class FragmentArea extends Fragment {
         AlertDialog criaalerta = dialogExcluir.create();
         criaalerta.show();
     }
+    public int maxValueArray (int[] a){
+        //Retorna o maior valor de um vetor
+        if(a.length == 0){
+            return 80;
+        }else {
+            int max = a[0]; //supõe-se que o maior elemento é primeiro
+            for (int i = 1; i < a.length; i++) {
+                //um valor maior foi encontrado
+                if (max < a[i]) {
+                    max = a[i]; //substitui o valor máximo
+                }
+            }
 
+            return max; //retorna o valor máximo
+        }
+    }
 
 
     @Override

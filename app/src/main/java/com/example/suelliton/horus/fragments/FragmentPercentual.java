@@ -93,9 +93,17 @@ public class FragmentPercentual extends Fragment {
                 // textArea.setText("Ultima Area :" +listaCapturas.get(listaCapturas.size()-1).toString()+" %");
                 DataPoint[] dataPointTaxa =  new DataPoint[listaCapturas.size()];
 
-                for(int i=0; i < listaCapturas.size();i++){
-                    dataPointTaxa[i] = new DataPoint(i, (Double) listaCapturas.get(i).getPercentualCrescimento());
+                int[] vetorPercentuais;
+                if(listaCapturas.size() > 0){
+                    vetorPercentuais = new int[listaCapturas.size()];//vetor responsável por definir os tamanhos do grafico
+                }else{
+                    vetorPercentuais = new int[5];//vetor responsável por definir os tamanhos do grafico
+                }
 
+
+                for(int i=0; i < listaCapturas.size();i++){
+                    dataPointTaxa[i] = new DataPoint(i+1, (Double) listaCapturas.get(i).getPercentualCrescimento());
+                    vetorPercentuais[i] = (int) listaCapturas.get(i).getPercentualCrescimento();//esse vetor guarda os valores para saber o max
                 }
                 capturaAdapter.notifyDataSetChanged();
 
@@ -104,19 +112,26 @@ public class FragmentPercentual extends Fragment {
                 LineGraphSeries<DataPoint> series = new LineGraphSeries<>(dataPointTaxa);
                 series.setTitle("Crescimento");
                 series.setDrawBackground(true);
-                series.setColor(Color.argb(255,0,150,136));
-                series.setBackgroundColor(Color.argb(70,0,150,136 ));
+                series.setColor(Color.argb(255,0,191,255));
+                series.setBackgroundColor(Color.argb(70,0,191,255 ));
 
+                int maxTopGrafico = maxValueArray(vetorPercentuais);//calcula o maximo do vetor
 
                 graph.getViewport().setYAxisBoundsManual(true);
                 graph.getViewport().setMinY(0);
-                graph.getViewport().setMaxY(600);
+                graph.getViewport().setMaxY(maxTopGrafico+(maxTopGrafico/2));
 
                 graph.getViewport().setXAxisBoundsManual(true);
 
-                graph.getViewport().setMinX(0);
-                graph.getViewport().setMaxX(45);
-                graph.getGridLabelRenderer().setNumHorizontalLabels(6);
+                int maxRightGrafico = 0;
+                if(vetorPercentuais.length == 0){
+                    maxRightGrafico =  45;
+                }else{
+                    maxRightGrafico = vetorPercentuais.length;
+                }
+                graph.getViewport().setMinX(1);
+                graph.getViewport().setMaxX(maxRightGrafico);
+                graph.getGridLabelRenderer().setNumHorizontalLabels(maxRightGrafico);
                 graph.getViewport().setScalable(true);
                 //graph.getViewport().setScalableY(true);
                 //graph.setRotationX(5);
@@ -209,6 +224,22 @@ public class FragmentPercentual extends Fragment {
         criaalerta.show();
     }
 
+    public int maxValueArray (int[] a){
+        //Retorna o maior valor de um vetor
+        if(a.length == 0){
+            return 80;
+        }else {
+            int max = a[0]; //supõe-se que o maior elemento é primeiro
+            for (int i = 1; i < a.length; i++) {
+                //um valor maior foi encontrado
+                if (max < a[i]) {
+                    max = a[i]; //substitui o valor máximo
+                }
+            }
+
+            return max; //retorna o valor máximo
+        }
+    }
 
 
     @Override
