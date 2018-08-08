@@ -3,19 +3,17 @@
     <item
         android:id="@+id/navigation_songs"
         android:icon="@mipmap/ic_sync"
-        android:title="Songs"/>
-
+        android:title="Sync"/>
     <item
-        android:enabled="true"
-        android:id="@+id/navigation_albums"
-        android:icon="@mipmap/ic_launcher"
-        android:title="Albums"
-         />
+        android:id="@+id/navigation_song"
+        android:icon="@mipmap/ic_sync"
+        android:title="Sync"/>
+
 
     <item
         android:enabled="true"
         android:id="@+id/navigation_artists"
-        android:icon="@drawable/ic_menu_gallery"
-        android:title="Artists"/>
+        android:icon="@drawable/ic_menu_camera"
+        android:title="Add"/>
 
 </menu>

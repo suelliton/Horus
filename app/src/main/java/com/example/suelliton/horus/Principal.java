@@ -2,6 +2,7 @@ package com.example.suelliton.horus;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.ClipData;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -31,7 +32,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.example.suelliton.horus.adapters.ExperimentoAdapter;
 import com.example.suelliton.horus.models.Experimento;
@@ -55,7 +58,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.suelliton.horus.fragments.FragmentArea.ViewSnackApoio;
+
 
 
 public class Principal extends AppCompatActivity
@@ -68,8 +71,10 @@ public class Principal extends AppCompatActivity
             Manifest.permission.WRITE_EXTERNAL_STORAGE
     };
     ProgressBar progressBar;
+    public static View ViewSnackApoio;
     public static boolean sincronizando = false;
-    FloatingActionButton sincronizar;
+    FloatingActionButton adicionarNovo;
+    //FloatingActionButton sincronizar;
     private FirebaseDatabase database ;
     private FirebaseStorage storage;
     private DatabaseReference experimentoReference ;
@@ -80,6 +85,7 @@ public class Principal extends AppCompatActivity
     List<Experimento> listaExperimentos;
     Context context = this;
     static View ViewSnack;
+    Menu m;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,6 +106,7 @@ public class Principal extends AppCompatActivity
 
 
 
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -108,20 +115,21 @@ public class Principal extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        ViewSnack = drawer;//serve de parametro pro snack achar a rootview
+
 
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
-
-        FloatingActionButton adicionarNovo = (FloatingActionButton) findViewById(R.id.floatAdicionar);
+        ViewSnack = progressBar;//serve de parametro pro snack achar a rootview
+/*
+        adicionarNovo = (FloatingActionButton) findViewById(R.id.floatAdicionar);
         adicionarNovo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivityForResult(new Intent(getApplicationContext(),NovoExperimentoActivity.class),1);
             }
         });
-
-        sincronizar = (FloatingActionButton) findViewById(R.id.floatSincronizar);
-        sincronizar.setClickable(false);
+*/
+        //sincronizar = (FloatingActionButton) findViewById(R.id.floatSincronizar);
+        //sincronizar.setClickable(false);
 
         status();
 
@@ -180,18 +188,55 @@ public class Principal extends AppCompatActivity
 
    @SuppressLint("ResourceType")
    public void setFloatSync(){
+            if(m != null) {
+                MenuItem item = m.findItem(R.id.action_sync);
 
-       Log.i("tuc",""+listaExperimentos.size());
+                for (Experimento e : listaExperimentos) {
+                    if (!e.isSincronizado()) {
+                        if (isOnline(Principal.this)) {
+                            if (!sincronizando) {
+                                progressBar.setVisibility(View.GONE);
+                                item.setIcon(R.mipmap.ic_no_sync);
+                                item.setEnabled(true);
+                                if (!item.isEnabled()) {
+                                    item.setEnabled(true);
+                                }
+                            } else {
+                                progressBar.setVisibility(View.VISIBLE);
+                            }
+                        } else {
+                            item.setIcon(R.mipmap.ic_no_sync_red);
+                            item.setEnabled(false);
+                        }
+                        break;
+
+                    } else {
+                        if (isOnline(Principal.this)) {
+                            //sincronizar.setImageResource(R.mipmap.ic_sync);
+                            item.setIcon(R.mipmap.ic_sync);
+                        } else {
+                            //sincronizar.setImageResource(R.mipmap.ic_sync_red);
+                            item.setIcon(R.mipmap.ic_sync_red);
+                        }
+                        item.setEnabled(false);
+
+                    }
+                }
+            }
+
+      /*
+
        for (Experimento e:listaExperimentos) {
-           Log.i("tuc",""+listaExperimentos.size());
 
            if(!e.isSincronizado()){
 
                if (isOnline(Principal.this)) {
                        if(!sincronizando){
                            progressBar.setVisibility(View.GONE);
-                           sincronizar.setImageResource(R.mipmap.ic_no_sync);
-                           sincronizar.setVisibility(View.VISIBLE);
+                           //sincronizar.setImageResource(R.mipmap.ic_no_sync);
+                           m.findItem(R.id.action_sync).setIcon(R.mipmap.ic_no_sync);
+                           //sincronizar.setVisibility(View.VISIBLE);
+                           m.findItem(R.id.action_sync).setEnabled(true);
                            if(!sincronizar.isClickable()){
                                 sincronizar.setClickable(true);
                            }
@@ -200,22 +245,25 @@ public class Principal extends AppCompatActivity
                            sincronizar.setVisibility(View.INVISIBLE);
                        }
                }else{
-                   sincronizar.setImageResource(R.mipmap.ic_no_sync_red);
-
-                   sincronizar.setClickable(false);
+                   //sincronizar.setImageResource(R.mipmap.ic_no_sync_red);
+                   //sincronizar.setClickable(false);
+                   m.findItem(R.id.action_sync).setIcon(R.mipmap.ic_no_sync_red);
+                   m.findItem(R.id.action_sync).setEnabled(false);
                }
                break;
 
            }else{
                if (isOnline(Principal.this)) {
-                   sincronizar.setImageResource(R.mipmap.ic_sync);
+                   //sincronizar.setImageResource(R.mipmap.ic_sync);
+                   m.findItem(R.id.action_sync).setIcon(R.mipmap.ic_sync);
                }else{
-                   sincronizar.setImageResource(R.mipmap.ic_sync_red);
+                   //sincronizar.setImageResource(R.mipmap.ic_sync_red);
+                   m.findItem(R.id.action_sync).setIcon(R.mipmap.ic_sync_red);
                }
                sincronizar.setClickable(false);
 
            }
-       }
+       }*/
 
    }
 
@@ -318,11 +366,56 @@ public class Principal extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_add) {
+            startActivityForResult(new Intent(getApplicationContext(),NovoExperimentoActivity.class),1);
+            return true;
+        }else
+            if (id == R.id.action_sync) {//ação quando action_sync é clicado
+            sincronizaApp(progressBar);
             return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+//metodo para modificar menu da toolbar
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        m = menu;//atribuo o menu a uma variavel global ue poderá ser acessada em outros lugares para mudar o icone do action_sync
+        return super.onPrepareOptionsMenu(menu);
+
+    }
+    //resposnsável por sincronizar os dados manualmente com a nuvem atraves do botao action_sync da toolbar
+    public void sincronizaApp(View view){
+
+        for (Experimento e:listaExperimentos) {
+            //sincronizar.setVisibility(View.INVISIBLE);
+            sincronizando =  true;
+            if(!e.isSincronizado()){
+                if(isOnline(this)) {
+
+                    try {
+
+                        StorageReference alfaceRef = storage.getReference(e.getNome() + "/" + e.getNome()+e.getCount().toString()+".jpg");
+
+                        uploadFirebaseStream(alfaceRef,e);
+
+                    } catch (FileNotFoundException ex) {
+                        ex.printStackTrace();
+                        Snackbar.make(view.getRootView(), "Erro!", Snackbar.LENGTH_LONG)
+                                .setAction("Action", null).show();
+                    }
+                    DatabaseReference dr = database.getReference(e.getNome());
+
+                }else{
+                    Snackbar.make(view.getRootView(), "Conecte se a internet", Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
+
+                }
+
+            }
+        }
+        Snackbar.make(view.getRootView(), "Sincronizando experimentos", Snackbar.LENGTH_LONG)
+                .setAction("Action", null).show();
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -375,7 +468,8 @@ public class Principal extends AppCompatActivity
         setOnclickRecycler();
 
 
-
+/*
+essa parte foi substituida pelo botao na toolbar
         sincronizar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -414,7 +508,7 @@ public class Principal extends AppCompatActivity
 
 
 
-
+*/
     }
 
     @Override
@@ -442,7 +536,7 @@ public class Principal extends AppCompatActivity
         // btn.setEnabled(true);
     }
 
-    private void alertAndFinish() {
+    private void alertAndFinish(){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(R.string.app_name).setMessage("Para utilizar todas as funções desse aplicativo, você precisa aceitar o acesso ao armazenamento externo.");
         // Add the buttons

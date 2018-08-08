@@ -3,6 +3,7 @@ package com.example.suelliton.horus.adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,9 +11,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.suelliton.horus.DetalhesActivity;
 import com.example.suelliton.horus.R;
+import com.example.suelliton.horus.StorageActivity;
 import com.example.suelliton.horus.models.Experimento;
 
 import java.util.List;
@@ -62,6 +65,20 @@ public class ExperimentoAdapter extends RecyclerView.Adapter {
             }
         });
 
+        experimentoholder.float_adicionarFoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Toast.makeText(context, "funcionei!! "+ experimentoEscolhido.getNome(), Toast.LENGTH_SHORT).show();
+                Bundle bundle = new Bundle();
+                bundle.putString("nomeExp",experimentoEscolhido.getNome());
+                bundle.putInt("count",experimentoEscolhido.getCount());
+                Log.i("teste",experimentoEscolhido.getNome());
+                Intent intent = new Intent(context,StorageActivity.class);
+                intent.putExtras(bundle);
+                context.startActivity(intent);
+            }
+        });
+
 
     }
 
@@ -79,8 +96,9 @@ public class ExperimentoAdapter extends RecyclerView.Adapter {
         final TextView text_qtdFotos;
         final TextView text_ultimaCaptura;
 
+        final FloatingActionButton float_adicionarFoto;
 
-        //  final TextView label_infestacaoTratamento;
+
 
         public ExperimentoViewHolder(View v) {
             super(v);
@@ -89,7 +107,7 @@ public class ExperimentoAdapter extends RecyclerView.Adapter {
             text_qtdFotos = v.findViewById(R.id.label_qtdFotos);
             text_ultimaCaptura = v.findViewById(R.id.label_ultimaCaptura);
             row = v.findViewById(R.id.reg_row);
-
+            float_adicionarFoto = v.findViewById(R.id.float_btn_adicionar);
 
 
 

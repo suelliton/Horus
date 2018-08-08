@@ -40,8 +40,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.jjoe64.graphview.GraphView;
-import com.jjoe64.graphview.series.DataPoint;
-import com.jjoe64.graphview.series.LineGraphSeries;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,7 +65,7 @@ public class FragmentPercentual extends Fragment {
     public static GraphView graph;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        v = inflater.inflate(R.layout.fragment_crescimento, container, false);
+        v = inflater.inflate(R.layout.fragment_area, container, false);
 
         database =  FirebaseDatabase.getInstance();
         //textArea = (TextView) findViewById(R.id.text_taxa);
@@ -243,14 +241,6 @@ public class FragmentPercentual extends Fragment {
         });
 
 
-        btnExcluir = (FloatingActionButton) v.findViewById(R.id.btnExcluir);
-        btnExcluir.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                createDialog();
-            }
-        });
-
 
         Log.i("rec", String.valueOf(listaCapturas.size()));
 
@@ -275,27 +265,7 @@ public class FragmentPercentual extends Fragment {
         Log.i("rec", String.valueOf(listaCapturas.size()));
     }
 
-    public void createDialog(){
-        AlertDialog.Builder dialogExcluir = new AlertDialog.Builder(getView().getContext());
-        dialogExcluir.setIcon(R.mipmap.ic_launcher);
-        dialogExcluir.setTitle("Titulo");
-        dialogExcluir.setMessage("Deseja finalizar o experimento?");
-        dialogExcluir.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                experimentoReference.child("status").setValue("desativado");
-                Toast.makeText(getView().getContext(), "O experimento foi excluido com sucesso", Toast.LENGTH_LONG).show();
-            }
-        });
-        dialogExcluir.setNegativeButton("Não", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Toast.makeText(getView().getContext(), "Exclusão cancelada", Toast.LENGTH_LONG).show();
-            }
-        });
-        AlertDialog criaalerta = dialogExcluir.create();
-        criaalerta.show();
-    }
+
 
     public int maxValueArray (int[] a){
         //Retorna o maior valor de um vetor

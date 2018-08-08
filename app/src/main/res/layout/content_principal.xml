@@ -9,8 +9,11 @@
     tools:showIn="@layout/app_bar_principal">
 
     <android.support.constraint.ConstraintLayout
+        android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        app:layout_anchor="@+id/constraintLayout"
+        app:layout_anchorGravity="top|center">
 
 
         <LinearLayout
@@ -38,6 +41,7 @@
 
         </LinearLayout>
 
+
         <ProgressBar
             android:id="@+id/progressBar"
             android:layout_width="wrap_content"
@@ -48,30 +52,67 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
-
+<!--
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/floatSincronizar"
             android:layout_width="70dp"
             android:layout_height="70dp"
             android:layout_gravity="bottom|left"
-            android:layout_marginBottom="16dp"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="8dp"
             android:src="@mipmap/ic_save"
 
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
+-->
+        <!--
+       <android.support.design.widget.FloatingActionButton
+           android:layout_margin="@dimen/fab_margin"
+           android:id="@+id/floatAdicionar"
+           android:layout_width="56dp"
+           android:layout_height="56dp"
+           android:layout_gravity="bottom|right"
+           android:src="@android:drawable/ic_input_add"
+           android:tint="@color/branco"
+           app:layout_constraintBottom_toBottomOf="parent"
+           app:layout_constraintEnd_toEndOf="parent" />
 
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/floatAdicionar"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:layout_gravity="bottom|right"
-            android:layout_marginBottom="16dp"
-            android:layout_marginEnd="16dp"
-            android:src="@mipmap/ic_add"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+     <LinearLayout
+
+           android:background="@color/branco"
+           android:layout_width="match_parent"
+           android:layout_height="70dp"
+           app:layout_constraintBottom_toBottomOf="@+id/linearLayout2"
+           tools:layout_editor_absoluteX="0dp"
+           tools:ignore="MissingConstraints">
+
+           <ImageButton
+               android:layout_gravity="left"
+               android:id="@+id/floatSincronizar"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_weight="3"
+               android:backgroundTint="@color/branco"
+               android:src="@mipmap/ic_save" />
+           <ImageButton
+               android:layout_gravity="center"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_weight="3"
+               android:backgroundTint="@color/branco"
+             />
+
+           <ImageButton
+               android:layout_gravity="right"
+               android:id="@+id/floatAdicionar"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_weight="3"
+               android:backgroundTint="@color/branco"
+               android:gravity="right"
+               android:src="@mipmap/ic_add" />
+
+       </LinearLayout>-->
 
     </android.support.constraint.ConstraintLayout>
 

@@ -2,6 +2,7 @@ package com.example.suelliton.horus;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.hardware.Sensor;
@@ -22,6 +23,7 @@ import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 
 import android.support.v7.widget.Toolbar;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -50,7 +52,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 import static android.app.PendingIntent.getActivity;
-import static com.example.suelliton.horus.fragments.FragmentArea.ViewSnackApoio;
+import static com.example.suelliton.horus.Principal.ViewSnack;
 import static com.example.suelliton.horus.Principal.sincronizando;
 
 /**
@@ -91,9 +93,7 @@ public class StorageActivity extends AppCompatActivity implements SensorEventLis
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true); //Mostrar o botão
-        getSupportActionBar().setHomeButtonEnabled(true);      //Ativar o botão
-        getSupportActionBar().setTitle("Adicionar foto");
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
 
         storage = FirebaseStorage.getInstance();
@@ -105,6 +105,15 @@ public class StorageActivity extends AppCompatActivity implements SensorEventLis
         count = bundle.getInt("count");
         Log.i("teste2", "count : " + count);
         titulo.setText(nomeExperimento);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false); //Mostrar o botão
+        getSupportActionBar().setHomeButtonEnabled(false);      //Ativar o botão
+        getSupportActionBar().setTitle("Upload da imagem ");
+        getSupportActionBar().setDisplayShowTitleEnabled(true);
+        toolbar.setTitleMarginStart(160);
+
+
+
 
         FILENAME = nomeExperimento + count + ".jpg";
         DIRECTORYNAME = "/Camera/Horus/" + nomeExperimento + "/";
@@ -125,7 +134,7 @@ public class StorageActivity extends AppCompatActivity implements SensorEventLis
 
                     btnUpload.setClickable(false);
                     try {
-                        Snackbar.make(ViewSnackApoio.getRootView(), "Fazendo upload para o firebase", Snackbar.LENGTH_LONG)
+                        Snackbar.make(ViewSnack.getRootView(), "Fazendo upload para o firebase", Snackbar.LENGTH_LONG)
                                 .setAction("Action", null).show();
                         StorageReference alfaceRef = storage.getReference(nomeExperimento + "/" + FILENAME);
 
@@ -133,7 +142,7 @@ public class StorageActivity extends AppCompatActivity implements SensorEventLis
 
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
-                        Snackbar.make(ViewSnackApoio.getRootView(), "Erro!", Snackbar.LENGTH_LONG)
+                        Snackbar.make(ViewSnack.getRootView(), "Erro!", Snackbar.LENGTH_LONG)
                                 .setAction("Action", null).show();
                     }
                     DatabaseReference dr = database.getReference(nomeExperimento);
@@ -145,7 +154,7 @@ public class StorageActivity extends AppCompatActivity implements SensorEventLis
                     DatabaseReference dr = database.getReference(nomeExperimento);
                     dr.getRef().child("ultimaCaptura").setValue(getDataAtual());//seta a hora da captura
                     dr.getRef().child("sincronizado").setValue(false);//seta como não sincronizado
-                    Snackbar.make(ViewSnackApoio.getRootView(), "Sem conexão com a internet!", Snackbar.LENGTH_LONG)
+                    Snackbar.make(ViewSnack.getRootView(), "Sem conexão com a internet!", Snackbar.LENGTH_LONG)
                             .setAction("Action", null).show();
 
                 }
@@ -310,6 +319,7 @@ public class StorageActivity extends AppCompatActivity implements SensorEventLis
         } else {
             finish();//se apertar back estando na camera fecha a activity
         }
+
 
     }
 
