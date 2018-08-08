@@ -1,28 +1,312 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-        <TextView
-            android:gravity=""
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="text1"/>
+        <android.widget.ScrollView
+            android:layout_height="match_parent"
+            android:layout_width="match_parent">
 
-        <android.support.design.widget.CoordinatorLayout
-            android:orientation="horizontal"
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                        <TextView
+                            android:layout_width="114dp"
+                            android:layout_height="28dp"
+                            android:layout_marginStart="8dp"
+                            android:text="Nome"
+                            android:layout_weight="5"
+                            app:layout_constraintStart_toStartOf="parent"
+                            tools:layout_editor_absoluteY="40dp" />
 
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/btnFinalizar"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            android:layout_gravity="bottom|start"
-            android:layout_margin="@dimen/fab_margin"
-            android:text="Adicionar foto"
-            app:srcCompat="@android:drawable/ic_dialog_alert" />
+                        <TextView
+                            android:id="@+id/tx_nome"
+                            android:layout_width="131dp"
+                            android:layout_height="30dp"
+                            android:layout_marginEnd="8dp"
+                            android:text="TextView_nome"
+                            android:layout_weight="5"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            tools:layout_editor_absoluteY="40dp" />
+                </LinearLayout>
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                        <TextView
+                            android:layout_width="114dp"
+                            android:layout_height="28dp"
+                            android:layout_marginStart="8dp"
+                            android:text="Descrição"
+                            android:layout_weight="5"
+                            app:layout_constraintStart_toStartOf="parent"
+                            tools:layout_editor_absoluteY="40dp" />
+
+                        <TextView
+                            android:id="@+id/tx_descricao"
+                            android:layout_width="131dp"
+                            android:layout_height="30dp"
+                            android:layout_marginEnd="8dp"
+                            android:text="TextView_descricao"
+                            android:layout_weight="5"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            tools:layout_editor_absoluteY="40dp" />
+                </LinearLayout>
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                        <TextView
+                            android:layout_width="114dp"
+                            android:layout_height="28dp"
+                            android:layout_marginStart="8dp"
+                            android:text="Variedade"
+                            android:layout_weight="5"
+                            app:layout_constraintStart_toStartOf="parent"
+                            tools:layout_editor_absoluteY="40dp" />
+
+                        <TextView
+                            android:id="@+id/tx_variedade"
+                            android:layout_width="131dp"
+                            android:layout_height="30dp"
+                            android:layout_marginEnd="8dp"
+                            android:text="TextView"
+                            android:layout_weight="5"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            tools:layout_editor_absoluteY="40dp" />
+                </LinearLayout>
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                        <TextView
+                            android:layout_width="114dp"
+                            android:layout_height="28dp"
+                            android:layout_marginStart="8dp"
+                            android:text="Idade no transplantio"
+                            android:layout_weight="5"
+                            app:layout_constraintStart_toStartOf="parent"
+                            tools:layout_editor_absoluteY="40dp" />
+
+                        <TextView
+                            android:id="@+id/tx_idade_transplantio"
+                            android:layout_width="131dp"
+                            android:layout_height="30dp"
+                            android:layout_marginEnd="8dp"
+                            android:text="TextView"
+                            android:layout_weight="5"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            tools:layout_editor_absoluteY="40dp" />
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                        <TextView
+                            android:layout_width="114dp"
+                            android:layout_height="28dp"
+                            android:layout_marginStart="8dp"
+                            android:text="Idade atual"
+                            android:layout_weight="5"
+                            app:layout_constraintStart_toStartOf="parent"
+                            tools:layout_editor_absoluteY="40dp" />
+
+                        <TextView
+                            android:id="@+id/tx_idade_atual"
+                            android:layout_width="131dp"
+                            android:layout_height="30dp"
+                            android:layout_marginEnd="8dp"
+                            android:text="TextView"
+                            android:layout_weight="5"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            tools:layout_editor_absoluteY="40dp" />
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                        <TextView
+                            android:layout_width="114dp"
+                            android:layout_height="28dp"
+                            android:layout_marginStart="8dp"
+                            android:text="Quantidade de fotos"
+                            android:layout_weight="5"
+                            app:layout_constraintStart_toStartOf="parent"
+                            tools:layout_editor_absoluteY="40dp" />
+
+                        <TextView
+                            android:id="@+id/tx_qtd_fotos"
+                            android:layout_width="131dp"
+                            android:layout_height="30dp"
+                            android:layout_marginEnd="8dp"
+                            android:text="TextView"
+                            android:layout_weight="5"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            tools:layout_editor_absoluteY="40dp" />
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                        <TextView
+                            android:layout_width="114dp"
+                            android:layout_height="28dp"
+                            android:layout_marginStart="8dp"
+                            android:text="Tempo bomba ligada"
+                            android:layout_weight="5"
+                            app:layout_constraintStart_toStartOf="parent"
+                            tools:layout_editor_absoluteY="40dp" />
+
+                        <TextView
+                            android:id="@+id/tx_tempo_bomba_ligada"
+                            android:layout_width="131dp"
+                            android:layout_height="30dp"
+                            android:layout_marginEnd="8dp"
+                            android:text="TextView"
+                            android:layout_weight="5"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            tools:layout_editor_absoluteY="40dp" />
+                </LinearLayout>
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                        <TextView
+                            android:layout_width="114dp"
+                            android:layout_height="28dp"
+                            android:layout_marginStart="8dp"
+                            android:text="Tempo bomba desligada"
+                            android:layout_weight="5"
+                            app:layout_constraintStart_toStartOf="parent"
+                            tools:layout_editor_absoluteY="40dp" />
+
+                        <TextView
+                            android:id="@+id/tx_tempo_bomba_desligada"
+                            android:layout_width="131dp"
+                            android:layout_height="30dp"
+                            android:layout_marginEnd="8dp"
+                            android:text="TextView"
+                            android:layout_weight="5"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            tools:layout_editor_absoluteY="40dp" />
+                </LinearLayout>
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                        <TextView
+                            android:layout_width="114dp"
+                            android:layout_height="28dp"
+                            android:layout_marginStart="8dp"
+                            android:text="Data de início"
+                            android:layout_weight="5"
+                            app:layout_constraintStart_toStartOf="parent"
+                            tools:layout_editor_absoluteY="40dp" />
+
+                        <TextView
+                            android:id="@+id/tx_data_inicio"
+                            android:layout_width="131dp"
+                            android:layout_height="30dp"
+                            android:layout_marginEnd="8dp"
+                            android:text="TextView"
+                            android:layout_weight="5"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            tools:layout_editor_absoluteY="40dp" />
+                </LinearLayout>
+
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="114dp"
+                    android:layout_height="28dp"
+                    android:layout_marginStart="8dp"
+                    android:text="Micronutrientes"
+                    android:layout_weight="10"
+                    app:layout_constraintStart_toStartOf="parent"
+                    tools:layout_editor_absoluteY="40dp" />
+
+            </LinearLayout>
+
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_micronutrintes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
+
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="114dp"
+                    android:layout_height="28dp"
+                    android:layout_marginStart="8dp"
+                    android:text="Macronutrientes"
+
+                    app:layout_constraintStart_toStartOf="parent"
+                    tools:layout_editor_absoluteY="40dp" />
+
+            </LinearLayout>
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recycler_macronutrintes"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                </android.support.v7.widget.RecyclerView>
+
+
+
+
+
+        </LinearLayout>
+
+
+
+        </android.widget.ScrollView>
+
+
+<!--
+
+   -->
+
+
+
+    <!--float-->
+        <android.support.design.widget.CoordinatorLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+           >
+
+                <android.support.design.widget.FloatingActionButton
+                    android:id="@+id/btnFinalizar"
+                    android:layout_width="56dp"
+                    android:layout_height="56dp"
+                    android:layout_gravity="bottom|start"
+                    android:layout_margin="@dimen/fab_margin"
+                    android:text="Adicionar foto"
+                    app:srcCompat="@android:drawable/ic_dialog_alert" />
+
 
         </android.support.design.widget.CoordinatorLayout>
         />

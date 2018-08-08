@@ -137,9 +137,11 @@ public class NovoExperimentoActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true); //Mostrar o botão
-        getSupportActionBar().setHomeButtonEnabled(true);      //Ativar o botão
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false); //Mostrar o botão
+        getSupportActionBar().setHomeButtonEnabled(false);      //Ativar o botão
         getSupportActionBar().setTitle("Adicionar experimento");
+        toolbar.setTitleMarginStart(150);
+
 
         listaExperimentos = new ArrayList<>();
 
