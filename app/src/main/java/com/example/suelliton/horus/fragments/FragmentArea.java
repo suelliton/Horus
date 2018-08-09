@@ -1,6 +1,5 @@
 package com.example.suelliton.horus.fragments;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
@@ -9,7 +8,6 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -17,7 +15,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.suelliton.horus.R;
 import com.example.suelliton.horus.StorageActivity;
@@ -67,7 +64,7 @@ public class FragmentArea extends Fragment {
     public static GraphView graph;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-         v = inflater.inflate(R.layout.fragment_area, container, false);
+         v = inflater.inflate(R.layout.fragment_grafico, container, false);
         Configuration configuration = getResources().getConfiguration();
 
         database =  FirebaseDatabase.getInstance();
@@ -234,7 +231,7 @@ public class FragmentArea extends Fragment {
 
 
 
-
+/*
         btnAdicionar= (FloatingActionButton) v.findViewById(R.id.btnAdicionar);
 
         btnAdicionar.setOnClickListener(new View.OnClickListener() {
@@ -250,7 +247,7 @@ public class FragmentArea extends Fragment {
                 startActivity(intent);
             }
         });
-
+*/
 
 
 
