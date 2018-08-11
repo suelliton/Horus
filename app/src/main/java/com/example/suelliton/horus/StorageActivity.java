@@ -32,10 +32,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.example.suelliton.horus.models.Experimento;
+import com.example.suelliton.horus.models.Usuario;
+import com.example.suelliton.horus.utils.MyDatabaseUtil;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -50,14 +56,12 @@ import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
-import static android.app.PendingIntent.getActivity;
+import static com.example.suelliton.horus.LoginActivity.LOGADO;
 import static com.example.suelliton.horus.Principal.ViewSnack;
 import static com.example.suelliton.horus.Principal.sincronizando;
 
-/**
- * Created by André Gomes on 11/10/2017.
- */
 
 public class StorageActivity extends AppCompatActivity implements SensorEventListener{
     private TextView titulo;
@@ -72,9 +76,10 @@ public class StorageActivity extends AppCompatActivity implements SensorEventLis
     private FirebaseDatabase database;
     FloatingActionButton btnUpload;
     FloatingActionButton btnTiraFoto;
-    boolean capturou = false;
 
 
+    private ValueEventListener childValueUsuario;
+    private DatabaseReference usuarioReference ;
     MediaPlayer mp_direita  ;
     MediaPlayer mp_esquerda ;
     MediaPlayer mp_frente  ;
@@ -84,12 +89,13 @@ public class StorageActivity extends AppCompatActivity implements SensorEventLis
     private SensorManager mSensorManager;
     private Sensor mAcelerometro;
 
-
+    private   Usuario USUARIO_OBJETO_LOGADO;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_storage);
+        database = MyDatabaseUtil.getDatabase();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -97,7 +103,7 @@ public class StorageActivity extends AppCompatActivity implements SensorEventLis
 
 
         storage = FirebaseStorage.getInstance();
-        database = FirebaseDatabase.getInstance();
+
         this.titulo = (TextView) findViewById(R.id.txtTitulo);
 
         Bundle bundle = getIntent().getExtras();
@@ -112,8 +118,21 @@ public class StorageActivity extends AppCompatActivity implements SensorEventLis
         getSupportActionBar().setDisplayShowTitleEnabled(true);
         toolbar.setTitleMarginStart(160);
 
+        usuarioReference = database.getReference();
 
 
+        childValueUsuario = usuarioReference.child(LOGADO).addValueEventListener(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                USUARIO_OBJETO_LOGADO = dataSnapshot.getValue(Usuario.class);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
         FILENAME = nomeExperimento + count + ".jpg";
         DIRECTORYNAME = "/Camera/Horus/" + nomeExperimento + "/";
@@ -145,15 +164,30 @@ public class StorageActivity extends AppCompatActivity implements SensorEventLis
                         Snackbar.make(ViewSnack.getRootView(), "Erro!", Snackbar.LENGTH_LONG)
                                 .setAction("Action", null).show();
                     }
-                    DatabaseReference dr = database.getReference(nomeExperimento);
-                    dr.getRef().child("sincronizado").setValue(false);
-                    dr.getRef().child("ultimaCaptura").setValue(getDataAtual());//seta a hora da captura
+                    DatabaseReference dr = database.getReference(USUARIO_OBJETO_LOGADO.getUsername());
+                    List<Experimento> lista = USUARIO_OBJETO_LOGADO.getExperimentos();
+                    for ( Experimento e:lista ) {
+                        if(e.getNome().equals(nomeExperimento)){
+                            e.setUltimaCaptura(getDataAtual());
+                            e.setSincronizado(false);
+                        }
+                    }
                     sincronizando = true;
+                    USUARIO_OBJETO_LOGADO.setExperimentos(lista);
+                    dr.setValue(USUARIO_OBJETO_LOGADO);
 
                 }else{
-                    DatabaseReference dr = database.getReference(nomeExperimento);
-                    dr.getRef().child("ultimaCaptura").setValue(getDataAtual());//seta a hora da captura
-                    dr.getRef().child("sincronizado").setValue(false);//seta como não sincronizado
+                    DatabaseReference dr = database.getReference(USUARIO_OBJETO_LOGADO.getUsername());
+                    List<Experimento> lista = USUARIO_OBJETO_LOGADO.getExperimentos();
+                    for ( Experimento e:lista ) {
+                        if(e.getNome().equals(nomeExperimento)){
+                            e.setUltimaCaptura(getDataAtual());
+                            e.setSincronizado(false);
+                            //Toast.makeText(StorageActivity.this, "sinc"+ e.isSincronizado(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                    USUARIO_OBJETO_LOGADO.setExperimentos(lista);
+                    dr.setValue(USUARIO_OBJETO_LOGADO);
                     Snackbar.make(ViewSnack.getRootView(), "Sem conexão com a internet!", Snackbar.LENGTH_LONG)
                             .setAction("Action", null).show();
 
@@ -224,11 +258,19 @@ public class StorageActivity extends AppCompatActivity implements SensorEventLis
                 // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
                 Uri downloadUrl = taskSnapshot.getDownloadUrl();
                 Log.i("envio","conseguiu enviar a foto");
-                DatabaseReference dr = database.getReference(nomeExperimento);
-                dr.getRef().child("count").setValue(count + 1);//INCREMENTA A VARIAVEL DE CONTROLE
-                count++;//INCREMENTA VARIAVEL LOCAL
-                dr.getRef().child("novaFoto").setValue(true);//seta que tem uma nova foto
-                dr.getRef().child("sincronizado").setValue(true);
+                DatabaseReference dr = database.getReference(USUARIO_OBJETO_LOGADO.getUsername());
+
+                List<Experimento> lista = USUARIO_OBJETO_LOGADO.getExperimentos();
+                for ( Experimento e:lista ) {
+                    if(e.getNome().equals(nomeExperimento)){
+                        e.setCount(e.getCount()+1);
+                        e.setNovaFoto(true);
+                        e.setSincronizado(true);
+                    }
+                }
+                USUARIO_OBJETO_LOGADO.setExperimentos(lista);
+                dr.setValue(USUARIO_OBJETO_LOGADO);
+                //count++; // acho que serve para salvar no armazenamento
                 sincronizando = false;
             }
         });
@@ -324,7 +366,7 @@ public class StorageActivity extends AppCompatActivity implements SensorEventLis
     }
 
     public String getDataAtual() {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy\nHH:mm:ss");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yy\nHH:mm:ss");
         // OU
         SimpleDateFormat dateFormat_hora = new SimpleDateFormat("HH:mm:ss");
 
@@ -427,6 +469,9 @@ public class StorageActivity extends AppCompatActivity implements SensorEventLis
         super.onPause();
         mSensorManager.registerListener((SensorEventListener) this, mAcelerometro, SensorManager.SENSOR_DELAY_UI);
         //mSensorManager.unregisterListener(this); tem de deixar comentado para funcionar
+        if(childValueUsuario != null){
+            usuarioReference.removeEventListener(childValueUsuario);
+        }
     }
 
     @Override
@@ -476,4 +521,5 @@ public class StorageActivity extends AppCompatActivity implements SensorEventLis
     public void onAccuracyChanged(Sensor sensor, int i) {
 
     }
+
 }

@@ -19,6 +19,21 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="24dp"
             android:src="@drawable/ic_olho" />
+        <!-- User Label -->
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp">
+
+            <AutoCompleteTextView
+                android:id="@+id/user_cadastro"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:hint="User"
+                android:inputType="textEmailAddress" />
+        </android.support.design.widget.TextInputLayout>
 
         <!-- Email Label -->
         <android.support.design.widget.TextInputLayout
@@ -28,7 +43,7 @@
             android:layout_marginTop="8dp">
 
             <AutoCompleteTextView
-                android:id="@+id/input_email"
+                android:id="@+id/email_cadastro"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
 
@@ -44,7 +59,7 @@
             android:layout_marginTop="8dp">
 
             <EditText
-                android:id="@+id/input_password"
+                android:id="@+id/password_cadastro"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Password"
@@ -63,13 +78,13 @@
             />
 
         <android.support.v7.widget.AppCompatButton
-            android:id="@+id/sign_in_button"
+            android:id="@+id/cadastro_button"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="24dp"
             android:layout_marginTop="24dp"
             android:padding="12dp"
-            android:text="Login" />
+            android:text="Cadastrar" />
 
         <TextView
             android:id="@+id/link_signup"
@@ -78,7 +93,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="24dp"
             android:gravity="center"
-            android:text="Não tem conta? Crie uma!"
+            android:text="Já tem uma conta? faça login!"
             android:textSize="16dip" />
 
     </LinearLayout>

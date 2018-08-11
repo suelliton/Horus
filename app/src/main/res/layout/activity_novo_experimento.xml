@@ -158,7 +158,7 @@ tools:context=".NovoExperimentoActivity">
                 android:layout_height="wrap_content" />
             <TextView
                 android:id="@+id/textview_N"
-                android:text="g"
+                android:text="mg"
                 android:layout_weight="1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
@@ -181,7 +181,7 @@ tools:context=".NovoExperimentoActivity">
             android:layout_height="wrap_content" />
         <TextView
             android:id="@+id/textview_P"
-            android:text="g"
+            android:text="mg"
             android:layout_weight="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
@@ -204,7 +204,7 @@ tools:context=".NovoExperimentoActivity">
             android:layout_height="wrap_content" />
         <TextView
             android:id="@+id/textview_K"
-            android:text="g"
+            android:text="mg"
             android:layout_weight="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
@@ -229,7 +229,7 @@ tools:context=".NovoExperimentoActivity">
             android:layout_height="wrap_content" />
         <TextView
             android:id="@+id/textview_Ca"
-            android:text="g"
+            android:text="mg"
             android:layout_weight="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
@@ -252,7 +252,7 @@ tools:context=".NovoExperimentoActivity">
             android:layout_height="wrap_content" />
         <TextView
             android:id="@+id/textview_Mg"
-            android:text="g"
+            android:text="mg"
             android:layout_weight="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
@@ -275,7 +275,7 @@ tools:context=".NovoExperimentoActivity">
             android:layout_height="wrap_content" />
         <TextView
             android:id="@+id/textview_S"
-            android:text="g"
+            android:text="mg"
             android:layout_weight="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
@@ -308,7 +308,7 @@ tools:context=".NovoExperimentoActivity">
             android:layout_height="wrap_content" />
         <TextView
             android:id="@+id/textview_Fe"
-            android:text="g"
+            android:text="mg"
             android:layout_weight="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
@@ -331,7 +331,7 @@ tools:context=".NovoExperimentoActivity">
             android:layout_height="wrap_content" />
         <TextView
             android:id="@+id/textview_Mn"
-            android:text="g"
+            android:text="mg"
             android:layout_weight="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
@@ -354,7 +354,7 @@ tools:context=".NovoExperimentoActivity">
             android:layout_height="wrap_content" />
         <TextView
             android:id="@+id/textview_Zn"
-            android:text="g"
+            android:text="mg"
             android:layout_weight="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
@@ -379,7 +379,7 @@ tools:context=".NovoExperimentoActivity">
             android:layout_height="wrap_content" />
         <TextView
             android:id="@+id/textview_Cu"
-            android:text="g"
+            android:text="mg"
             android:layout_weight="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
@@ -402,7 +402,7 @@ tools:context=".NovoExperimentoActivity">
             android:layout_height="wrap_content" />
         <TextView
             android:id="@+id/textview_B"
-            android:text="g"
+            android:text="mg"
             android:layout_weight="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
@@ -425,7 +425,7 @@ tools:context=".NovoExperimentoActivity">
             android:layout_height="wrap_content" />
         <TextView
             android:id="@+id/textview_CI"
-            android:text="g"
+            android:text="mg"
             android:layout_weight="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
@@ -448,7 +448,7 @@ tools:context=".NovoExperimentoActivity">
             android:layout_height="wrap_content" />
         <TextView
             android:id="@+id/textview_Mo"
-            android:text="g"
+            android:text="mg"
             android:layout_weight="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />

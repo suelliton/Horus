@@ -19,11 +19,14 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.suelliton.horus.models.Experimento;
 import com.example.suelliton.horus.models.Macronutriente;
 import com.example.suelliton.horus.models.Micronutriente;
 import com.example.suelliton.horus.models.Solucao;
+import com.example.suelliton.horus.models.Usuario;
+import com.example.suelliton.horus.utils.MyDatabaseUtil;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -37,12 +40,14 @@ import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
 
-import static java.lang.Integer.valueOf;
+import static com.example.suelliton.horus.LoginActivity.LOGADO;
+
 
 public class NovoExperimentoActivity extends AppCompatActivity {
     private FirebaseDatabase database ;
-    private DatabaseReference experimentoReference ;
-    private ValueEventListener childValueExperimento;
+    private DatabaseReference usuarioReference ;
+    private ValueEventListener childValueUsuario;
+    private   Usuario USUARIO_OBJETO_LOGADO;
     List<Experimento> listaExperimentos;
 
     EditText nome;
@@ -130,9 +135,11 @@ public class NovoExperimentoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_novo_experimento);
-        database = FirebaseDatabase.getInstance();
+        database = MyDatabaseUtil.getDatabase();
 
-        experimentoReference = database.getReference();
+
+
+        usuarioReference = database.getReference();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -161,14 +168,14 @@ public class NovoExperimentoActivity extends AppCompatActivity {
         setListeners();
         setTextViews();
 
-        childValueExperimento = experimentoReference.addValueEventListener(new ValueEventListener() {
+        childValueUsuario = usuarioReference.child(LOGADO).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 listaExperimentos.removeAll(listaExperimentos);
-
-                for (DataSnapshot snapshot:dataSnapshot.getChildren()) {
-                    Experimento experimento = snapshot.getValue(Experimento.class);//pega o objeto do firebase
-                    listaExperimentos.add(experimento);//adiciona na lista que vai para o adapter
+                try{
+                    USUARIO_OBJETO_LOGADO = dataSnapshot.getValue(Usuario.class);
+                }catch (Exception e){
+                    Toast.makeText(NovoExperimentoActivity.this, "Erro no banco de dados, contate administrado.", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -178,54 +185,8 @@ public class NovoExperimentoActivity extends AppCompatActivity {
             }
         });
 
-    }
-/*
-    public void setSpinner(Spinner spinner, final String nome,String tipo){
-
-        if(tipo.equals("macro")) {
-
-            spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                @Override
-                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                    for (Macronutriente m : macronutrientes) {
-                        if (m.getNome().equals(nome)) {
-                            //macronutrientes.remove(m);//remove o macronutriente da lista
-                            m.setQtd(Integer.parseInt(String.valueOf(adaptador.getItem(i)))); //atualiza qtd do macro
-                            //macronutrientes.add(m);//adiciona novamente na lista
-                        }
-                    }
-                }
-
-                @Override
-                public void onNothingSelected(AdapterView<?> adapterView) {
-                }
-            });
-
-        }else if(tipo.equals("micro")){
-
-            spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                @Override
-                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                    for (Micronutriente m : micronutrientes) {
-                        if (m.getNome().equals(nome)) {
-                            //macronutrientes.remove(m);//remove o macronutriente da lista
-                            m.setQtd(Integer.parseInt(String.valueOf(adaptador.getItem(i)))); //atualiza qtd do macro
-                            //macronutrientes.add(m);//adiciona novamente na lista
-                        }
-                    }
-                }
-
-                @Override
-                public void onNothingSelected(AdapterView<?> adapterView) {
-                }
-            });
-
-
-
-        }
 
     }
-*/
 public void setTextViews(){
     textview_N = (TextView) findViewById(R.id.textview_N);
     textview_P = (TextView) findViewById(R.id.textview_P);
@@ -368,8 +329,19 @@ public void setTextViews(){
                     SAVE_EXPERIMENTO = new Experimento(save_nome, save_descricao, save_variedade, save_solucao,
                             save_dataTransplantio, save_idadePlantaTransplantio, save_idadePlantaAtual,
                             save_tempoBombaLigado, save_tempoBombaDesligado);
-                    experimentoReference = database.getReference(nome.getText().toString());
-                    experimentoReference.setValue(SAVE_EXPERIMENTO);
+
+                    if(USUARIO_OBJETO_LOGADO.getExperimentos() != null) {
+                        listaExperimentos = USUARIO_OBJETO_LOGADO.getExperimentos();
+                    }else{
+                        listaExperimentos = new ArrayList<>();
+                    }
+                    listaExperimentos.add(SAVE_EXPERIMENTO);
+                    USUARIO_OBJETO_LOGADO.setExperimentos(listaExperimentos);
+                    try{
+                        usuarioReference.child(LOGADO).setValue(USUARIO_OBJETO_LOGADO);
+                    }catch (Exception e){
+                        Toast.makeText(NovoExperimentoActivity.this, "Não foi possível salvar o Experimento, contate administrador.", Toast.LENGTH_SHORT).show();
+                    }
                     setResult(1);
                     finish();
                 }else{
@@ -605,7 +577,7 @@ public void setTextViews(){
     }
     public String convertMillisToDate(long yourmilliseconds){
 
-        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy", Locale.US);
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yy", Locale.US);
 
 
         GregorianCalendar calendar = new GregorianCalendar(TimeZone.getTimeZone("US/Central"));
@@ -618,8 +590,16 @@ public void setTextViews(){
     }
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
         setResult(2);//operacao cancelada
         finish();
+        super.onBackPressed();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if(childValueUsuario != null){
+            usuarioReference.removeEventListener(childValueUsuario);
+        }
     }
 }

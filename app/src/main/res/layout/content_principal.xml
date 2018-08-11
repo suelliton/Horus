@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/coordinator_principal"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".Principal"
     tools:showIn="@layout/app_bar_principal">
@@ -18,8 +19,8 @@
 
         <LinearLayout
             android:id="@+id/linearLayout2"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -32,7 +33,7 @@
 
                 android:id="@+id/recycler_experimentos"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 tools:layout_editor_absoluteX="256dp"
                 tools:layout_editor_absoluteY="8dp">
 

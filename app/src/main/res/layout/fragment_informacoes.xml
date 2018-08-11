@@ -272,15 +272,22 @@
                     android:layout_height="wrap_content">
                 </android.support.v7.widget.RecyclerView>
 
-
-
-
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/btn_finalizar"
+                android:backgroundTint="@color/vermelho_material"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:padding="12dp"
+                android:text="Finalizar experimento" />
 
         </LinearLayout>
 
 
 
+
         </android.widget.ScrollView>
+
 
 
 <!--
@@ -289,7 +296,7 @@
 
 
 
-    <!--float-->
+    <!--float
         <android.support.design.widget.CoordinatorLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -309,6 +316,6 @@
 
 
         </android.support.design.widget.CoordinatorLayout>
-        />
+        />-->
 
 </android.support.constraint.ConstraintLayout>

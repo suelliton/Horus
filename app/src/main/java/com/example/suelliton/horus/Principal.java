@@ -6,7 +6,9 @@ import android.content.ClipData;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -17,6 +19,7 @@ import android.os.Vibrator;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
@@ -38,7 +41,9 @@ import android.widget.Toast;
 
 import com.example.suelliton.horus.adapters.ExperimentoAdapter;
 import com.example.suelliton.horus.models.Experimento;
+import com.example.suelliton.horus.models.Usuario;
 import com.example.suelliton.horus.utils.MeuRecyclerViewClickListener;
+import com.example.suelliton.horus.utils.MyDatabaseUtil;
 import com.example.suelliton.horus.utils.PermissionUtils;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -59,8 +64,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-
-
+import static com.example.suelliton.horus.LoginActivity.LOGADO;
 
 public class Principal extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -75,40 +79,43 @@ public class Principal extends AppCompatActivity
     public static View ViewSnackApoio;
     public static boolean sincronizando = false;
     FloatingActionButton adicionarNovo;
+    DrawerLayout drawer;
+    CoordinatorLayout coordinator;
     //FloatingActionButton sincronizar;
     private FirebaseDatabase database ;
     private FirebaseStorage storage;
-    private DatabaseReference experimentoReference ;
+    private DatabaseReference usuarioReference ;
     private ChildEventListener childEventExperimento;
-    private ValueEventListener childValueExperimento;
+    private ValueEventListener childValueUsuario;
     ExperimentoAdapter experimentoAdapter;
     RecyclerView recyclerView;
     List<Experimento> listaExperimentos;
     Context context = this;
     static View ViewSnack;
     Menu m;
+    private  Usuario USUARIO_OBJETO_LOGADO;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_principal);
+        database = MyDatabaseUtil.getDatabase();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
         listaExperimentos = new ArrayList<>();
-        try {
-            FirebaseDatabase.getInstance().setPersistenceEnabled(true);//persistencia em disco local
-        }catch (Exception e){
-            Log.i("teste","nao inicializou persistencia");
-        }
+
+
         storage = FirebaseStorage.getInstance();
-        database =  FirebaseDatabase.getInstance();
-        experimentoReference = database.getReference();
+
+        //minha referencia principal para pegar os experimentos é a do usuario logado
+        usuarioReference = database.getReference();
 
 
+        coordinator = (CoordinatorLayout) findViewById(R.id.coordinator_principal);
 
 
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
@@ -120,17 +127,7 @@ public class Principal extends AppCompatActivity
 
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
         ViewSnack = progressBar;//serve de parametro pro snack achar a rootview
-/*
-        adicionarNovo = (FloatingActionButton) findViewById(R.id.floatAdicionar);
-        adicionarNovo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivityForResult(new Intent(getApplicationContext(),NovoExperimentoActivity.class),1);
-            }
-        });
-*/
-        //sincronizar = (FloatingActionButton) findViewById(R.id.floatSincronizar);
-        //sincronizar.setClickable(false);
+
 
         status();
 
@@ -178,10 +175,18 @@ public class Principal extends AppCompatActivity
                 // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
                 Uri downloadUrl = taskSnapshot.getDownloadUrl();
                 Log.i("envio","conseguiu enviar a foto");
-                DatabaseReference dr = database.getReference(e.getNome());
-                dr.getRef().child("count").setValue(e.getCount() + 1);//INCREMENTA A VARIAVEL DE CONTROLE
-                dr.getRef().child("novaFoto").setValue(true);//seta que tem uma nova foto
-                dr.getRef().child("sincronizado").setValue(true);
+                DatabaseReference dr = database.getReference(USUARIO_OBJETO_LOGADO.getUsername());
+
+                List<Experimento> lista = USUARIO_OBJETO_LOGADO.getExperimentos();
+                for ( Experimento ex:lista ) {
+                    if(ex.getNome().equals(e.getNome())){
+                        ex.setCount(e.getCount()+1);//tirei o +1
+                        ex.setNovaFoto(true);
+                        ex.setSincronizado(true);
+                    }
+                }
+                USUARIO_OBJETO_LOGADO.setExperimentos(lista);
+                dr.setValue(USUARIO_OBJETO_LOGADO);
                 sincronizando = false;
             }
         });
@@ -189,16 +194,17 @@ public class Principal extends AppCompatActivity
 
    @SuppressLint("ResourceType")
    public void setFloatSync(){
-            if(m != null) {
-                MenuItem item = m.findItem(R.id.action_sync);
 
-                for (Experimento e : listaExperimentos) {
-                    if (!e.isSincronizado()) {
-                        if (isOnline(Principal.this)) {
-                            if (!sincronizando) {
+            if(m != null) {//tem que ter o menu da toolbar carregado pra não dar pau
+                MenuItem item = m.findItem(R.id.action_sync);//instancio o menu para poder pegar o botao de sincronizar
+
+                for (Experimento e : listaExperimentos) {//itero sobre a lista de experimentos
+                    if (!e.isSincronizado()) {//se não estiver sincronizado
+                        if (isOnline(Principal.this)) {//e não tiver internet
+                            if (!sincronizando) {// e se não estiver sincronizando
                                 progressBar.setVisibility(View.GONE);
                                 item.setIcon(R.mipmap.ic_no_sync);
-                                item.setEnabled(true);
+                                item.setEnabled(true);//habilito botao
                                 if (!item.isEnabled()) {
                                     item.setEnabled(true);
                                 }
@@ -212,114 +218,61 @@ public class Principal extends AppCompatActivity
                         break;
 
                     } else {
+                        progressBar.setVisibility(View.GONE);
                         if (isOnline(Principal.this)) {
-                            //sincronizar.setImageResource(R.mipmap.ic_sync);
                             item.setIcon(R.mipmap.ic_sync);
                         } else {
-                            //sincronizar.setImageResource(R.mipmap.ic_sync_red);
                             item.setIcon(R.mipmap.ic_sync_red);
                         }
                         item.setEnabled(false);
-
                     }
                 }
+
+                if(listaExperimentos.size() == 0){//se alista for vazia bloquei a o botao
+                    item.setEnabled(false);
+                }
             }
-
-      /*
-
-       for (Experimento e:listaExperimentos) {
-
-           if(!e.isSincronizado()){
-
-               if (isOnline(Principal.this)) {
-                       if(!sincronizando){
-                           progressBar.setVisibility(View.GONE);
-                           //sincronizar.setImageResource(R.mipmap.ic_no_sync);
-                           m.findItem(R.id.action_sync).setIcon(R.mipmap.ic_no_sync);
-                           //sincronizar.setVisibility(View.VISIBLE);
-                           m.findItem(R.id.action_sync).setEnabled(true);
-                           if(!sincronizar.isClickable()){
-                                sincronizar.setClickable(true);
-                           }
-                       }else{
-                           progressBar.setVisibility(View.VISIBLE);
-                           sincronizar.setVisibility(View.INVISIBLE);
-                       }
-               }else{
-                   //sincronizar.setImageResource(R.mipmap.ic_no_sync_red);
-                   //sincronizar.setClickable(false);
-                   m.findItem(R.id.action_sync).setIcon(R.mipmap.ic_no_sync_red);
-                   m.findItem(R.id.action_sync).setEnabled(false);
-               }
-               break;
-
-           }else{
-               if (isOnline(Principal.this)) {
-                   //sincronizar.setImageResource(R.mipmap.ic_sync);
-                   m.findItem(R.id.action_sync).setIcon(R.mipmap.ic_sync);
-               }else{
-                   //sincronizar.setImageResource(R.mipmap.ic_sync_red);
-                   m.findItem(R.id.action_sync).setIcon(R.mipmap.ic_sync_red);
-               }
-               sincronizar.setClickable(false);
-
-           }
-       }*/
 
    }
 
     public void setValuesRecycler(){
-
         experimentoAdapter = new ExperimentoAdapter(this,listaExperimentos);
-
-
-
         recyclerView = (RecyclerView) findViewById(R.id.recycler_experimentos);
         recyclerView.setAdapter(experimentoAdapter);
-
-
-        childValueExperimento = experimentoReference.addValueEventListener(new ValueEventListener() {
+        //Toast.makeText(context, "usuario logado "+LOGADO, Toast.LENGTH_SHORT).show();
+        childValueUsuario = usuarioReference.child(LOGADO).addValueEventListener(new ValueEventListener() {
 
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                USUARIO_OBJETO_LOGADO = dataSnapshot.getValue(Usuario.class);
                 listaExperimentos.removeAll(listaExperimentos);
-
-
-
-                for (DataSnapshot snapshot:dataSnapshot.getChildren()) {
-
-                    Experimento experimento = snapshot.getValue(Experimento.class);//pega o objeto do firebase
-
-                    if(experimento.getStatus().equals("ativo")) {
-                        listaExperimentos.add(experimento);//adiciona na lista que vai para o adapter
+                try {
+                    if(dataSnapshot.getValue(Usuario.class).getExperimentos() != null) {
+                        for (Experimento e : dataSnapshot.getValue(Usuario.class).getExperimentos()) {
+                            if(e.getStatus().equals("ativo")) {
+                                listaExperimentos.add(e);
+                            }
+                            setFloatSync();
+                            experimentoAdapter.notifyDataSetChanged();
+                        }
                     }
-                    setFloatSync();
-
-
-                    experimentoAdapter.notifyDataSetChanged();
+                }catch (Exception e){
+                    Toast.makeText(context, "Erro no banco de dados, contate administrador.", Toast.LENGTH_SHORT).show();
                 }
+
 
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
+            public void onCancelled(DatabaseError databaseError) { }
         });
-        // experimentoReference.addValueEventListener(childValueExperimento);//nao precisa dessa linha senao duplica os dados
-
 
         RecyclerView.LayoutManager layout = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL,false);
         recyclerView.setLayoutManager(layout);
-
-
-
-
     }
 
 
     public void setOnclickRecycler(){
-
         recyclerView.addOnItemTouchListener(new MeuRecyclerViewClickListener(Principal.this, recyclerView, new MeuRecyclerViewClickListener.OnItemClickListener() {
 
 
@@ -388,14 +341,11 @@ public class Principal extends AppCompatActivity
     //resposnsável por sincronizar os dados manualmente com a nuvem atraves do botao action_sync da toolbar
     public void sincronizaApp(View view){
 
-        for (Experimento e:listaExperimentos) {
-            //sincronizar.setVisibility(View.INVISIBLE);
-            sincronizando =  true;
-            if(!e.isSincronizado()){
-                if(isOnline(this)) {
-
+        for (Experimento e:listaExperimentos) {//itero na lista
+            sincronizando =  true;//digo que está sincronizando para o icone se modificar e ativar a progressbar
+            if(!e.isSincronizado()){//se o esperimento atual não estiver sincronizado entra ai
+                if(isOnline(this)) {//verifica se tem internet se tiver tenta sincronizar
                     try {
-
                         StorageReference alfaceRef = storage.getReference(e.getNome() + "/" + e.getNome()+e.getCount().toString()+".jpg");
 
                         uploadFirebaseStream(alfaceRef,e);
@@ -405,9 +355,8 @@ public class Principal extends AppCompatActivity
                         Snackbar.make(view.getRootView(), "Erro!", Snackbar.LENGTH_LONG)
                                 .setAction("Action", null).show();
                     }
-                    DatabaseReference dr = database.getReference(e.getNome());
 
-                }else{
+                }else{//senão avisa que não tem internet
                     Snackbar.make(view.getRootView(), "Conecte se a internet", Snackbar.LENGTH_LONG)
                             .setAction("Action", null).show();
 
@@ -425,19 +374,22 @@ public class Principal extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_novo_experimento) {
-            startActivityForResult(new Intent(getApplicationContext(),NovoExperimentoActivity.class),1);
+        if (id == R.id.nav_galeria) {
+
             // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        } else if (id == R.id.nav_historico) {
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.nav_colaborador) {
 
-        } else if (id == R.id.nav_manage) {
+        } else if (id == R.id.nav_logout) {
+            SharedPreferences sharedPreferences = getSharedPreferences("sharedPreferences", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString("usuarioLogado", "");
+            editor.apply();
+            USUARIO_OBJETO_LOGADO = null;
+            startActivity(new Intent(Principal.this,LoginActivity.class));
 
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
+            finish();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -450,11 +402,9 @@ public class Principal extends AppCompatActivity
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == 1){//se chamou tela de novo experimento
             if(resultCode == 1){
-                Snackbar.make(ViewSnack, "Novo experimento adicionado", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Toast.makeText(context, "Experimento adicionado", Toast.LENGTH_SHORT).show();
             }else if(resultCode == 2){
-                Snackbar.make(ViewSnack, "Operação cancelada", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Toast.makeText(context, "Cadastro cancelado", Toast.LENGTH_SHORT).show();
             }
 
         }
@@ -463,60 +413,20 @@ public class Principal extends AppCompatActivity
     @Override
     protected void onStart() {
         super.onStart();
-
         PermissionUtils.validate(Principal.this,0, PERMISSIONS_STORAGE);
         setValuesRecycler();
         setOnclickRecycler();
-
-
-/*
-essa parte foi substituida pelo botao na toolbar
-        sincronizar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                for (Experimento e:listaExperimentos) {
-                    sincronizar.setVisibility(View.INVISIBLE);
-                    sincronizando =  true;
-                    if(!e.isSincronizado()){
-                        if(isOnline(view.getContext())) {
-
-                            try {
-
-                                StorageReference alfaceRef = storage.getReference(e.getNome() + "/" + e.getNome()+e.getCount().toString()+".jpg");
-
-                                uploadFirebaseStream(alfaceRef,e);
-
-                            } catch (FileNotFoundException ex) {
-                                ex.printStackTrace();
-                                Snackbar.make(ViewSnackApoio.getRootView(), "Erro!", Snackbar.LENGTH_LONG)
-                                        .setAction("Action", null).show();
-                            }
-                            DatabaseReference dr = database.getReference(e.getNome());
-
-                        }else{
-                            Snackbar.make(view.getRootView(), "Conecte se a internet", Snackbar.LENGTH_LONG)
-                                    .setAction("Action", null).show();
-
-                        }
-
-                    }
-                }
-                Snackbar.make(view.getRootView(), "Sincronizando experimentos", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-
-
-
-
-*/
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         listaExperimentos.removeAll(listaExperimentos);
-        Log.i("teste","tamanho do array: "+ listaExperimentos.size());
+        if(childValueUsuario !=null){
+            usuarioReference.removeEventListener(childValueUsuario);
+            //Toast.makeText(this, " listener do Principal desativado", Toast.LENGTH_SHORT).show();
+        }
+
     }
 
 

@@ -11,16 +11,19 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.suelliton.horus.R;
 import com.example.suelliton.horus.adapters.MacronutrienteAdapter;
 import com.example.suelliton.horus.adapters.MicronutrienteAdapter;
+import com.example.suelliton.horus.models.Captura;
 import com.example.suelliton.horus.models.Experimento;
 import com.example.suelliton.horus.models.Macronutriente;
 import com.example.suelliton.horus.models.Micronutriente;
 import com.example.suelliton.horus.models.Solucao;
+import com.example.suelliton.horus.models.Usuario;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -31,11 +34,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.example.suelliton.horus.DetalhesActivity.nomeExperimento;
+import static com.example.suelliton.horus.LoginActivity.LOGADO;
 
 public class FragmentInformacoes extends Fragment {
 
-    static FloatingActionButton btnFinalizar;
-    DatabaseReference experimentoReference ;
+    static Button btnFinalizar;
+    DatabaseReference usuarioReference ;
     FirebaseDatabase database;
     TextView nome;
     TextView descricao;
@@ -47,18 +51,20 @@ public class FragmentInformacoes extends Fragment {
     TextView idadeAtual;
     TextView quantidadeFotos;
 
-    private ValueEventListener childValueExperimento;
+    private ValueEventListener childValueUsuario;
     private MicronutrienteAdapter microAdapter;
     private MacronutrienteAdapter macroAdapter;
+    private List<Experimento> listaExperimentos ;
+    private   Usuario USUARIO_OBJETO_LOGADO;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View v = inflater.inflate(R.layout.fragment_informacoes, container, false);
         database =  FirebaseDatabase.getInstance();
-        experimentoReference = database.getReference().child(nomeExperimento);
+        usuarioReference = database.getReference();
+        listaExperimentos = new ArrayList<>();
 
-
-        btnFinalizar = (FloatingActionButton) v.findViewById(R.id.btnFinalizar);
+        btnFinalizar = (Button) v.findViewById(R.id.btn_finalizar);
         btnFinalizar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -78,13 +84,19 @@ public class FragmentInformacoes extends Fragment {
         idadeAtual = (TextView) v.findViewById(R.id.tx_idade_atual);
         quantidadeFotos = (TextView) v.findViewById(R.id.tx_qtd_fotos);
 
-        childValueExperimento = experimentoReference.addValueEventListener(new ValueEventListener() {
+        childValueUsuario = usuarioReference.child(LOGADO).addValueEventListener(new ValueEventListener() {
 
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                Experimento experimento = new Experimento();
+                listaExperimentos.removeAll(listaExperimentos);
+                for (Experimento e: dataSnapshot.getValue(Usuario.class).getExperimentos()) {
+                    listaExperimentos.add(e);
+                    if(e.getNome().equals(nomeExperimento)){
+                        experimento = e;
+                    }
 
-                Experimento experimento = dataSnapshot.getValue(Experimento.class);
-
+                }
 
                 nome.setText(experimento.getNome());
                 descricao.setText(experimento.getDescricao());
@@ -97,8 +109,6 @@ public class FragmentInformacoes extends Fragment {
                 quantidadeFotos.setText(""+experimento.getCount() + " capturas");
 
                 Solucao solucao = experimento.getNutrientes();
-
-
 
                 if(solucao != null) {
                     List<Micronutriente> micros = experimento.getNutrientes().getMicronutrientes();
@@ -130,23 +140,23 @@ public class FragmentInformacoes extends Fragment {
         });
 
 
-
-
-
-
-
-
         return v;
     }
     public void createDialog(){
         AlertDialog.Builder dialogExcluir = new AlertDialog.Builder(getView().getContext());
         dialogExcluir.setIcon(R.mipmap.ic_launcher);
-        dialogExcluir.setTitle("Titulo");
+        dialogExcluir.setTitle("Finalizar Experimento");
         dialogExcluir.setMessage("Deseja finalizar o experimento?");
         dialogExcluir.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                experimentoReference.child("status").setValue("desativado");
+                for (Experimento e: listaExperimentos                 ) {
+                    if(e.getNome().equals(nomeExperimento)){
+                        e.setStatus("finalizado");
+                    }
+                }
+                usuarioReference.child(LOGADO).child("experimentos").setValue(listaExperimentos);
+                getActivity().finish();//mata a activity atual
                 Toast.makeText(getView().getContext(), "O experimento foi finalizado com sucesso", Toast.LENGTH_LONG).show();
             }
         });

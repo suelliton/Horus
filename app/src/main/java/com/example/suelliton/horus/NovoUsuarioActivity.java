@@ -3,12 +3,13 @@ package com.example.suelliton.horus;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -29,7 +30,6 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -37,14 +37,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.suelliton.horus.models.Experimento;
 import com.example.suelliton.horus.models.Usuario;
 import com.example.suelliton.horus.utils.MyDatabaseUtil;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,7 +50,7 @@ import static android.Manifest.permission.READ_CONTACTS;
 /**
  * A login screen that offers login via email/password.
  */
-public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
+public class NovoUsuarioActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
 
     /**
      * Id to identity READ_CONTACTS permission request.
@@ -66,90 +62,51 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * TODO: remove after connecting to a real authentication system.
      */
     private static final String[] DUMMY_CREDENTIALS = new String[]{
-            "tonmelodicmetal@gmail.com:susu1111", "suelliton@ufrn.edu.br:susu1111"
+            "foo@example.com:hello", "bar@example.com:world"
     };
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
     private UserLoginTask mAuthTask = null;
 
-    private Usuario USUARIO_OBJETO_LOGADO;
-    public static String LOGADO;
-
     // UI references.
+    private EditText mUserView;
     private AutoCompleteTextView mEmailView;
     private EditText mPasswordView;
     private View mProgressView;
-    private View mLoginFormView;
-    private TextView mLinkCadastro;
+    private View mCadastroFormView;
+    private Usuario USUARIO_OBJETO_LOGADO;
+
     private FirebaseDatabase database ;
     private DatabaseReference usuarioReference ;
-    private ValueEventListener childValueUsuario;
-    List<Usuario> listaUsuarios;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
-        //FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+        setContentView(R.layout.activity_novo_usuario);
 
         database = MyDatabaseUtil.getDatabase();
-
         usuarioReference = database.getReference();
 
 
-        mLoginFormView = findViewById(R.id.login_form);
-        mProgressView = findViewById(R.id.login_progress);
 
-
-        SharedPreferences sharedPreferences = getSharedPreferences("sharedPreferences", Context.MODE_PRIVATE);
-        LOGADO = sharedPreferences.getString("usuarioLogado", "");
-
-        if(!LOGADO.equals("")) {
-            showProgress(true);
-            listaUsuarios = new ArrayList<>();
-
-            childValueUsuario = usuarioReference.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    listaUsuarios.removeAll(listaUsuarios);
-                    try{
-                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                            Usuario usuario = snapshot.getValue(Usuario.class);//pega o objeto do firebase
-                            listaUsuarios.add(usuario);
-                            if (usuario.getUsername().equals(LOGADO)) {
-                                startActivity(new Intent(LoginActivity.this, Principal.class));
-                                finish();
-                            }
-
-                        }
-                    }catch (Exception e){
-                        Toast.makeText(LoginActivity.this, "Erro no banco de dados, contate administrador.", Toast.LENGTH_SHORT).show();
-                    }
-
-
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-
-                }
-            });
-
-
-
-
-            showProgress(false);
-            if(!isOnline(this)) {
-                Toast.makeText(this, "Sem conexão", Toast.LENGTH_SHORT).show();
-            }
-        }
         // Set up the login form.
-        mEmailView = (AutoCompleteTextView) findViewById(R.id.input_email);
+        mUserView = (EditText) findViewById(R.id.user_cadastro);
+        mUserView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
+                if (id == EditorInfo.IME_ACTION_DONE || id == EditorInfo.IME_NULL) {
+                    attemptLogin();
+                    return true;
+                }
+                return false;
+            }
+        });
+
+        mEmailView = (AutoCompleteTextView) findViewById(R.id.email_cadastro);
         populateAutoComplete();
 
-
-        mPasswordView = (EditText) findViewById(R.id.input_password);
+        mPasswordView = (EditText) findViewById(R.id.password_cadastro);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
@@ -161,7 +118,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
         });
 
-        Button mEmailSignInButton = (Button) findViewById(R.id.sign_in_button);
+        Button mEmailSignInButton = (Button) findViewById(R.id.cadastro_button);
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -169,26 +126,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
         });
 
-        mLinkCadastro = (TextView) findViewById(R.id.link_signup);
-        mLinkCadastro.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(LoginActivity.this,NovoUsuarioActivity.class));
-                finish();
-            }
-        });
-
-    }
-
-
-    //VERIFICA SE EXISTE WIFI
-    public static boolean isOnline(Context context) {
-        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo netInfo = cm.getActiveNetworkInfo();
-        if (netInfo != null && netInfo.isConnected())
-            return true;
-        else
-            return false;
+        mCadastroFormView = findViewById(R.id.login_form);
+        mProgressView = findViewById(R.id.login_progress);
     }
 
     private void populateAutoComplete() {
@@ -233,10 +172,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
         }
     }
-    public static void hideKeyboard(Context context, View view) {
-        InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-    }
+
 
     /**
      * Attempts to sign in or register the account specified by the login form.
@@ -245,18 +181,18 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      */
     private void attemptLogin() {
         if (mAuthTask != null) {
-
             return;
-
         }
 
         // Reset errors.
         mEmailView.setError(null);
         mPasswordView.setError(null);
+        mUserView.setError(null);
 
         // Store values at the time of the login attempt.
         String email = mEmailView.getText().toString();
         String password = mPasswordView.getText().toString();
+        String user = mUserView.getText().toString();
 
         boolean cancel = false;
         View focusView = null;
@@ -265,6 +201,13 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
             mPasswordView.setError(getString(R.string.error_invalid_password));
             focusView = mPasswordView;
+            cancel = true;
+        }
+
+        // Check for a valid user, if the user entered one.
+        if (!TextUtils.isEmpty(user) && !isUserValid(user)) {
+            mUserView.setError(getString(R.string.error_invalid_user));
+            focusView = mUserView;
             cancel = true;
         }
 
@@ -287,7 +230,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            mAuthTask = new UserLoginTask(email, password);
+            mAuthTask = new UserLoginTask(email, password,user);
             mAuthTask.execute((Void) null);
         }
     }
@@ -301,6 +244,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         //TODO: Replace this with your own logic
         return password.length() > 4;
     }
+    private boolean isUserValid(String user) {
+        //TODO: Replace this with your own logic
+        return user.length() > 4;
+    }
 
     /**
      * Shows the progress UI and hides the login form.
@@ -312,15 +259,15 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         // the progress spinner.
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
             int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
-/*
-            mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-            mLoginFormView.animate().setDuration(shortAnimTime).alpha(
+
+            mCadastroFormView.setVisibility(show ? View.GONE : View.VISIBLE);
+            mCadastroFormView.animate().setDuration(shortAnimTime).alpha(
                     show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
                 @Override
                 public void onAnimationEnd(Animator animation) {
-                    mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
+                    mCadastroFormView.setVisibility(show ? View.GONE : View.VISIBLE);
                 }
-            });*/
+            });
 
             mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
             mProgressView.animate().setDuration(shortAnimTime).alpha(
@@ -334,7 +281,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             // The ViewPropertyAnimator APIs are not available, so simply show
             // and hide the relevant UI components.
             mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-           // mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
+            mCadastroFormView.setVisibility(show ? View.GONE : View.VISIBLE);
         }
     }
 
@@ -375,7 +322,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private void addEmailsToAutoComplete(List<String> emailAddressCollection) {
         //Create adapter to tell the AutoCompleteTextView what to show in its dropdown list.
         ArrayAdapter<String> adapter =
-                new ArrayAdapter<>(LoginActivity.this,
+                new ArrayAdapter<>(NovoUsuarioActivity.this,
                         android.R.layout.simple_dropdown_item_1line, emailAddressCollection);
 
         mEmailView.setAdapter(adapter);
@@ -398,12 +345,14 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      */
     public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
 
-        private  String mEmail;
-        private  String mPassword;
+        private final String mEmail;
+        private final String mPassword;
+        private final String mUser;
 
-        UserLoginTask(String email, String password) {
+        UserLoginTask(String email, String password,String user) {
             mEmail = email;
             mPassword = password;
+            mUser = user;
         }
 
         @Override
@@ -411,49 +360,20 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             // TODO: attempt authentication against a network service.
 
 
-            listaUsuarios = new ArrayList<>();
 
-            childValueUsuario = usuarioReference.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    listaUsuarios.removeAll(listaUsuarios);
-                try{
-                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                        Usuario usuario = snapshot.getValue(Usuario.class);//pega o objeto do firebase
-                        listaUsuarios.add(usuario);//adiciona na lista que vai para o adapter
-                    }
-                }catch (Exception e){
-                    Toast.makeText(LoginActivity.this, "Erro no banco de dados, contate administrador.", Toast.LENGTH_SHORT).show();
-                }
-                }
+            Usuario novoUsuario = new Usuario(mEmail, mPassword, mUser);
 
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
+            usuarioReference = database.getReference(mUser);
+            usuarioReference.setValue(novoUsuario);
 
-                }
-            });
-
-            try {
-                // Simulate network access.
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                return false;
-            }
-
-            for (Usuario u : listaUsuarios) {
-                if (u.getEmail().equals(mEmail)) {
-                    // Account exists, return true if the password matches.
-                    if (u.getPassword().equals(mPassword)) {
-                        USUARIO_OBJETO_LOGADO = u;
-                        return true;
-                    }
+            SharedPreferences sharedPreferences = getSharedPreferences("sharedPreferences", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString("usuarioLogado", novoUsuario.getUsername());
+            editor.apply();
 
 
-                }
-            }
-
-
-            return false;
+            // TODO: register the new account here.
+            return true;
         }
 
         @Override
@@ -462,37 +382,23 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             showProgress(false);
 
             if (success) {
-                SharedPreferences sharedPreferences = getSharedPreferences("sharedPreferences", Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putString("usuarioLogado", USUARIO_OBJETO_LOGADO.getUsername());
-                editor.apply();
-                LOGADO = USUARIO_OBJETO_LOGADO.getUsername();
-                startActivity(new Intent(LoginActivity.this,Principal.class));
+                Toast.makeText(NovoUsuarioActivity.this, "Usuário  cadastrado com sucesso!", Toast.LENGTH_SHORT).show();
+
+
+
+                startActivity(new Intent(NovoUsuarioActivity.this,LoginActivity.class));
                 finish();
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
                 mPasswordView.requestFocus();
-                Toast.makeText(LoginActivity.this, "Usuário inválido", Toast.LENGTH_SHORT).show();
-
             }
         }
-
 
         @Override
         protected void onCancelled() {
             mAuthTask = null;
             showProgress(false);
         }
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        if(childValueUsuario !=null){
-            usuarioReference.removeEventListener(childValueUsuario);
-            //Toast.makeText(this, " listener do loginActivity desativado", Toast.LENGTH_SHORT).show();
-        }
-
     }
 }
 

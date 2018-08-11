@@ -22,6 +22,7 @@ import com.example.suelliton.horus.adapters.CapturaAdapter;
 import com.example.suelliton.horus.models.Captura;
 import com.example.suelliton.horus.models.Crescimento;
 import com.example.suelliton.horus.models.Experimento;
+import com.example.suelliton.horus.models.Usuario;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
@@ -37,13 +38,13 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.jjoe64.graphview.GraphView;
+
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static com.example.suelliton.horus.DetalhesActivity.nomeExperimento;
-
+import static com.example.suelliton.horus.LoginActivity.LOGADO;
 
 public class FragmentArea extends Fragment {
 
@@ -52,24 +53,19 @@ public class FragmentArea extends Fragment {
 
     private LineChart mChart;
     FirebaseDatabase database;
-    DatabaseReference experimentoReference ;
-    ValueEventListener childValueExperimento;
-    Experimento experimento;
+    DatabaseReference usuarioReference ;
+    ValueEventListener childValueUsuario;
     static TextView textArea;
-    static FloatingActionButton btnAdicionar, btnExcluir;
-
     CapturaAdapter capturaAdapter;
     View v;
     RecyclerView recyclerView;
-    public static GraphView graph;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
          v = inflater.inflate(R.layout.fragment_grafico, container, false);
-        Configuration configuration = getResources().getConfiguration();
+
+         Configuration configuration = getResources().getConfiguration();
 
         database =  FirebaseDatabase.getInstance();
-        //textArea = (TextView) findViewById(R.id.text_taxa);
-
 
         listaCapturas = new ArrayList<>();
         capturaAdapter = new CapturaAdapter(v.getContext(), listaCapturas,"area");
@@ -77,25 +73,25 @@ public class FragmentArea extends Fragment {
         recyclerView.setAdapter(capturaAdapter);
 
 
-        experimentoReference = database.getReference().child(nomeExperimento);
+        usuarioReference = database.getReference();
 
 
-        childValueExperimento = experimentoReference.addValueEventListener(new ValueEventListener() {
+        childValueUsuario = usuarioReference.child(LOGADO).addValueEventListener(new ValueEventListener() {
 
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
                 listaCapturas.removeAll(listaCapturas);
 
-                experimentoReference = database.getReference().child(nomeExperimento);
-
-                experimento = dataSnapshot.getValue(Experimento.class);
-                Crescimento crescimento =  dataSnapshot.getValue(Experimento.class).getCrescimento();
-
-                if(crescimento.getCapturas() != null) {
-                    for (Captura c : crescimento.getCapturas()) {
-                        listaCapturas.add(c);
+                for (Experimento e: dataSnapshot.getValue(Usuario.class).getExperimentos()) {
+                    if(e.getNome().equals(nomeExperimento)){
+                        if(e.getCrescimento().getCapturas() != null) {
+                            for (Captura c : e.getCrescimento().getCapturas()) {
+                                listaCapturas.add(c);
+                            }
+                        }
                     }
+
                 }
 
 
@@ -180,44 +176,7 @@ public class FragmentArea extends Fragment {
                 }
                 capturaAdapter.notifyDataSetChanged();
 
-/* esse é o graphview antigo
-                graph = (GraphView) v.findViewById(R.id.graph);
-                LineGraphSeries<DataPoint> series = new LineGraphSeries<>(dataPointArea);
-                series.setTitle("Área");
-                series.setDrawBackground(true);
-                series.setColor(Color.argb(255,0,150,136));
-                series.setBackgroundColor(Color.argb(70,0,150,136 ));
 
-
-
-
-                int maxTopGrafico = maxValueArray(vetorAreas);//calcula o maximo do vetor
-
-                graph.getViewport().setYAxisBoundsManual(true);
-                graph.getViewport().setMinY(0);
-                graph.getViewport().setMaxY(maxTopGrafico+(maxTopGrafico/2));//seto a altura maxima do grafico com uma sobra de espaço
-
-
-                graph.getViewport().setXAxisBoundsManual(true);
-
-                int maxRightGrafico = 0;
-                if(vetorAreas.length == 0){
-                    maxRightGrafico =  45;
-                }else{
-                    maxRightGrafico = vetorAreas.length;
-                }
-
-                graph.getViewport().setMinX(1);
-                graph.getViewport().setMaxX(maxRightGrafico);
-
-                graph.getGridLabelRenderer().setNumHorizontalLabels(maxRightGrafico);
-                graph.getViewport().setScalable(true);
-                //graph.getViewport().setScalableY(true);
-                //graph.setRotationX(5);
-
-                graph.addSeries(series);
-                graph.setFocusableInTouchMode(true);
-                graph.setFocusable(true);*/
 
             }
 
@@ -228,32 +187,7 @@ public class FragmentArea extends Fragment {
         });
 
 
-
-
-
-/*
-        btnAdicionar= (FloatingActionButton) v.findViewById(R.id.btnAdicionar);
-
-        btnAdicionar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                Bundle bundle = new Bundle();
-                bundle.putString("nomeExp",experimento.getNome());
-                bundle.putInt("count",experimento.getCount());
-                Log.i("teste",experimento.getNome());
-                Intent intent = new Intent(v.getContext(),StorageActivity.class);
-                intent.putExtras(bundle);
-                startActivity(intent);
-            }
-        });
-*/
-
-
-
         Log.i("rec", String.valueOf(listaCapturas.size()));
-
-        //capturaAdapter = new CapturaAdapter(v.getContext(),listaCapturas);
 
 
         recyclerView.setAdapter(capturaAdapter);
@@ -263,33 +197,12 @@ public class FragmentArea extends Fragment {
         recyclerView.setLayoutManager(layout);
 
 
-
-
-
         return v;
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         Log.i("rec", String.valueOf(listaCapturas.size()));
-    }
-
-
-    public int maxValueArray (int[] a){
-        //Retorna o maior valor de um vetor
-        if(a.length == 0){
-            return 80;
-        }else {
-            int max = a[0]; //supõe-se que o maior elemento é primeiro
-            for (int i = 1; i < a.length; i++) {
-                //um valor maior foi encontrado
-                if (max < a[i]) {
-                    max = a[i]; //substitui o valor máximo
-                }
-            }
-
-            return max; //retorna o valor máximo
-        }
     }
 
 
