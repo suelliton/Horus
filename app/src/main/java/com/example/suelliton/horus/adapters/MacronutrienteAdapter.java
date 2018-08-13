@@ -46,7 +46,8 @@ public class MacronutrienteAdapter extends RecyclerView.Adapter {
         final Macronutriente macronutrienteEscolhido = listaMacronutrientes.get(position);
 
         macronutrienteholder.text_nome.setText(macronutrienteEscolhido.getNome());
-        macronutrienteholder.text_quantidade.setText(""+macronutrienteEscolhido.getQtd());
+        macronutrienteholder.text_quantidade.setText(macronutrienteEscolhido.getQtd()+" mg");
+
 
 
 

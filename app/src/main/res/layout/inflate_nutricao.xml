@@ -1,49 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
+    android:orientation="horizontal"
     android:layout_height="wrap_content">
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
         <LinearLayout
-            android:layout_weight="5"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_weight="5">
+
             <TextView
                 android:id="@+id/tx_nutriente"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="H2O"
-                android:layout_weight="5"
-                android:gravity="center"
                 android:layout_gravity="center"
+                android:layout_margin="@dimen/fab_margin"
+                android:layout_weight="5"
+                android:gravity="center|start"
+                android:text="H2O"
+                android:textColor="@color/black"
                 app:layout_constraintStart_toStartOf="parent" />
         </LinearLayout>
 
-    <LinearLayout
-        android:layout_weight="5"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TextView
-            android:id="@+id/tx_quantidade"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="230 ml"
-            android:gravity="center"
-            android:layout_weight="5"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/tx_nutriente" />
+            android:layout_weight="5">
 
-    </LinearLayout>
+            <TextView
+                android:id="@+id/tx_quantidade"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/fab_margin"
+                android:layout_weight="5"
+                android:gravity="center|end"
+                android:text="230 ml"
+                android:textColor="@color/verde"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/tx_nutriente" />
+
+        </LinearLayout>
 
 
-    </LinearLayout>
 
-
-
-</android.support.constraint.ConstraintLayout>
+</LinearLayout>

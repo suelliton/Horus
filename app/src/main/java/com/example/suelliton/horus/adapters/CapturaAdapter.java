@@ -1,6 +1,7 @@
 package com.example.suelliton.horus.adapters;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 import com.example.suelliton.horus.R;
 import com.example.suelliton.horus.models.Captura;
 
+import java.util.Collections;
 import java.util.List;
 
 public class CapturaAdapter extends RecyclerView.Adapter{
@@ -40,12 +42,16 @@ public class CapturaAdapter extends RecyclerView.Adapter{
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         CapturaViewHolder capturaholder = (CapturaViewHolder) holder;
         Captura capturaEscolhida = listaCapturas.get(position);
-
-        capturaholder.textview_dataCaptura.setText(""+capturaEscolhida.getDataCaptura());
+        String[] dataFormatada  = capturaEscolhida.getDataCaptura().split("\n");
+        String[] data = dataFormatada[0].split("-");
+        String[] hora = dataFormatada[1].split(":");
+        capturaholder.textview_dataCaptura.setText(data[0]+"/"+data[1]+" às " +hora[0]+":"+hora[1]);
         if(fragment.equals("area")){
             capturaholder.textview_taxaCrescimento.setText(""+capturaEscolhida.getAreaVerde()+" cm^2");
+            //capturaholder.textview_taxaCrescimento.setTextColor(Color.argb(255, 0, 255, 136));
         }else if(fragment.equals("percentual")){
             capturaholder.textview_taxaCrescimento.setText(""+capturaEscolhida.getPercentualCrescimento()+" %");
+            //capturaholder.textview_taxaCrescimento.setTextColor(Color.argb(255, 0, 191, 255));
         }
 
 

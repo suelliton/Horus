@@ -129,6 +129,9 @@ public class FragmentInformacoes extends Fragment {
                         recyclerMacro.setLayoutManager(layout2);
                     }
 
+                }else{
+                    v.findViewById(R.id.tx_micro).setVisibility(View.INVISIBLE);//se não tiver dados escondo o titulo
+                    v.findViewById(R.id.tx_macro).setVisibility(View.INVISIBLE);//se não tiver dados escondo o titulo
                 }
 
             }

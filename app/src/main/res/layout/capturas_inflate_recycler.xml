@@ -39,11 +39,11 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingRight="10dp"
             android:layout_marginStart="20dp"
             android:layout_weight="5"
-            android:paddingLeft="10dp">
+            android:orientation="horizontal"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp">
 
             <TextView
                 android:id="@+id/textview_data_captura"
@@ -51,8 +51,9 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
                 android:layout_weight="1"
-                android:textColor="@color/black"
-                android:text="Data" />
+                android:textSize="@dimen/fab_margin"
+                android:text="Data"
+                android:textColor="@color/black" />
         </LinearLayout>
 
         <LinearLayout
@@ -69,6 +70,7 @@
                 android:id="@+id/textview_taxa_crescimento"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textSize="@dimen/fab_margin"
                 android:layout_gravity="end"
                 android:layout_weight="1"
                 android:textColor="@color/black"

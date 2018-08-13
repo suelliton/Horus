@@ -46,7 +46,7 @@ public class MicronutrienteAdapter extends RecyclerView.Adapter {
         final Micronutriente micronutrienteEscolhido = listaMicronutrientes.get(position);
 
         micronutrienteholder.text_nome.setText(micronutrienteEscolhido.getNome());
-        micronutrienteholder.text_quantidade.setText(""+micronutrienteEscolhido.getQtd());
+        micronutrienteholder.text_quantidade.setText(micronutrienteEscolhido.getQtd()+" mg");
 
 
 

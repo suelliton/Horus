@@ -7,315 +7,341 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
         <android.widget.ScrollView
+            android:focusable="true"
             android:layout_height="match_parent"
             android:layout_width="match_parent">
 
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+
+                android:layout_margin="5dp"
+                android:clickable="false"
+
+                android:focusable="false"
+
+                android:foreground="?android:attr/selectableItemBackground"
+                app:cardBackgroundColor="@color/cardview_light_background"
+                app:cardCornerRadius="0dp">
+
+
                 <LinearLayout
-                    android:orientation="horizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="@dimen/fab_margin"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
                         <TextView
                             android:layout_width="114dp"
                             android:layout_height="28dp"
                             android:layout_marginStart="8dp"
+                            android:layout_weight="10"
+                            android:gravity="left"
                             android:text="Nome"
-                            android:layout_weight="5"
+                            android:textColor="@color/black"
                             app:layout_constraintStart_toStartOf="parent"
                             tools:layout_editor_absoluteY="40dp" />
 
-                    <TextView
-                        android:id="@+id/tx_nome"
-                        android:layout_width="131dp"
-                        android:layout_height="30dp"
-                        android:layout_marginEnd="8dp"
-                        android:layout_weight="5"
-                        android:gravity="right"
-                        android:text="TextView_nome"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        tools:layout_editor_absoluteY="40dp" />
-                </LinearLayout>
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                        <TextView
+                            android:id="@+id/tx_nome"
+                            android:layout_width="131dp"
+                            android:layout_height="30dp"
+                            android:layout_marginEnd="8dp"
+                            android:layout_weight="1"
+                            android:text="TextView_nome"
+                            android:textColor="@color/verde"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            tools:layout_editor_absoluteY="40dp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/fab_margin"
+                        android:orientation="horizontal">
+
                         <TextView
                             android:layout_width="114dp"
-                            android:layout_height="28dp"
+                            android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
+                            android:layout_weight="10"
+                            android:gravity="left"
                             android:text="Descrição"
-                            android:layout_weight="5"
+                            android:textColor="@color/black"
                             app:layout_constraintStart_toStartOf="parent"
                             tools:layout_editor_absoluteY="40dp" />
 
-                    <TextView
-                        android:id="@+id/tx_descricao"
-                        android:layout_width="131dp"
-                        android:layout_height="30dp"
-                        android:layout_marginEnd="8dp"
-                        android:layout_weight="5"
-                        android:gravity="right"
-                        android:text="TextView_descricao"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        tools:layout_editor_absoluteY="40dp" />
-                </LinearLayout>
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                        <TextView
+                            android:id="@+id/tx_descricao"
+                            android:layout_width="131dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="8dp"
+                            android:layout_weight="1"
+                            android:text="TextView_descricao"
+                            android:textColor="@color/verde" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/fab_margin"
+                        android:orientation="horizontal">
+
                         <TextView
                             android:layout_width="114dp"
                             android:layout_height="28dp"
                             android:layout_marginStart="8dp"
+                            android:layout_weight="10"
+                            android:gravity="left"
                             android:text="Variedade"
-                            android:layout_weight="5"
+                            android:textColor="@color/black"
                             app:layout_constraintStart_toStartOf="parent"
                             tools:layout_editor_absoluteY="40dp" />
 
-                    <TextView
-                        android:id="@+id/tx_variedade"
-                        android:layout_width="131dp"
-                        android:layout_height="30dp"
-                        android:layout_marginEnd="8dp"
-                        android:layout_weight="5"
-                        android:gravity="right"
-                        android:text="TextView"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        tools:layout_editor_absoluteY="40dp" />
-                </LinearLayout>
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                        <TextView
+                            android:id="@+id/tx_variedade"
+                            android:layout_width="131dp"
+                            android:layout_height="30dp"
+                            android:layout_marginEnd="8dp"
+                            android:layout_weight="1"
+                            android:text="TextView"
+                            android:textColor="@color/verde"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            tools:layout_editor_absoluteY="40dp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/fab_margin"
+                        android:orientation="horizontal">
+
                         <TextView
                             android:layout_width="114dp"
                             android:layout_height="28dp"
                             android:layout_marginStart="8dp"
+                            android:layout_weight="10"
+                            android:gravity="left"
                             android:text="Idade no transplantio"
-                            android:layout_weight="5"
+                            android:textColor="@color/black"
                             app:layout_constraintStart_toStartOf="parent"
                             tools:layout_editor_absoluteY="40dp" />
 
-                    <TextView
-                        android:id="@+id/tx_idade_transplantio"
-                        android:layout_width="131dp"
-                        android:layout_height="30dp"
-                        android:layout_marginEnd="8dp"
-                        android:layout_weight="5"
-                        android:gravity="right"
-                        android:text="TextView"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        tools:layout_editor_absoluteY="40dp" />
-                </LinearLayout>
+                        <TextView
+                            android:id="@+id/tx_idade_transplantio"
+                            android:layout_width="131dp"
+                            android:layout_height="30dp"
+                            android:layout_marginEnd="8dp"
+                            android:layout_weight="1"
+                            android:text="TextView"
+                            android:textColor="@color/verde"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            tools:layout_editor_absoluteY="40dp" />
+                    </LinearLayout>
 
 
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/fab_margin"
+                        android:orientation="horizontal">
+
                         <TextView
                             android:layout_width="114dp"
                             android:layout_height="28dp"
                             android:layout_marginStart="8dp"
+                            android:layout_weight="10"
+                            android:gravity="left"
                             android:text="Idade atual"
-                            android:layout_weight="5"
+                            android:textColor="@color/black"
                             app:layout_constraintStart_toStartOf="parent"
                             tools:layout_editor_absoluteY="40dp" />
 
-                    <TextView
-                        android:id="@+id/tx_idade_atual"
-                        android:layout_width="131dp"
-                        android:layout_height="30dp"
-                        android:layout_marginEnd="8dp"
-                        android:layout_weight="5"
-                        android:gravity="right"
-                        android:text="TextView"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        tools:layout_editor_absoluteY="40dp" />
-                </LinearLayout>
+                        <TextView
+                            android:id="@+id/tx_idade_atual"
+                            android:layout_width="131dp"
+                            android:layout_height="30dp"
+                            android:layout_marginEnd="8dp"
+                            android:layout_weight="1"
+                            android:text="TextView"
+                            android:textColor="@color/verde"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            tools:layout_editor_absoluteY="40dp" />
+                    </LinearLayout>
 
 
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/fab_margin"
+                        android:orientation="horizontal">
+
                         <TextView
                             android:layout_width="114dp"
                             android:layout_height="28dp"
                             android:layout_marginStart="8dp"
+                            android:layout_weight="10"
+                            android:gravity="left"
                             android:text="Quantidade de fotos"
-                            android:layout_weight="5"
+                            android:textColor="@color/black"
                             app:layout_constraintStart_toStartOf="parent"
                             tools:layout_editor_absoluteY="40dp" />
 
-                    <TextView
-                        android:id="@+id/tx_qtd_fotos"
-                        android:layout_width="131dp"
-                        android:layout_height="30dp"
-                        android:layout_marginEnd="8dp"
-                        android:layout_weight="5"
-                        android:gravity="right"
-                        android:text="TextView"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        tools:layout_editor_absoluteY="40dp" />
-                </LinearLayout>
+                        <TextView
+                            android:id="@+id/tx_qtd_fotos"
+                            android:layout_width="131dp"
+                            android:layout_height="30dp"
+                            android:layout_marginEnd="8dp"
+                            android:layout_weight="1"
+                            android:text="TextView"
+                            android:textColor="@color/verde"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            tools:layout_editor_absoluteY="40dp" />
+                    </LinearLayout>
 
 
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/fab_margin"
+                        android:orientation="horizontal">
+
                         <TextView
                             android:layout_width="114dp"
                             android:layout_height="28dp"
                             android:layout_marginStart="8dp"
+                            android:layout_weight="10"
+                            android:gravity="left"
                             android:text="Tempo bomba ligada"
-                            android:layout_weight="5"
+                            android:textColor="@color/black"
                             app:layout_constraintStart_toStartOf="parent"
                             tools:layout_editor_absoluteY="40dp" />
 
-                    <TextView
-                        android:id="@+id/tx_tempo_bomba_ligada"
-                        android:layout_width="131dp"
-                        android:layout_height="30dp"
-                        android:layout_marginEnd="8dp"
-                        android:layout_weight="5"
-                        android:gravity="right"
-                        android:text="TextView"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        tools:layout_editor_absoluteY="40dp" />
-                </LinearLayout>
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                        <TextView
+                            android:id="@+id/tx_tempo_bomba_ligada"
+                            android:layout_width="131dp"
+                            android:layout_height="30dp"
+                            android:layout_marginEnd="8dp"
+                            android:layout_weight="1"
+                            android:text="TextView"
+                            android:textColor="@color/verde"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            tools:layout_editor_absoluteY="40dp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/fab_margin"
+                        android:orientation="horizontal">
+
                         <TextView
                             android:layout_width="114dp"
                             android:layout_height="28dp"
                             android:layout_marginStart="8dp"
+                            android:layout_weight="10"
+                            android:gravity="left"
                             android:text="Tempo bomba desligada"
-                            android:layout_weight="5"
+                            android:textColor="@color/black"
                             app:layout_constraintStart_toStartOf="parent"
                             tools:layout_editor_absoluteY="40dp" />
 
-                    <TextView
-                        android:id="@+id/tx_tempo_bomba_desligada"
-                        android:layout_width="131dp"
-                        android:layout_height="30dp"
-                        android:layout_marginEnd="8dp"
-                        android:layout_weight="5"
-                        android:gravity="right"
-                        android:text="TextView"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        tools:layout_editor_absoluteY="40dp" />
-                </LinearLayout>
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                        <TextView
+                            android:id="@+id/tx_tempo_bomba_desligada"
+                            android:layout_width="131dp"
+                            android:layout_height="30dp"
+                            android:layout_marginEnd="8dp"
+                            android:layout_weight="1"
+                            android:text="TextView"
+                            android:textColor="@color/verde"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            tools:layout_editor_absoluteY="40dp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/fab_margin"
+                        android:orientation="horizontal">
+
                         <TextView
                             android:layout_width="114dp"
                             android:layout_height="28dp"
                             android:layout_marginStart="8dp"
+                            android:layout_weight="10"
+                            android:gravity="left"
                             android:text="Data de início"
-                            android:layout_weight="5"
+                            android:textColor="@color/black"
                             app:layout_constraintStart_toStartOf="parent"
                             tools:layout_editor_absoluteY="40dp" />
 
+                        <TextView
+                            android:id="@+id/tx_data_inicio"
+                            android:layout_width="131dp"
+                            android:layout_height="30dp"
+                            android:layout_marginEnd="8dp"
+                            android:layout_weight="1"
+                            android:text="TextView"
+                            android:textColor="@color/verde"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            tools:layout_editor_absoluteY="40dp" />
+                    </LinearLayout>
+
+
                     <TextView
-                        android:id="@+id/tx_data_inicio"
-                        android:layout_width="131dp"
-                        android:layout_height="30dp"
-                        android:layout_marginEnd="8dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:gravity="left"
+                        android:id="@+id/tx_micro"
+                        android:text="Micronutrientes"
+                        android:textColor="@color/black"
+                        />
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/recycler_micronutrintes"
                         android:layout_weight="5"
-                        android:gravity="right"
-                        android:text="TextView"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        tools:layout_editor_absoluteY="40dp" />
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+                    </android.support.v7.widget.RecyclerView>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:gravity="left"
+                        android:id="@+id/tx_macro"
+                        android:text="Macronutrientes"
+                        android:textColor="@color/black" />
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/recycler_macronutrintes"
+                        android:layout_weight="5"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+                    </android.support.v7.widget.RecyclerView>
+                    <android.support.v7.widget.AppCompatButton
+                        android:id="@+id/btn_finalizar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:backgroundTint="@color/vermelho_material"
+                        android:padding="12dp"
+                        android:text="Finalizar" />
+
                 </LinearLayout>
 
 
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_weight="5"
-                    android:gravity="center"
-                    android:text="Micronutrientes"
-                    app:layout_constraintStart_toStartOf="parent"
-                    tools:layout_editor_absoluteY="40dp" />
-                <TextView
-                    android:layout_weight="5"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="right"
-                    android:gravity="center"
-                    android:text="Miligramas" />
-
-            </LinearLayout>
-
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recycler_micronutrintes"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_weight="5"
-                    android:gravity="center"
-                    android:text="Macronutrientes"
-                    app:layout_constraintStart_toStartOf="parent"
-                    tools:layout_editor_absoluteY="40dp" />
-                <TextView
-                    android:layout_weight="5"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="right"
-                    android:gravity="center"
-                    android:text="Miligramas" />
-
-            </LinearLayout>
-
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/recycler_macronutrintes"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                </android.support.v7.widget.RecyclerView>
-
-            <android.support.v7.widget.AppCompatButton
-                android:id="@+id/btn_finalizar"
-                android:backgroundTint="@color/vermelho_material"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:padding="12dp"
-                android:text="Finalizar experimento" />
-
-        </LinearLayout>
-
-
-
-
+            </android.support.v7.widget.CardView>
         </android.widget.ScrollView>
 
-
+</android.support.constraint.ConstraintLayout>
 
 <!--
 
@@ -344,5 +370,3 @@
 
         </android.support.design.widget.CoordinatorLayout>
         />-->
-
-</android.support.constraint.ConstraintLayout>

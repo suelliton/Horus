@@ -366,7 +366,7 @@ public class StorageActivity extends AppCompatActivity implements SensorEventLis
     }
 
     public String getDataAtual() {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yy\nHH:mm:ss");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yy \n HH:mm:ss");
         // OU
         SimpleDateFormat dateFormat_hora = new SimpleDateFormat("HH:mm:ss");
 

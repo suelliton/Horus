@@ -41,6 +41,8 @@ import com.google.firebase.database.ValueEventListener;
 
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import static com.example.suelliton.horus.DetalhesActivity.nomeExperimento;
@@ -68,7 +70,7 @@ public class FragmentArea extends Fragment {
         database =  FirebaseDatabase.getInstance();
 
         listaCapturas = new ArrayList<>();
-        capturaAdapter = new CapturaAdapter(v.getContext(), listaCapturas,"area");
+        capturaAdapter = new CapturaAdapter(v.getContext(),  listaCapturas,"area");
         recyclerView = v.findViewById(R.id.recycler_captura_fragment);
         recyclerView.setAdapter(capturaAdapter);
 
@@ -97,6 +99,7 @@ public class FragmentArea extends Fragment {
 
                 double[] vetorAreas ;
                 if(listaCapturas.size() > 0) {
+
                     vetorAreas = new double[listaCapturas.size()];//vetor responsável por definir os tamanhos do grafico
 
 
