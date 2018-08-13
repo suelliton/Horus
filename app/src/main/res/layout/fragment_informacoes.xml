@@ -27,15 +27,16 @@
                             app:layout_constraintStart_toStartOf="parent"
                             tools:layout_editor_absoluteY="40dp" />
 
-                        <TextView
-                            android:id="@+id/tx_nome"
-                            android:layout_width="131dp"
-                            android:layout_height="30dp"
-                            android:layout_marginEnd="8dp"
-                            android:text="TextView_nome"
-                            android:layout_weight="5"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            tools:layout_editor_absoluteY="40dp" />
+                    <TextView
+                        android:id="@+id/tx_nome"
+                        android:layout_width="131dp"
+                        android:layout_height="30dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_weight="5"
+                        android:gravity="right"
+                        android:text="TextView_nome"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        tools:layout_editor_absoluteY="40dp" />
                 </LinearLayout>
                 <LinearLayout
                     android:orientation="horizontal"
@@ -50,15 +51,16 @@
                             app:layout_constraintStart_toStartOf="parent"
                             tools:layout_editor_absoluteY="40dp" />
 
-                        <TextView
-                            android:id="@+id/tx_descricao"
-                            android:layout_width="131dp"
-                            android:layout_height="30dp"
-                            android:layout_marginEnd="8dp"
-                            android:text="TextView_descricao"
-                            android:layout_weight="5"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            tools:layout_editor_absoluteY="40dp" />
+                    <TextView
+                        android:id="@+id/tx_descricao"
+                        android:layout_width="131dp"
+                        android:layout_height="30dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_weight="5"
+                        android:gravity="right"
+                        android:text="TextView_descricao"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        tools:layout_editor_absoluteY="40dp" />
                 </LinearLayout>
                 <LinearLayout
                     android:orientation="horizontal"
@@ -73,15 +75,16 @@
                             app:layout_constraintStart_toStartOf="parent"
                             tools:layout_editor_absoluteY="40dp" />
 
-                        <TextView
-                            android:id="@+id/tx_variedade"
-                            android:layout_width="131dp"
-                            android:layout_height="30dp"
-                            android:layout_marginEnd="8dp"
-                            android:text="TextView"
-                            android:layout_weight="5"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            tools:layout_editor_absoluteY="40dp" />
+                    <TextView
+                        android:id="@+id/tx_variedade"
+                        android:layout_width="131dp"
+                        android:layout_height="30dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_weight="5"
+                        android:gravity="right"
+                        android:text="TextView"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        tools:layout_editor_absoluteY="40dp" />
                 </LinearLayout>
                 <LinearLayout
                     android:orientation="horizontal"
@@ -96,15 +99,16 @@
                             app:layout_constraintStart_toStartOf="parent"
                             tools:layout_editor_absoluteY="40dp" />
 
-                        <TextView
-                            android:id="@+id/tx_idade_transplantio"
-                            android:layout_width="131dp"
-                            android:layout_height="30dp"
-                            android:layout_marginEnd="8dp"
-                            android:text="TextView"
-                            android:layout_weight="5"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            tools:layout_editor_absoluteY="40dp" />
+                    <TextView
+                        android:id="@+id/tx_idade_transplantio"
+                        android:layout_width="131dp"
+                        android:layout_height="30dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_weight="5"
+                        android:gravity="right"
+                        android:text="TextView"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        tools:layout_editor_absoluteY="40dp" />
                 </LinearLayout>
 
 
@@ -121,15 +125,16 @@
                             app:layout_constraintStart_toStartOf="parent"
                             tools:layout_editor_absoluteY="40dp" />
 
-                        <TextView
-                            android:id="@+id/tx_idade_atual"
-                            android:layout_width="131dp"
-                            android:layout_height="30dp"
-                            android:layout_marginEnd="8dp"
-                            android:text="TextView"
-                            android:layout_weight="5"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            tools:layout_editor_absoluteY="40dp" />
+                    <TextView
+                        android:id="@+id/tx_idade_atual"
+                        android:layout_width="131dp"
+                        android:layout_height="30dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_weight="5"
+                        android:gravity="right"
+                        android:text="TextView"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        tools:layout_editor_absoluteY="40dp" />
                 </LinearLayout>
 
 
@@ -146,15 +151,16 @@
                             app:layout_constraintStart_toStartOf="parent"
                             tools:layout_editor_absoluteY="40dp" />
 
-                        <TextView
-                            android:id="@+id/tx_qtd_fotos"
-                            android:layout_width="131dp"
-                            android:layout_height="30dp"
-                            android:layout_marginEnd="8dp"
-                            android:text="TextView"
-                            android:layout_weight="5"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            tools:layout_editor_absoluteY="40dp" />
+                    <TextView
+                        android:id="@+id/tx_qtd_fotos"
+                        android:layout_width="131dp"
+                        android:layout_height="30dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_weight="5"
+                        android:gravity="right"
+                        android:text="TextView"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        tools:layout_editor_absoluteY="40dp" />
                 </LinearLayout>
 
 
@@ -171,15 +177,16 @@
                             app:layout_constraintStart_toStartOf="parent"
                             tools:layout_editor_absoluteY="40dp" />
 
-                        <TextView
-                            android:id="@+id/tx_tempo_bomba_ligada"
-                            android:layout_width="131dp"
-                            android:layout_height="30dp"
-                            android:layout_marginEnd="8dp"
-                            android:text="TextView"
-                            android:layout_weight="5"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            tools:layout_editor_absoluteY="40dp" />
+                    <TextView
+                        android:id="@+id/tx_tempo_bomba_ligada"
+                        android:layout_width="131dp"
+                        android:layout_height="30dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_weight="5"
+                        android:gravity="right"
+                        android:text="TextView"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        tools:layout_editor_absoluteY="40dp" />
                 </LinearLayout>
                 <LinearLayout
                     android:orientation="horizontal"
@@ -194,15 +201,16 @@
                             app:layout_constraintStart_toStartOf="parent"
                             tools:layout_editor_absoluteY="40dp" />
 
-                        <TextView
-                            android:id="@+id/tx_tempo_bomba_desligada"
-                            android:layout_width="131dp"
-                            android:layout_height="30dp"
-                            android:layout_marginEnd="8dp"
-                            android:text="TextView"
-                            android:layout_weight="5"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            tools:layout_editor_absoluteY="40dp" />
+                    <TextView
+                        android:id="@+id/tx_tempo_bomba_desligada"
+                        android:layout_width="131dp"
+                        android:layout_height="30dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_weight="5"
+                        android:gravity="right"
+                        android:text="TextView"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        tools:layout_editor_absoluteY="40dp" />
                 </LinearLayout>
                 <LinearLayout
                     android:orientation="horizontal"
@@ -217,30 +225,40 @@
                             app:layout_constraintStart_toStartOf="parent"
                             tools:layout_editor_absoluteY="40dp" />
 
-                        <TextView
-                            android:id="@+id/tx_data_inicio"
-                            android:layout_width="131dp"
-                            android:layout_height="30dp"
-                            android:layout_marginEnd="8dp"
-                            android:text="TextView"
-                            android:layout_weight="5"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            tools:layout_editor_absoluteY="40dp" />
+                    <TextView
+                        android:id="@+id/tx_data_inicio"
+                        android:layout_width="131dp"
+                        android:layout_height="30dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_weight="5"
+                        android:gravity="right"
+                        android:text="TextView"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        tools:layout_editor_absoluteY="40dp" />
                 </LinearLayout>
 
 
             <LinearLayout
-                android:orientation="vertical"
+                android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+
                 <TextView
-                    android:layout_width="114dp"
-                    android:layout_height="28dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
+                    android:layout_weight="5"
+                    android:gravity="center"
                     android:text="Micronutrientes"
-                    android:layout_weight="10"
                     app:layout_constraintStart_toStartOf="parent"
                     tools:layout_editor_absoluteY="40dp" />
+                <TextView
+                    android:layout_weight="5"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:gravity="center"
+                    android:text="Miligramas" />
 
             </LinearLayout>
 
@@ -252,17 +270,26 @@
 
 
             <LinearLayout
-                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <TextView
-                    android:layout_width="114dp"
-                    android:layout_height="28dp"
-                    android:layout_marginStart="8dp"
-                    android:text="Macronutrientes"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_weight="5"
+                    android:gravity="center"
+                    android:text="Macronutrientes"
                     app:layout_constraintStart_toStartOf="parent"
                     tools:layout_editor_absoluteY="40dp" />
+                <TextView
+                    android:layout_weight="5"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:gravity="center"
+                    android:text="Miligramas" />
 
             </LinearLayout>
 
