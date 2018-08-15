@@ -40,7 +40,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
 
-import static com.example.suelliton.horus.LoginActivity.LOGADO;
+import static com.example.suelliton.horus.SplashActivity.LOGADO;
 
 
 public class NovoExperimentoActivity extends AppCompatActivity {

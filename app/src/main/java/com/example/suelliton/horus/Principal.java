@@ -64,7 +64,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static com.example.suelliton.horus.LoginActivity.LOGADO;
+import static com.example.suelliton.horus.SplashActivity.LOGADO;
 
 public class Principal extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -240,6 +240,7 @@ public class Principal extends AppCompatActivity
         recyclerView = (RecyclerView) findViewById(R.id.recycler_experimentos);
         recyclerView.setAdapter(experimentoAdapter);
         //Toast.makeText(context, "usuario logado "+LOGADO, Toast.LENGTH_SHORT).show();
+        Toast.makeText(Principal.this, "usuario logado : "+LOGADO, Toast.LENGTH_SHORT).show();
         childValueUsuario = usuarioReference.child(LOGADO).addValueEventListener(new ValueEventListener() {
 
             @Override
@@ -386,6 +387,7 @@ public class Principal extends AppCompatActivity
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.putString("usuarioLogado", "");
             editor.apply();
+            LOGADO="";
             USUARIO_OBJETO_LOGADO = null;
             startActivity(new Intent(Principal.this,LoginActivity.class));
 

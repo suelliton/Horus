@@ -39,11 +39,19 @@ import android.widget.Toast;
 
 import com.example.suelliton.horus.models.Usuario;
 import com.example.suelliton.horus.utils.MyDatabaseUtil;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.EventListener;
 import java.util.List;
+
+import static com.example.suelliton.horus.SplashActivity.LOGADO;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
@@ -78,15 +86,17 @@ public class NovoUsuarioActivity extends AppCompatActivity implements LoaderCall
     private Usuario USUARIO_OBJETO_LOGADO;
 
     private FirebaseDatabase database ;
-    private DatabaseReference usuarioReference ;
-
+    private DatabaseReference RootReference ;
+    private ValueEventListener listener;
+    boolean passUser = false;
+    boolean passEmail = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_novo_usuario);
 
         database = MyDatabaseUtil.getDatabase();
-        usuarioReference = database.getReference();
+        RootReference = database.getReference();
 
 
 
@@ -174,11 +184,6 @@ public class NovoUsuarioActivity extends AppCompatActivity implements LoaderCall
     }
 
 
-    /**
-     * Attempts to sign in or register the account specified by the login form.
-     * If there are form errors (invalid email, missing fields, etc.), the
-     * errors are presented and no actual login attempt is made.
-     */
     private void attemptLogin() {
         if (mAuthTask != null) {
             return;
@@ -193,6 +198,7 @@ public class NovoUsuarioActivity extends AppCompatActivity implements LoaderCall
         String email = mEmailView.getText().toString();
         String password = mPasswordView.getText().toString();
         String user = mUserView.getText().toString();
+
 
         boolean cancel = false;
         View focusView = null;
@@ -358,22 +364,73 @@ public class NovoUsuarioActivity extends AppCompatActivity implements LoaderCall
         @Override
         protected Boolean doInBackground(Void... params) {
             // TODO: attempt authentication against a network service.
+            final List<Usuario> listaUsuarios = new ArrayList<>();
+            listener = RootReference.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    listaUsuarios.removeAll(listaUsuarios);
+                    if (dataSnapshot.exists()) {
+                        for (DataSnapshot u: dataSnapshot.getChildren()) {
+                            Usuario usuario = u.getValue(Usuario.class);
+                            listaUsuarios.add(usuario);
+                        }
+
+
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+
+            try {
+                // Simulate network access.
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                return false;
+            }
+
+            for (Usuario usuario: listaUsuarios ) {
+                if(usuario.getUsername().equals(mUser)){
+                    passUser = false;
+                    return false;
+
+                }else{
+                    if(usuario.getEmail().equals(mEmail)){
+                        passEmail = false;
+                        return false;
+                    }else{
+                        passUser = true;
+                        passEmail = true;
+                    }
+                }
+            }
 
 
 
-            Usuario novoUsuario = new Usuario(mEmail, mPassword, mUser);
+            if(passEmail && passUser) {
 
-            usuarioReference = database.getReference(mUser);
-            usuarioReference.setValue(novoUsuario);
+                Usuario novoUsuario = new Usuario(mEmail, mPassword, mUser);
 
-            SharedPreferences sharedPreferences = getSharedPreferences("sharedPreferences", Context.MODE_PRIVATE);
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putString("usuarioLogado", novoUsuario.getUsername());
-            editor.apply();
+                RootReference = database.getReference(mUser);
+                RootReference.setValue(novoUsuario);
+
+                SharedPreferences sharedPreferences = getSharedPreferences("sharedPreferences", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString("usuarioLogado", novoUsuario.getUsername());
+                editor.apply();
+
+                LOGADO = novoUsuario.getUsername();
+                return true;
+
+            }else{
+
+                return  false;
+            }
 
 
-            // TODO: register the new account here.
-            return true;
         }
 
         @Override
@@ -384,13 +441,20 @@ public class NovoUsuarioActivity extends AppCompatActivity implements LoaderCall
             if (success) {
                 Toast.makeText(NovoUsuarioActivity.this, "Usuário  cadastrado com sucesso!", Toast.LENGTH_SHORT).show();
 
-
-
-                startActivity(new Intent(NovoUsuarioActivity.this,LoginActivity.class));
+                startActivity(new Intent(NovoUsuarioActivity.this,Principal.class));
                 finish();
             } else {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
-                mPasswordView.requestFocus();
+                    if(!passUser){
+                        mUserView.requestFocus();
+                        Toast.makeText(NovoUsuarioActivity.this, "Username já existe tente outro", Toast.LENGTH_SHORT).show();
+                    }
+                    if(!passEmail){
+                        mEmailView.requestFocus();
+                        Toast.makeText(NovoUsuarioActivity.this, "Já existe um usuário para este email ", Toast.LENGTH_SHORT).show();
+
+                    }
+                //mPasswordView.setError(getString(R.string.error_incorrect_password));
+                //mPasswordView.requestFocus();
             }
         }
 
@@ -398,6 +462,14 @@ public class NovoUsuarioActivity extends AppCompatActivity implements LoaderCall
         protected void onCancelled() {
             mAuthTask = null;
             showProgress(false);
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if(listener != null){
+            RootReference.removeEventListener(listener);
         }
     }
 }

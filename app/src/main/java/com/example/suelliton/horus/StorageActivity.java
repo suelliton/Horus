@@ -58,7 +58,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import static com.example.suelliton.horus.LoginActivity.LOGADO;
+import static com.example.suelliton.horus.SplashActivity.LOGADO;
 import static com.example.suelliton.horus.Principal.ViewSnack;
 import static com.example.suelliton.horus.Principal.sincronizando;
 
@@ -231,7 +231,7 @@ public class StorageActivity extends AppCompatActivity implements SensorEventLis
 
     }
 
-//VERIFICA SE EXISTE WIFI
+    //VERIFICA SE EXISTE WIFI
     public static boolean isOnline(Context context) {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
@@ -461,7 +461,7 @@ public class StorageActivity extends AppCompatActivity implements SensorEventLis
     protected void onResume() {
         super.onResume();
         mSensorManager.unregisterListener(this);
-       // mSensorManager.registerListener((SensorEventListener) this, mAcelerometro, SensorManager.SENSOR_DELAY_UI);
+        // mSensorManager.registerListener((SensorEventListener) this, mAcelerometro, SensorManager.SENSOR_DELAY_UI);
     }
 
     @Override

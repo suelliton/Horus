@@ -34,7 +34,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.example.suelliton.horus.DetalhesActivity.nomeExperimento;
-import static com.example.suelliton.horus.LoginActivity.LOGADO;
+import static com.example.suelliton.horus.SplashActivity.LOGADO;
 
 public class FragmentInformacoes extends Fragment {
 

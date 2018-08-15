@@ -42,7 +42,7 @@
         <activity
             android:name=".Principal"
             android:label="Horus Green"
-            android:theme="@style/verde_e_branco"></activity>
+            android:theme="@style/verde_e_branco" />
         <activity
             android:name=".NovoExperimentoActivity"
             android:label="Horus Green"
@@ -53,15 +53,18 @@
             android:name=".LoginActivity"
             android:label="Horus Green"
             android:windowSoftInputMode="stateHidden">
+
+        </activity>
+        <activity
+            android:name=".NovoUsuarioActivity"
+            android:label="@string/title_activity_novo_usuario" />
+        <activity android:name=".SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".NovoUsuarioActivity"
-            android:label="@string/title_activity_novo_usuario"></activity>
     </application>
 
 </manifest>
