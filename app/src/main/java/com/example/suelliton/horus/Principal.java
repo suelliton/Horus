@@ -158,7 +158,7 @@ public class Principal extends AppCompatActivity
 
     //UPLOAD FIREBASE STREAM
     public void uploadFirebaseStream(StorageReference Ref,final Experimento e) throws FileNotFoundException {
-        String DIRECTORYNAME = "/Camera/Horus/" + e.getNome() + "/";
+        String DIRECTORYNAME = "/Camera/Horus/" + LOGADO+"/"+e.getNome() + "/";
         String FILENAME = e.getNome()+e.getCount().toString()+".jpg";
         File storageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM), DIRECTORYNAME);
         InputStream stream = new FileInputStream(new File(storageDir.getAbsolutePath() + "/" + FILENAME));
@@ -239,8 +239,8 @@ public class Principal extends AppCompatActivity
         experimentoAdapter = new ExperimentoAdapter(this,listaExperimentos);
         recyclerView = (RecyclerView) findViewById(R.id.recycler_experimentos);
         recyclerView.setAdapter(experimentoAdapter);
-        //Toast.makeText(context, "usuario logado "+LOGADO, Toast.LENGTH_SHORT).show();
-        Toast.makeText(Principal.this, "usuario logado : "+LOGADO, Toast.LENGTH_SHORT).show();
+
+
         childValueUsuario = usuarioReference.child(LOGADO).addValueEventListener(new ValueEventListener() {
 
             @Override
@@ -347,7 +347,7 @@ public class Principal extends AppCompatActivity
             if(!e.isSincronizado()){//se o esperimento atual não estiver sincronizado entra ai
                 if(isOnline(this)) {//verifica se tem internet se tiver tenta sincronizar
                     try {
-                        StorageReference alfaceRef = storage.getReference(e.getNome() + "/" + e.getNome()+e.getCount().toString()+".jpg");
+                        StorageReference alfaceRef = storage.getReference(LOGADO+"/"+e.getNome() + "/" + e.getNome()+e.getCount().toString()+".jpg");
 
                         uploadFirebaseStream(alfaceRef,e);
 

@@ -67,7 +67,7 @@ public class SplashActivity extends AppCompatActivity {
                     try {
                         Usuario usuario = dataSnapshot.getValue(Usuario.class);
                         if (usuario != null) {
-                            Toast.makeText(SplashActivity.this, "usuario logado : "+LOGADO, Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(SplashActivity.this, "usuario logado : "+LOGADO, Toast.LENGTH_SHORT).show();
                             startActivity(new Intent(SplashActivity.this, Principal.class));
                             finish();
                         }

@@ -135,7 +135,7 @@ public class StorageActivity extends AppCompatActivity implements SensorEventLis
         });
 
         FILENAME = nomeExperimento + count + ".jpg";
-        DIRECTORYNAME = "/Camera/Horus/" + nomeExperimento + "/";
+        DIRECTORYNAME = "/Camera/Horus/" + LOGADO + "/" + nomeExperimento + "/";
 
 
         exibeFoto = (ImageView) findViewById(R.id.exibeFoto);
@@ -155,7 +155,7 @@ public class StorageActivity extends AppCompatActivity implements SensorEventLis
                     try {
                         Snackbar.make(ViewSnack.getRootView(), "Fazendo upload para o firebase", Snackbar.LENGTH_LONG)
                                 .setAction("Action", null).show();
-                        StorageReference alfaceRef = storage.getReference(nomeExperimento + "/" + FILENAME);
+                        StorageReference alfaceRef = storage.getReference(LOGADO+"/"+nomeExperimento + "/" + FILENAME);
 
                         uploadFirebaseStream(alfaceRef);
 
@@ -421,10 +421,10 @@ public class StorageActivity extends AppCompatActivity implements SensorEventLis
         //if (!dir.exists())
         //  dir.mkdirs();
         // return dir;
-        File direct = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM) + DIRECTORYNAME);
+        File direct = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM) + DIRECTORYNAME );
 
         if (!direct.exists()) {
-            if (direct.mkdir()) {
+            if (direct.mkdirs()) {
                 Log.i("e", "Nao criou o diretorio");
             }
             ; //se não existir o diretorio e criado

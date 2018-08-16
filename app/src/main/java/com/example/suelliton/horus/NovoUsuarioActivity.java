@@ -407,6 +407,11 @@ public class NovoUsuarioActivity extends AppCompatActivity implements LoaderCall
                     }
                 }
             }
+            //se nao tiver nenhum usuario cadastrado ele cadastra o primeiro normalmente
+            if(listaUsuarios.size() == 0){
+                passUser = true;
+                passEmail = true;
+            }
 
 
 
