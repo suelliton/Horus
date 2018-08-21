@@ -32,7 +32,7 @@ public class ResultActivity extends AppCompatActivity {
 
         final ImageView imageView1 = (ImageView) findViewById(R.id.imageViewOriginal);
         StorageReference storageReference = storage.getReference();
-        StorageReference imagemReference = storageReference.child("/"+LOGADO+"/"+nomeExperimento+"/"+nomeExperimento+String.valueOf(indice)+".jpg");
+        StorageReference imagemReference = storageReference.child("/"+LOGADO+"/"+nomeExperimento+"/result/resize/"+nomeExperimento+String.valueOf(indice)+".jpg");
         imagemReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
