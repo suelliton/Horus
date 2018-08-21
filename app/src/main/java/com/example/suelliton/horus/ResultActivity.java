@@ -31,6 +31,7 @@ public class ResultActivity extends AppCompatActivity {
         final ProgressBar progressBar2 = (ProgressBar) findViewById(R.id.progressBar2);
 
         final ImageView imageView1 = (ImageView) findViewById(R.id.imageViewOriginal);
+
         StorageReference storageReference = storage.getReference();
         StorageReference imagemReference = storageReference.child("/"+LOGADO+"/"+nomeExperimento+"/result/resize/"+nomeExperimento+String.valueOf(indice)+".jpg");
         imagemReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
