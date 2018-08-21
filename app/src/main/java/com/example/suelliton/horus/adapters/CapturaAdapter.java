@@ -1,7 +1,8 @@
 package com.example.suelliton.horus.adapters;
 
 import android.content.Context;
-import android.graphics.Color;
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,9 +11,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.suelliton.horus.R;
+import com.example.suelliton.horus.ResultActivity;
 import com.example.suelliton.horus.models.Captura;
-
-import java.util.Collections;
 import java.util.List;
 
 public class CapturaAdapter extends RecyclerView.Adapter{
@@ -20,7 +20,8 @@ public class CapturaAdapter extends RecyclerView.Adapter{
 
     Context context;
     List<Captura> listaCapturas;
-    String fragment ;
+    String fragment;
+
 
     public CapturaAdapter(Context c, List<Captura> listaCapturas, String fragment){
         this.context = c;
@@ -41,7 +42,7 @@ public class CapturaAdapter extends RecyclerView.Adapter{
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         CapturaViewHolder capturaholder = (CapturaViewHolder) holder;
-        Captura capturaEscolhida = listaCapturas.get(position);
+        final Captura capturaEscolhida = listaCapturas.get(position);
         String[] dataFormatada  = capturaEscolhida.getDataCaptura().split("\n");
         String[] data = dataFormatada[0].split("-");
         String[] hora = dataFormatada[1].split(":");
@@ -59,7 +60,11 @@ public class CapturaAdapter extends RecyclerView.Adapter{
         capturaholder.row.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO: A IMPLEMENTAR QUANDO FOR PRECISO
+                Bundle bundle = new Bundle();
+                bundle.putInt("indice",position);
+                Intent intent = new Intent(context, ResultActivity.class);
+                intent.putExtras(bundle);
+                context.startActivity(intent);
             }
         });
 

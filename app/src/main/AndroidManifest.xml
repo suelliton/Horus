@@ -52,9 +52,7 @@
         <activity
             android:name=".LoginActivity"
             android:label="Horus Green"
-            android:windowSoftInputMode="stateHidden">
-
-        </activity>
+            android:windowSoftInputMode="stateHidden"></activity>
         <activity
             android:name=".NovoUsuarioActivity"
             android:label="@string/title_activity_novo_usuario" />
@@ -65,6 +63,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ResultActivity"></activity>
     </application>
 
 </manifest>
