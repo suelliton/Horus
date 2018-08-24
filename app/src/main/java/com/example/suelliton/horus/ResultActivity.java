@@ -1,5 +1,6 @@
 package com.example.suelliton.horus;
 
+import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -8,10 +9,12 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.github.chrisbanes.photoview.PhotoViewAttacher;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
+
 
 import static com.example.suelliton.horus.DetalhesActivity.nomeExperimento;
 import static com.example.suelliton.horus.SplashActivity.LOGADO;
@@ -22,13 +25,15 @@ public class ResultActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
         storage = FirebaseStorage.getInstance();
         Bundle bundle = getIntent().getExtras();
         int indice = bundle.getInt("indice")+1;
 
         final ProgressBar progressBar1 = (ProgressBar) findViewById(R.id.progressBar1);
 
-        final ProgressBar progressBar2 = (ProgressBar) findViewById(R.id.progressBar2);
+        //final ProgressBar progressBar2 = (ProgressBar) findViewById(R.id.progressBar2);
 
         final ImageView imageView1 = (ImageView) findViewById(R.id.imageViewOriginal);
 
@@ -48,11 +53,16 @@ public class ResultActivity extends AppCompatActivity {
             @Override
             public void onSuccess(Uri uri) {
                 Picasso.get().load(uri).into(imageView2);
-                progressBar2.setVisibility(View.GONE);
+                //progressBar2.setVisibility(View.GONE);
             }
         });
 
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
 
     }
 }

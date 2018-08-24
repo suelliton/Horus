@@ -8,18 +8,10 @@
     android:orientation="vertical"
     tools:layout_editor_absoluteY="25dp">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
-
-        <ImageView
+        <com.github.chrisbanes.photoview.PhotoView
             android:id="@+id/imageViewOriginal"
             android:layout_width="wrap_content"
             android:layout_weight="5"
-
-            android:rotationX="30"
             android:layout_height="wrap_content" />
         <ProgressBar
             android:id="@+id/progressBar1"
@@ -28,18 +20,12 @@
             android:layout_height="wrap_content" />
 
 
-        <ImageView
+        <com.github.chrisbanes.photoview.PhotoView
             android:id="@+id/imageViewProcessada"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:rotationX="30"
-            android:layout_marginBottom="40dp"
-            android:layout_weight="5" />
-        <ProgressBar
-            android:id="@+id/progressBar2"
-            style="?android:attr/progressBarStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
+            android:layout_weight="5"
+            />
+
 
 </android.widget.LinearLayout>

@@ -37,7 +37,7 @@ public class SplashActivity extends AppCompatActivity {
 
         RootReference = database.getReference();
 
-        progressBar = (ProgressBar) findViewById(R.id.progressBar);
+        //progressBar = (ProgressBar) findViewById(R.id.progressBar);
 
 
         SharedPreferences sharedPreferences = getSharedPreferences("sharedPreferences", Context.MODE_PRIVATE);
@@ -57,7 +57,7 @@ public class SplashActivity extends AppCompatActivity {
         Query queryUsuario = RootReference.orderByChild("username").equalTo(LOGADO).limitToFirst(1);
 
         if (!LOGADO.equals("")) {
-            progressBar.setVisibility(View.VISIBLE);
+            //progressBar.setVisibility(View.VISIBLE);
 
             queryUsuario.addChildEventListener(new ChildEventListener() {
 

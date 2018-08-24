@@ -69,13 +69,17 @@ public class ExperimentoAdapter extends RecyclerView.Adapter {
             @Override
             public void onClick(View view) {
                 //Toast.makeText(context, "funcionei!! "+ experimentoEscolhido.getNome(), Toast.LENGTH_SHORT).show();
-                Bundle bundle = new Bundle();
-                bundle.putString("nomeExp",experimentoEscolhido.getNome());
-                bundle.putInt("count",experimentoEscolhido.getCount());
-                Log.i("teste",experimentoEscolhido.getNome());
-                Intent intent = new Intent(context,StorageActivity.class);
-                intent.putExtras(bundle);
-                context.startActivity(intent);
+                if(experimentoEscolhido.isSincronizado()){
+                    Bundle bundle = new Bundle();
+                    bundle.putString("nomeExp", experimentoEscolhido.getNome());
+                    bundle.putInt("count", experimentoEscolhido.getCount());
+                    Log.i("teste", experimentoEscolhido.getNome());
+                    Intent intent = new Intent(context, StorageActivity.class);
+                    intent.putExtras(bundle);
+                    context.startActivity(intent);
+                }else {
+                    Toast.makeText(context, "Experimento bloqueado, Sincronize o aplicativo", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
